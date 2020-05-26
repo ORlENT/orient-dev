@@ -12,7 +12,7 @@ import * as reduxAction from '../store/actions';
 import * as Yup from 'yup';
 
 
-import TextField from '../Layouts/textField';
+import TextField from '../layouts/textField';
 
 const initialValues = {
   email: '',
@@ -135,8 +135,6 @@ const mapDispatchToProps = dispatch => ({
 
 
 LoginForm.propTypes = {
-  logIn: PropTypes.func.isRequired,
-  logOut: PropTypes.func.isRequired,
   /* eslint-disable react/forbid-prop-types */
   enqueueSnackbar: PropTypes.func.isRequired,
   /* eslint-enable */

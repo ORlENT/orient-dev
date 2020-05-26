@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+
 import Navbar from './navbar';
 
 const styles = theme => ({

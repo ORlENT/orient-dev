@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '@material-ui/core';
 
-const textField = ({
+const customTextField = ({
   field,
   form: { touched, errors },
   ...props
@@ -69,7 +69,7 @@ const textField = ({
   );
 };
 
-textField.propTypes = {
+customTextField.propTypes = {
   field: PropTypes.shape({
     value: PropTypes.string,
     name: PropTypes.string,
@@ -91,7 +91,7 @@ textField.propTypes = {
   required: PropTypes.bool,
 };
 
-textField.defaultProps = {
+customTextField.defaultProps = {
   disabled: false,
   autoComplete: '',
   type: 'text',
@@ -102,4 +102,4 @@ textField.defaultProps = {
   required: false,
 };
 
-export default (textField);
+export default (customTextField);
