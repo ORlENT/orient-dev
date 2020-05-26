@@ -9,7 +9,7 @@ import {
 
 import './App.css';
 import Layout from './Layouts/layout';
-import Routes from './Routes/index';
+import Routes from './routes/index';
 import styles from './App.styles';
 
 class App extends Component {

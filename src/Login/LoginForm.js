@@ -12,7 +12,7 @@ import styles from './login.styles';
 import * as Yup from 'yup';
 
 
-import TextField from '../Layouts/textField';
+import CustomTextField from '../Layouts/customTextField';
 
 const initialValues = {
   email: '',
@@ -71,14 +71,14 @@ const LoginForm = ({
               name="email"
               label="Email"
               type="email"
-              component={TextField}
+              component={CustomTextField}
             />
             <Field
               required
               name="password"
               label="Password"
               type="password"
-              component={TextField}
+              component={CustomTextField}
             />
             <Button
             type="submit"
