@@ -1,20 +1,16 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { SnackbarProvider } from 'notistack';
-import {
-  createMuiTheme,
-  MuiThemeProvider,
-} from '@material-ui/core/styles';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { SnackbarProvider } from "notistack";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
-
-import './App.css';
-import Layout from './Layouts/layout';
-import Routes from './routes/index';
-import styles from './App.styles';
+import "./App.css";
+import Layout from "./Layouts/layout";
+import Routes from "./routes/index";
+import styles from "./App.styles";
 
 class App extends Component {
   theme = createMuiTheme(styles);
-  
+
   render() {
     return (
       <React.Fragment>
@@ -22,14 +18,14 @@ class App extends Component {
           <SnackbarProvider
             maxSnack={3}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+              vertical: "bottom",
+              horizontal: "left",
             }}
           >
             (
-              <Layout>
-                <Routes/>
-              </Layout>
+            <Layout>
+              <Routes />
+            </Layout>
             )
           </SnackbarProvider>
         </MuiThemeProvider>
