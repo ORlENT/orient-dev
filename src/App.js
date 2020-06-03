@@ -1,37 +1,16 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { SnackbarProvider } from "notistack";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { BrowserRouter } from "react-router-dom";
 
-import "./App.css";
-import Layout from "./Layouts/layout";
-import Routes from "./routes/index";
-import styles from "./App.styles";
+import Pages from "./Pages.js";
 
 class App extends Component {
-  theme = createMuiTheme(styles);
-
   render() {
     return (
-      <React.Fragment>
-        <MuiThemeProvider theme={this.theme}>
-          <SnackbarProvider
-            maxSnack={3}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-          >
-            (
-            <Layout>
-              <Routes />
-            </Layout>
-            )
-          </SnackbarProvider>
-        </MuiThemeProvider>
-      </React.Fragment>
+      <BrowserRouter>
+        <Pages />
+      </BrowserRouter>
     );
   }
 }
 
-export default withRouter(App);
+export default App;
