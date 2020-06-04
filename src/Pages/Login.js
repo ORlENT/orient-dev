@@ -7,7 +7,7 @@ class Login extends Component {
       <CenterBox>
         <Header>Login</Header>
         <Field>Username</Field>
-        <Field>Password</Field>
+        <Field password>Password</Field>
         <NavButton to="/camps">Login</NavButton>
       </CenterBox>
     );

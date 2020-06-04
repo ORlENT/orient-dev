@@ -8,7 +8,7 @@ class Register extends Component {
         <Header>Register</Header>
         <Field>Email</Field>
         <Field>Username</Field>
-        <Field>Password</Field>
+        <Field password>Password</Field>
         <NavButton to="/camps">Register</NavButton>
       </CenterBox>
     );

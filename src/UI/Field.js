@@ -38,8 +38,14 @@ const StyledField = withStyles({
   },
 })(TextField);
 
-const Field = ({ children }) => (
-  <StyledField label={children} variant="outlined" margin="dense" fullWidth />
+const Field = ({ password = false, children }) => (
+  <StyledField
+    label={children}
+    variant="outlined"
+    margin="dense"
+    fullWidth
+    type={password && "password"}
+  />
 );
 
 export default Field;
