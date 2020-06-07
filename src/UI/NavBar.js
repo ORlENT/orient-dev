@@ -2,7 +2,7 @@ import React from "react";
 
 const NavBar = ({ children }) => (
   <div
-    class="centerContent"
+    className="centerContent"
     style={{
       position: "sticky",
       height: "60px",

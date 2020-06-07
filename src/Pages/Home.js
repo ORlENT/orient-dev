@@ -6,9 +6,8 @@ class Home extends Component {
     return (
       <CenterBox>
         <Header>Home</Header>
-        <NavButton to="/login">Login</NavButton>
-        <NavButton to="/register">Register</NavButton>
-        <NavButton to="/join">Join Camp as Guest</NavButton>
+        <NavButton to="/join">Join Camp</NavButton>
+        <NavButton to="/create">Create New Camp</NavButton>
       </CenterBox>
     );
   }

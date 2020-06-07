@@ -16,7 +16,7 @@ class Camp extends Component {
           <Header>Camp {match.params.id}</Header>
         </NavBar>
         <div
-          class="centerContent"
+          className="centerContent"
           style={{
             height: "100%",
           }}

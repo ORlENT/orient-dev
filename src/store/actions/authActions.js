@@ -18,13 +18,15 @@ export const signUp = (state) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
+    const email = state.campCode + "@orient.org";
 
     firebase
       .auth()
-      .createUserWithEmailAndPassword(state.email, state.password)
+      .createUserWithEmailAndPassword(email, state.password)
       .then((resp) => {
-        return firestore.collection("users").doc(resp.user.uid).set({
-          username: state.username,
+        return firestore.collection("camps").doc(resp.user.uid).set({
+          campCode: state.campCode,
+          campName: state.campName,
         });
       })
       .then(() => {
