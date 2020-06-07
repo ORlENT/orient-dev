@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, CardContent, CardActionArea } from "@material-ui/core";
+import { Card, CardContent } from "@material-ui/core";
 
 //timestamp to date converter
 function timeConverter(UNIX_timestamp) {

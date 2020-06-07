@@ -3,7 +3,7 @@ import { Grid, Paper } from "@material-ui/core";
 
 const CenterBox = ({ children }) => (
   <div
-    class="centerContent"
+    className="centerContent"
     style={{
       height: "100%",
     }}

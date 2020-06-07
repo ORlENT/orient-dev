@@ -38,13 +38,15 @@ const StyledField = withStyles({
   },
 })(TextField);
 
-const Field = ({ password = false, children }) => (
+const Field = ({ password = false, onChange, id, children }) => (
   <StyledField
     label={children}
     variant="outlined"
     margin="dense"
     fullWidth
-    type={password && "password"}
+    type={password ? "password" : undefined}
+    onChange={onChange}
+    id={id}
   />
 );
 
