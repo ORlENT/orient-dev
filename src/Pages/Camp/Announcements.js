@@ -2,19 +2,20 @@ import React, { Component } from "react";
 import { Header, CenterBox, SummaryCard } from "../../UI";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
+import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 
 class Announcements extends Component {
   render() {
-    const { announcements, isLoaded } = this.props;
-    if (!isLoaded) {
+    const { announcements } = this.props;
+
+    if (!isLoaded(announcements)) {
       return <div>Loading</div>;
     }
 
     return (
       <CenterBox>
         <Header>Announcements</Header>
-        {isLoaded && !announcements && (
+        {isEmpty(announcements) && (
           <Header>No announcement was not found</Header>
         )}
         {announcements &&
@@ -34,13 +35,10 @@ class Announcements extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const announcements = state.firestore.data.announcements;
-  const camp = state.firestore.data.camp;
-  var isLoaded = false;
-  if (camp) isLoaded = true;
-  return { announcements, camp, isLoaded };
+  return { announcements };
 };
 
-const firestorequery = () =>
+const firestoreQuery = () =>
   firestoreConnect((props) => [
     {
       collection: "camps",
@@ -57,5 +55,5 @@ const firestorequery = () =>
 
 export default compose(
   connect(mapStateToProps),
-  firestorequery()
+  firestoreQuery()
 )(Announcements);

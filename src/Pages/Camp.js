@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
+import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import CampNotFound from "./Camp/CampNotFound.js";
 import Dashboard from "./Camp/Dashboard.js";
 import Announcements from "./Camp/Announcements.js";
@@ -13,17 +13,15 @@ import { Header, NavBar } from "../UI";
 
 class Camp extends Component {
   render() {
-    const { match, camp, isLoaded } = this.props;
-
-    console.log(camp);
+    const { match, camp } = this.props;
 
     // If firestore is loaded
-    if (!isLoaded) {
+    if (!isLoaded(camp)) {
       return <div>loading</div>;
     }
 
     //Camp not found
-    if (!camp) {
+    if (isEmpty(camp)) {
       console.log("camp not found");
       return <Route path={`${match.path}`} component={CampNotFound} />;
     }
@@ -50,18 +48,20 @@ class Camp extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const campCode = ownProps.match.params.id;
-  const camps = state.firestore.data.camps;
-  const camp = camps ? camps[campCode] : null;
-  var isLoaded = false;
-  if (camps) isLoaded = true;
+const mapStateToProps = (state) => {
+  const camp = state.firestore.data.camp;
   return {
     camp: camp,
-    isLoaded,
   };
 };
 
-const firestoreQuery = () => firestoreConnect([{ collection: "camps" }]);
+const firestoreQuery = () =>
+  firestoreConnect((props) => [
+    {
+      collection: "camps",
+      doc: props.match.params.id,
+      storeAs: "camp",
+    },
+  ]);
 
 export default compose(connect(mapStateToProps), firestoreQuery())(Camp);
