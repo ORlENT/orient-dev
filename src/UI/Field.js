@@ -13,7 +13,7 @@ const StyledField = withStyles({
     //placeholder
     "& label": {
       //default
-      color: "rgba(255, 255, 255, 0.7)",
+      color: "#bbb",
       //focused
       "&.Mui-focused": {
         color: "#ff9800",
@@ -24,7 +24,7 @@ const StyledField = withStyles({
     "& .MuiOutlinedInput-root": {
       //default
       "& fieldset": {
-        borderColor: "rgba(255, 255, 255, 0.5)",
+        borderColor: "#ddd",
       },
       //hover
       "&:hover fieldset": {

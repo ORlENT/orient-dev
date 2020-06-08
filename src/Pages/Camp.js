@@ -29,20 +29,44 @@ class Camp extends Component {
     //Render Camp
     console.log("camp found");
     return (
-      <div>
-        <NavBar>
-          <Header>Camp {camp.campName}</Header>
-        </NavBar>
-        <Switch>
-          <Route exact path={`${match.path}`} component={Dashboard} />
-          <Route
-            path={`${match.path}/announcements`}
-            component={Announcements}
-          />
-          <Route path={`${match.path}/reminders`} component={Reminders} />
-          <Route path={`${match.path}/questions`} component={Questions} />
-          <Route path={`${match.path}/report`} component={Report} />
-        </Switch>
+      <div
+        style={{
+          display: "grid",
+          minHeight: "100%",
+        }}
+      >
+        {/*Layer 1: NavBar and AdminLogin */}
+        <div
+          style={{
+            gridColumn: "1",
+            gridRow: "1",
+            zIndex: "1",
+            height: "60px",
+          }}
+        >
+          <NavBar>
+            <Header>Camp {camp.campName}</Header>
+          </NavBar>
+        </div>
+
+        {/*Layer 2: Page content */}
+        <div
+          style={{
+            gridColumn: "1",
+            gridRow: "1",
+          }}
+        >
+          <Switch>
+            <Route exact path={`${match.path}`} component={Dashboard} />
+            <Route
+              path={`${match.path}/announcements`}
+              component={Announcements}
+            />
+            <Route path={`${match.path}/reminders`} component={Reminders} />
+            <Route path={`${match.path}/questions`} component={Questions} />
+            <Route path={`${match.path}/report`} component={Report} />
+          </Switch>
+        </div>
       </div>
     );
   }

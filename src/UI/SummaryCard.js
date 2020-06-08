@@ -40,7 +40,7 @@ const SummaryCard = ({
     <Card
       elevation={read ? 3 : 10}
       style={{
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
+        backgroundColor: "#555",
         display: "flex",
       }}
     >
@@ -87,7 +87,7 @@ const SummaryCard = ({
         </p>
 
         {/*timestamp*/}
-        <p style={{ color: "rgba(255, 255, 255, 0.5)", margin: "0px" }}>
+        <p style={{ color: "#bbb", margin: "0px" }}>
           {timeConverter(timestamp)}
         </p>
       </CardContent>

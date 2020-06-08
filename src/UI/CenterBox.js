@@ -15,7 +15,7 @@ const CenterBox = ({ children }) => (
         width: "480px",
         padding: "32px",
         margin: "32px",
-        backgroundColor: "#424242",
+        backgroundColor: "#444",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
