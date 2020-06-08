@@ -1,3 +1,5 @@
+import { db } from "../../Firebase/firebase";
+
 export const signIn = (state) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
@@ -17,20 +19,24 @@ export const signIn = (state) => {
 export const signUp = (state) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
-    const firestore = getFirestore();
     const email = state.campCode + "@orient.org";
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, state.password)
-      .then((resp) => {
-        return firestore.collection("camps").doc(resp.user.uid).set({
-          campCode: state.campCode,
-          campName: state.campName,
-        });
-      })
       .then(() => {
-        dispatch({ type: "SIGNUP_SUCCESS" });
+        console.log("Account created, Creating camp " + state.campCode);
+        db.collection("camps")
+          .doc(state.campCode)
+          .set({
+            campName: state.campName,
+          })
+          .then(() => {
+            dispatch({ type: "SIGNUP_SUCCESS" });
+          })
+          .catch((err) => {
+            dispatch({ type: "SIGNUP_ERROR", err });
+          });
       })
       .catch((err) => {
         dispatch({ type: "SIGNUP_ERROR", err });

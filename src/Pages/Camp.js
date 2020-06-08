@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import CampNotFound from "./Camp/CampNotFound.js";
 import Dashboard from "./Camp/Dashboard.js";
 import Announcements from "./Camp/Announcements.js";
 import Reminders from "./Camp/Reminders.js";
@@ -9,34 +13,46 @@ import { Header, NavBar } from "../UI";
 
 class Camp extends Component {
   render() {
-    const { match } = this.props;
+    const { match, camp } = this.props;
+
+    console.log(camp);
+    //Camp not found
+    if (!camp) {
+      console.log("camp not found");
+      return <Route path={`${match.path}`} component={CampNotFound} />;
+    }
+
+    //Render Camp
+    console.log("camp found");
     return (
       <div>
         <NavBar>
-          <Header>Camp {match.params.id}</Header>
+          <Header>Camp {camp.campName}</Header>
         </NavBar>
-        <div
-          className="centerContent"
-          style={{
-            height: "100%",
-          }}
-        >
-          <div>
-            <Switch>
-              <Route exact path={`${match.path}`} component={Dashboard} />
-              <Route
-                path={`${match.path}/announcements`}
-                component={Announcements}
-              />
-              <Route path={`${match.path}/reminders`} component={Reminders} />
-              <Route path={`${match.path}/questions`} component={Questions} />
-              <Route path={`${match.path}/report`} component={Report} />
-            </Switch>
-          </div>
-        </div>
+        <Switch>
+          <Route exact path={`${match.path}`} component={Dashboard} />
+          <Route
+            path={`${match.path}/announcements`}
+            component={Announcements}
+          />
+          <Route path={`${match.path}/reminders`} component={Reminders} />
+          <Route path={`${match.path}/questions`} component={Questions} />
+          <Route path={`${match.path}/report`} component={Report} />
+        </Switch>
       </div>
     );
   }
 }
 
-export default Camp;
+const mapStateToProps = (state, ownProps) => {
+  const campCode = ownProps.match.params.id;
+  const camps = state.firestore.data.camps;
+  const camp = camps ? camps[campCode] : null;
+  return {
+    camp: camp,
+  };
+};
+
+const firestoreQuery = () => firestoreConnect([{ collection: "camps" }]);
+
+export default compose(connect(mapStateToProps), firestoreQuery())(Camp);
