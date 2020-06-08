@@ -19,15 +19,14 @@ class Announcements extends Component {
           <Header>No announcement was not found</Header>
         )}
         {announcements &&
-          Object.keys(announcements).map((key) => {
-            return (
-              <SummaryCard
-                title={announcements[key].title}
-                content={announcements[key].content}
-                timestamp={announcements[key].timestamp}
-              ></SummaryCard>
-            );
-          })}
+          Object.keys(announcements).map((key) => (
+            <SummaryCard
+              key={key}
+              title={announcements[key].title}
+              content={announcements[key].content}
+              timestamp={announcements[key].timestamp}
+            />
+          ))}
       </CenterBox>
     );
   }

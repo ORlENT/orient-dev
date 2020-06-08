@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Card, CardContent } from "@material-ui/core";
+import { Card, CardContent, CardActionArea } from "@material-ui/core";
 
 //timestamp to date converter
 function timeConverter(UNIX_timestamp) {
@@ -29,32 +28,40 @@ function timeConverter(UNIX_timestamp) {
 //max length of summary
 const summaryLength = 100;
 
-const SummaryCard = ({
-  title = "Title",
-  content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-  timestamp = Date.now(),
-  read,
-  to,
-}) => (
-  <Link to={to} style={{ textDecoration: "none" }}>
-    <Card
-      elevation={read ? 3 : 10}
+const SummaryCard = ({ title, content, timestamp, read, to }) => (
+  <Card
+    elevation={read ? 3 : 10}
+    style={{
+      backgroundColor: "#555",
+    }}
+  >
+    <CardActionArea
       style={{
-        backgroundColor: "#555",
+        font: "unset",
         display: "flex",
+        position: "relative",
       }}
     >
       {/*read/unread border highlight*/}
       {!read && (
         <div
           style={{
-            minHeight: "100%",
             width: "8px",
             backgroundColor: "#ff9800",
+            position: "absolute",
+            top: "0",
+            bottom: "0",
+            left: "0",
           }}
         />
       )}
-      <CardContent style={{ width: "100%", padding: "16px" }}>
+      <CardContent
+        style={{
+          width: "100%",
+          padding: "16px",
+          paddingLeft: read ? "16px" : "24px",
+        }}
+      >
         {/*read/unread NEW!*/}
         {!read && (
           <h5
@@ -80,7 +87,14 @@ const SummaryCard = ({
         </h3>
 
         {/*content*/}
-        <p style={{ color: "#fff", margin: "0px" }}>
+        <p
+          style={{
+            color: "#fff",
+            margin: "0px",
+            marginTop: "8px",
+            marginBottom: "8px",
+          }}
+        >
           {content.length > summaryLength
             ? content.slice(0, summaryLength) + "..."
             : content}
@@ -88,11 +102,11 @@ const SummaryCard = ({
 
         {/*timestamp*/}
         <p style={{ color: "#bbb", margin: "0px" }}>
-          {timeConverter(timestamp)}
+          {timeConverter(timestamp.toDate())}
         </p>
       </CardContent>
-    </Card>
-  </Link>
+    </CardActionArea>
+  </Card>
 );
 
 export default SummaryCard;
