@@ -13,9 +13,15 @@ import { Header, NavBar } from "../UI";
 
 class Camp extends Component {
   render() {
-    const { match, camp } = this.props;
+    const { match, camp, isLoaded } = this.props;
 
     console.log(camp);
+
+    // If firestore is loaded
+    if (!isLoaded) {
+      return <div>loading</div>;
+    }
+
     //Camp not found
     if (!camp) {
       console.log("camp not found");
@@ -48,8 +54,11 @@ const mapStateToProps = (state, ownProps) => {
   const campCode = ownProps.match.params.id;
   const camps = state.firestore.data.camps;
   const camp = camps ? camps[campCode] : null;
+  var isLoaded = false;
+  if (camps) isLoaded = true;
   return {
     camp: camp,
+    isLoaded,
   };
 };
 
