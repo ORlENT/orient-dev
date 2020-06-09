@@ -1,10 +1,13 @@
-export const signIn = (state) => {
+export const signIn = (camp, state) => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
+    const email = camp.campCode + "@orient.org";
+
+    console.log(camp, state);
 
     firebase
       .auth()
-      .signInWithEmailAndPassword(state.email, state.password)
+      .signInWithEmailAndPassword(email, state.password)
       .then(() => {
         dispatch({ type: "LOGIN_SUCCESS" });
       })
@@ -35,6 +38,7 @@ export const signUp = (state) => async (
       .collection("camps")
       .doc(state.campCode)
       .set({
+        campCode: state.campCode,
         campName: state.campName,
       })
       .then(() => {

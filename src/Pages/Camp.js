@@ -10,12 +10,13 @@ import Reminders from "./Camp/Reminders.js";
 import Questions from "./Camp/Questions.js";
 import Report from "./Camp/Report.js";
 import { Header, NavBar } from "../UI";
+import { storeCamp } from "../store/actions/campActions";
 
 class Camp extends Component {
   render() {
-    const { match, camp } = this.props;
+    const { match, camp, storeCamp } = this.props;
 
-    // If firestore is loaded
+    //Firestore loading
     if (!isLoaded(camp)) {
       return <div>loading</div>;
     }
@@ -28,6 +29,7 @@ class Camp extends Component {
 
     //Render Camp
     console.log("camp found");
+    storeCamp(camp);
     return (
       <div
         style={{
@@ -79,6 +81,12 @@ const mapStateToProps = (state) => {
   };
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    storeCamp: (camp) => dispatch(storeCamp(camp)),
+  };
+};
+
 const firestoreQuery = () =>
   firestoreConnect((props) => [
     {
@@ -88,4 +96,7 @@ const firestoreQuery = () =>
     },
   ]);
 
-export default compose(connect(mapStateToProps), firestoreQuery())(Camp);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreQuery()
+)(Camp);

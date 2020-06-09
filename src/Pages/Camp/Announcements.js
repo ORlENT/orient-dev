@@ -32,7 +32,7 @@ class Announcements extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const announcements = state.firestore.data.announcements;
   return { announcements };
 };
