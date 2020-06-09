@@ -46,6 +46,7 @@ class AnnList extends Component {
               content={announcementsList[key].content}
               timestamp={announcements[key].timestamp}
               read={announcementsList[key].readStatus}
+              to={`${match.url}/${announcementsList[key].id}`}
               onClick={() => {
                 announcementsList[key].readStatus = true;
                 sessionStorage.setItem(
