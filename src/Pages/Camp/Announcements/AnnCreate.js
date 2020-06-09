@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Header, SubmitButton, CenterBox, Field } from "../UI";
+import { Header, SubmitButton, CenterBox, Field } from "../../../UI";
+import { signUp } from "../../../store/actions/authActions";
 
 class AnnCreate extends Component {
   state = {
@@ -14,10 +15,10 @@ class AnnCreate extends Component {
     });
   };
 
-  /* handleSubmit = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     this.props.signUp(this.state);
-  }; */
+  };
 
   render() {
     return (
@@ -37,10 +38,10 @@ class AnnCreate extends Component {
   }
 }
 
-/* const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     signUp: (state) => dispatch(signUp(state)),
   };
-}; */
+};
 
 export default connect(null, mapDispatchToProps)(AnnCreate);
