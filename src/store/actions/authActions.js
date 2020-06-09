@@ -3,7 +3,7 @@ export const signIn = (camp, state) => {
     const firebase = getFirebase();
     const email = camp.campCode + "@orient.org";
 
-    console.log(camp, state);
+    console.log(email, state.password);
 
     firebase
       .auth()

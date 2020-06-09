@@ -1,10 +1,15 @@
-const initState = {};
+const initState = {
+  isAuthed: false,
+};
 
 const authReducer = (state = initState, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS":
       console.log("Login success");
-      return state;
+      return {
+        ...state,
+        isAuthed: true,
+      };
 
     case "LOGIN_ERROR":
       console.log(action.err.message);

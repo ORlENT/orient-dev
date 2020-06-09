@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
-import { Header, CenterBox, SummaryCard } from "../../../UI";
+import { Header, CenterBox, NavButton, SummaryCard } from "../../../UI";
 
 class AnnList extends Component {
   render() {
-    let { announcements } = this.props;
+    let { announcements, isAuthed, match } = this.props;
     let announcementsList = JSON.parse(sessionStorage.getItem("announcements"));
 
     // Announcements loading
@@ -24,9 +24,20 @@ class AnnList extends Component {
     return (
       <CenterBox>
         <Header>Announcements</Header>
-        {isEmpty(announcementsList) && (
-          <Header>No announcement was not found.</Header>
+
+        {/*Create new Announcement button (Admin only)*/}
+        {isAuthed && (
+          <NavButton to={`${match.url}/create`} admin>
+            Create new announcement
+          </NavButton>
         )}
+
+        {/*No announcements*/}
+        {isEmpty(announcementsList) && (
+          <Header>No announcement was found.</Header>
+        )}
+
+        {/*Announcement List*/}
         {announcementsList &&
           Object.keys(announcementsList).map((key) => (
             <SummaryCard
@@ -60,7 +71,10 @@ const setReadStatusFalse = (data) => {
 const mapStateToProps = (state) => {
   let announcements = state.firestore.data.announcements;
   if (announcements) announcements = setReadStatusFalse(announcements);
-  return { announcements };
+  return {
+    announcements,
+    isAuthed: state.auth.isAuthed,
+  };
 };
 
 const firestoreQuery = () =>

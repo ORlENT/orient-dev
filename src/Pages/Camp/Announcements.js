@@ -12,7 +12,7 @@ class Announcements extends Component {
     return (
       <Switch>
         <Route exact path={`${match.path}`} component={AnnList} />
-        <Route path={`${match.path}/add`} component={AnnCreate} />
+        <Route path={`${match.path}/create`} component={AnnCreate} />
         <Route exact path={`${match.path}/:annID`} component={AnnDetails} />
         <Route path={`${match.path}/:annID/edit`} component={AnnEdit} />
       </Switch>

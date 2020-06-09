@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Button } from "@material-ui/core";
 import AdminLogin from "./AdminLogin";
 
@@ -13,8 +14,16 @@ class NavBar extends Component {
     });
   };
 
+  componentDidUpdate() {
+    if (this.props.isAuthed && this.state.visible) {
+      this.setState({
+        visible: false,
+      });
+    }
+  }
+
   render() {
-    const { children } = this.props;
+    const { isAuthed, children } = this.props;
     return (
       <div
         style={{
@@ -34,17 +43,17 @@ class NavBar extends Component {
         >
           {/*Admin login button*/}
           <Button
+            color="secondary"
             style={{
               gridColumn: "1",
               gridRow: "1",
               justifySelf: "end",
               zIndex: "1",
               width: "150px",
-              color: "#ff9800",
             }}
             onClick={this.toggleVisibility}
           >
-            Login as admin
+            {isAuthed ? "Logout" : "Login as admin"}
           </Button>
 
           {/*Title*/}
@@ -77,4 +86,10 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+const mapStateToProps = (state) => {
+  return {
+    isAuthed: state.auth.isAuthed,
+  };
+};
+
+export default connect(mapStateToProps)(NavBar);

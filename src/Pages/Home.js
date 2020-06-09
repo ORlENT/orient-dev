@@ -7,7 +7,9 @@ class Home extends Component {
       <CenterBox>
         <Header>Home</Header>
         <NavButton to="/join">Join Camp</NavButton>
-        <NavButton to="/create">Create New Camp</NavButton>
+        <NavButton to="/create" secondary>
+          Create New Camp
+        </NavButton>
       </CenterBox>
     );
   }

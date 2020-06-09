@@ -31,7 +31,7 @@ class AdminLogin extends Component {
             <SubmitButton>Login</SubmitButton>
           </div>
           <div onClick={this.props.toggleVisibility}>
-            <SubmitButton>Back</SubmitButton>
+            <SubmitButton secondary>Back</SubmitButton>
           </div>
         </CenterBox>
       </div>
