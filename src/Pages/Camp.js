@@ -60,13 +60,10 @@ class Camp extends Component {
         >
           <Switch>
             <Route exact path={`${match.path}`} component={Dashboard} />
-            <Route
-              path={`${match.path}/announcements`}
-              component={Announcements}
-            />
-            <Route path={`${match.path}/reminders`} component={Reminders} />
-            <Route path={`${match.path}/questions`} component={Questions} />
-            <Route path={`${match.path}/report`} component={Report} />
+            <Route path={`${match.path}/ann`} component={Announcements} />
+            <Route path={`${match.path}/rem`} component={Reminders} />
+            <Route path={`${match.path}/qna`} component={Questions} />
+            <Route path={`${match.path}/rpt`} component={Report} />
           </Switch>
         </div>
       </div>

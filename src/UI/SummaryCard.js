@@ -28,7 +28,7 @@ function timeConverter(UNIX_timestamp) {
 //max length of summary
 const summaryLength = 100;
 
-const SummaryCard = ({ title, content, timestamp, read, to }) => (
+const SummaryCard = ({ title, content, timestamp, read, onClick, to }) => (
   <Card
     elevation={read ? 3 : 10}
     style={{
@@ -36,6 +36,7 @@ const SummaryCard = ({ title, content, timestamp, read, to }) => (
     }}
   >
     <CardActionArea
+      onClick={onClick}
       style={{
         font: "unset",
         display: "flex",

@@ -3,7 +3,6 @@ import { Header, CenterBox, SummaryCard } from "../../UI";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
-import { Button } from "@material-ui/core";
 
 class Announcements extends Component {
   render() {
@@ -30,27 +29,21 @@ class Announcements extends Component {
         )}
         {announcementsList &&
           Object.keys(announcementsList).map((key) => (
-            <React.Fragment>
-              <SummaryCard
-                key={key}
-                title={announcementsList[key].title}
-                content={announcementsList[key].content}
-                timestamp={announcements[key].timestamp}
-                read={announcementsList[key].readStatus}
-              />
-              <Button
-                onClick={() => {
-                  announcementsList[key].readStatus = true;
-                  sessionStorage.setItem(
-                    "announcements",
-                    JSON.stringify(announcementsList)
-                  );
-                  this.forceUpdate();
-                }}
-              >
-                Button to read the above announcement.
-              </Button>
-            </React.Fragment>
+            <SummaryCard
+              key={key}
+              title={announcementsList[key].title}
+              content={announcementsList[key].content}
+              timestamp={announcements[key].timestamp}
+              read={announcementsList[key].readStatus}
+              onClick={() => {
+                announcementsList[key].readStatus = true;
+                sessionStorage.setItem(
+                  "announcements",
+                  JSON.stringify(announcementsList)
+                );
+                this.forceUpdate();
+              }}
+            />
           ))}
       </CenterBox>
     );

@@ -7,10 +7,10 @@ class Dashboard extends Component {
     return (
       <CenterBox>
         <Header>Dashboard</Header>
-        <NavButton to={`${match.url}/announcements`}>Announcements</NavButton>
-        <NavButton to={`${match.url}/reminders`}>Reminders</NavButton>
-        <NavButton to={`${match.url}/questions`}>Questions</NavButton>
-        <NavButton to={`${match.url}/report`}>Report</NavButton>
+        <NavButton to={`${match.url}/ann`}>Announcements</NavButton>
+        <NavButton to={`${match.url}/rem`}>Reminders</NavButton>
+        <NavButton to={`${match.url}/qna`}>Questions</NavButton>
+        <NavButton to={`${match.url}/rpt`}>Report</NavButton>
       </CenterBox>
     );
   }
