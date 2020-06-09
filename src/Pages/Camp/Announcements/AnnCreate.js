@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Header, SubmitButton, CenterBox, Field } from "../../../UI";
-import { signUp } from "../../../store/actions/authActions";
+import { createAnn } from "../../../store/actions/campActions";
 
 class AnnCreate extends Component {
   state = {
@@ -17,7 +17,7 @@ class AnnCreate extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.signUp(this.state);
+    this.props.createAnn(this.props.camp, this.state);
   };
 
   render() {
@@ -38,10 +38,17 @@ class AnnCreate extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    signUp: (state) => dispatch(signUp(state)),
+    ...state,
+    camp: state.camp.camp,
   };
 };
 
-export default connect(null, mapDispatchToProps)(AnnCreate);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createAnn: (camp, state) => dispatch(createAnn(camp, state)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AnnCreate);

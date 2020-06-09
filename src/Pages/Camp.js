@@ -14,7 +14,7 @@ import { storeCampInfo } from "../store/actions/campActions";
 
 class Camp extends Component {
   render() {
-    const { match, camp, storeCamp } = this.props;
+    const { match, camp, storeCampInfo } = this.props;
 
     //Firestore loading
     if (!isLoaded(camp)) {
