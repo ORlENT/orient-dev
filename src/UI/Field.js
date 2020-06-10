@@ -1,23 +1,24 @@
 import React from "react";
 import { TextField, withStyles } from "@material-ui/core";
 
-const StyledField = withStyles({
+const StyledField = withStyles((theme) => ({
   root: {
     margin: "0px",
 
     //input
     "& input": {
       color: "#fff",
+      //autofill
+      "&:-webkit-autofill": {
+        transitionDelay: "9999s",
+        transitionProperty: "background-color, color",
+      },
     },
 
     //placeholder
     "& label": {
       //default
       color: "#bbb",
-      //focused
-      "&.Mui-focused": {
-        color: "#ff9800",
-      },
     },
 
     //border
@@ -27,26 +28,31 @@ const StyledField = withStyles({
         borderColor: "#ddd",
       },
       //hover
-      "&:hover fieldset": {
+      "&:hover": {
         borderColor: "#fff",
-      },
-      //focused
-      "&.Mui-focused fieldset": {
-        borderColor: "#ff9800",
       },
     },
   },
-})(TextField);
+}))(TextField);
 
-const Field = ({ password = false, onChange, id, children }) => (
+const Field = ({ password, admin, onEnter = null, children, ...rest }) => (
   <StyledField
     label={children}
     variant="outlined"
     margin="dense"
     fullWidth
+    autoComplete="off"
+    spellCheck="false"
+    color={admin ? "secondary" : "primary"}
     type={password ? "password" : undefined}
-    onChange={onChange}
-    id={id}
+    //On Enter
+    onKeyPress={(ev) => {
+      if (ev.key === "Enter") {
+        ev.preventDefault();
+        onEnter && onEnter();
+      }
+    }}
+    {...rest}
   />
 );
 

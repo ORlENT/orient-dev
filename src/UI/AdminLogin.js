@@ -14,8 +14,7 @@ class AdminLogin extends Component {
     });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = () => {
     this.props.signIn(this.props.camp, this.state);
   };
 
@@ -24,15 +23,21 @@ class AdminLogin extends Component {
       <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", height: "100vh" }}>
         <CenterBox>
           <Header>Admin Login</Header>
-          <Field id="password" onChange={this.handleChange} password>
+          <Field
+            id="password"
+            password
+            admin
+            onChange={this.handleChange}
+            onEnter={this.handleSubmit}
+          >
             Password
           </Field>
-          <div onClick={this.handleSubmit}>
-            <SubmitButton>Login</SubmitButton>
-          </div>
-          <div onClick={this.props.toggleVisibility}>
-            <SubmitButton secondary>Back</SubmitButton>
-          </div>
+          <SubmitButton admin onClick={this.handleSubmit}>
+            Login
+          </SubmitButton>
+          <SubmitButton secondary admin onClick={this.props.toggleVisibility}>
+            Back
+          </SubmitButton>
         </CenterBox>
       </div>
     );

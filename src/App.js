@@ -5,8 +5,16 @@ import Pages from "./Pages.js";
 
 const theme = createMuiTheme({
   palette: {
+    type: "dark",
+
+    // Normal user color: Orange
     primary: {
       main: "#ff9800",
+    },
+
+    // Admin color: Blue
+    secondary: {
+      main: "#2196f3",
     },
   },
 });

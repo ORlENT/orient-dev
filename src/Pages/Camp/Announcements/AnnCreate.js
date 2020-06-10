@@ -17,8 +17,7 @@ class AnnCreate extends Component {
     });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = () => {
     this.props.createAnn(this.props.camp, this.state);
   };
 
@@ -33,15 +32,15 @@ class AnnCreate extends Component {
     return (
       <CenterBox>
         <Header>Create New Announcement</Header>
-        <Field id="title" onChange={this.handleChange}>
+        <Field id="title" admin onChange={this.handleChange}>
           Title
         </Field>
-        <Field id="content" onChange={this.handleChange}>
+        <Field id="content" admin onChange={this.handleChange}>
           Content
         </Field>
-        <div onClick={this.handleSubmit}>
-          <SubmitButton>Create New Announcement</SubmitButton>
-        </div>
+        <SubmitButton admin onClick={this.handleSubmit}>
+          Create New Announcement
+        </SubmitButton>
       </CenterBox>
     );
   }

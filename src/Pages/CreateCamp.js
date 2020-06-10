@@ -18,8 +18,8 @@ class CreateCamp extends Component {
     });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = () => {
+    console.log("SUBMIT");
     this.props.signUp(this.state);
   };
 
@@ -45,12 +45,15 @@ class CreateCamp extends Component {
         <Field id="campCode" onChange={this.handleChange}>
           Camp Code
         </Field>
-        <Field id="password" onChange={this.handleChange} password>
+        <Field
+          id="password"
+          password
+          onChange={this.handleChange}
+          onEnter={this.handleSubmit}
+        >
           Password
         </Field>
-        <div onClick={this.handleSubmit}>
-          <SubmitButton>Create New Camp</SubmitButton>
-        </div>
+        <SubmitButton onClick={this.handleSubmit}>Create New Camp</SubmitButton>
       </CenterBox>
     );
   }

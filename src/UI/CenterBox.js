@@ -1,20 +1,21 @@
 import React from "react";
 import { Grid, Paper } from "@material-ui/core";
 
-const CenterBox = ({ children }) => (
+const CenterBox = ({ children, ...rest }) => (
   <div
     className="centerContent"
     style={{
       height: "100%",
     }}
+    {...rest}
   >
     <Paper
       elevation={3}
-      color="secondary"
       style={{
         width: "480px",
         padding: "32px",
         margin: "32px",
+        marginTop: "92px",
         backgroundColor: "#444",
         display: "flex",
         justifyContent: "center",

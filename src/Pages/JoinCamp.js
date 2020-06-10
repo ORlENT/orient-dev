@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { Header, NavButton, CenterBox, Field } from "../UI";
 
 class JoinCamp extends Component {
@@ -12,11 +13,19 @@ class JoinCamp extends Component {
     });
   };
 
+  handleSubmit = () => {
+    this.props.history.push("/camp/" + this.state.campCode);
+  };
+
   render() {
     return (
       <CenterBox>
         <Header>Join Camp</Header>
-        <Field id="campCode" onChange={this.handleChange}>
+        <Field
+          id="campCode"
+          onChange={this.handleChange}
+          onEnter={this.handleSubmit}
+        >
           Camp Code
         </Field>
         <NavButton to={"/camp/" + this.state.campCode}>Join Camp</NavButton>
@@ -25,4 +34,4 @@ class JoinCamp extends Component {
   }
 }
 
-export default JoinCamp;
+export default withRouter(JoinCamp);
