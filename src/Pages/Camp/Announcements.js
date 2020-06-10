@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
+import AdminRoute from "../../Routes/AdminRoute";
 
 import AnnCreate from "./Announcements/AnnCreate";
 import AnnDetails from "./Announcements/AnnDetails";
@@ -12,9 +13,17 @@ class Announcements extends Component {
     return (
       <Switch>
         <Route exact path={`${match.path}`} component={AnnList} />
-        <Route path={`${match.path}/create`} component={AnnCreate} />
+        <AdminRoute
+          path={`${match.path}/create`}
+          redirect={`${match.url}`}
+          component={AnnCreate}
+        />
         <Route exact path={`${match.path}/:annID`} component={AnnDetails} />
-        <Route path={`${match.path}/:annID/edit`} component={AnnEdit} />
+        <AdminRoute
+          path={`${match.path}/:annID/edit`}
+          redirect={`${match.url}`}
+          component={AnnEdit}
+        />
       </Switch>
     );
   }
