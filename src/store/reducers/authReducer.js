@@ -1,5 +1,6 @@
 const initState = {
   isAuthed: false,
+  formCompleted: false,
 };
 
 const authReducer = (state = initState, action) => {
@@ -17,7 +18,10 @@ const authReducer = (state = initState, action) => {
 
     case "SIGNUP_SUCCESS":
       console.log("Signup success");
-      return state;
+      return {
+        ...state,
+        formCompleted: true,
+      };
 
     case "SIGNUP_ERROR":
       console.log(action.err.message);
@@ -28,6 +32,13 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         isAuthed: false,
+      };
+
+    case "RESET_FORM":
+      console.log("Form reset");
+      return {
+        ...state,
+        formCompleted: false,
       };
 
     default:

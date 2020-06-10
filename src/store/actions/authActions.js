@@ -63,3 +63,9 @@ export const signOut = () => {
       });
   };
 };
+
+export const resetForm = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: "RESET_FORM" });
+  };
+};

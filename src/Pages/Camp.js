@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import CampNotFound from "./Camp/CampNotFound.js";
@@ -13,6 +13,17 @@ import { fetchCampInfo } from "../store/actions/campActions";
 
 class Camp extends Component {
   componentDidMount() {
+    this.props.fetchCampInfo(this.props.match.params.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.onRouteChanged();
+    }
+  }
+
+  onRouteChanged() {
+    console.log("Route Changed");
     this.props.fetchCampInfo(this.props.match.params.id);
   }
 
@@ -86,4 +97,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps))(Camp);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter
+)(Camp);

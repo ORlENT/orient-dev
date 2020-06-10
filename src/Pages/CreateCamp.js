@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { compose } from "redux";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { Header, SubmitButton, CenterBox, Field } from "../UI";
-import { signUp } from "../store/actions/authActions";
+import { signUp, resetForm } from "../store/actions/authActions";
 
 class CreateCamp extends Component {
   state = {
@@ -20,6 +22,18 @@ class CreateCamp extends Component {
     e.preventDefault();
     this.props.signUp(this.state);
   };
+
+  componentDidUpdate() {
+    if (this.props.formCompleted) {
+      resetForm();
+      this.props.history.push(
+        `${this.props.match.url}`.replace(
+          "/create",
+          `/camp/${this.state.campCode}`
+        )
+      );
+    }
+  }
 
   render() {
     return (
@@ -42,10 +56,21 @@ class CreateCamp extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    signUp: (state) => dispatch(signUp(state)),
+    ...state,
+    formCompleted: state.auth.formCompleted,
   };
 };
 
-export default connect(null, mapDispatchToProps)(CreateCamp);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signUp: (state) => dispatch(signUp(state)),
+    resetForm: () => dispatch(resetForm()),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter
+)(CreateCamp);

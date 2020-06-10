@@ -1,6 +1,7 @@
 const initState = {
   isLoaded: false,
   camp: null,
+  formCompleted: false,
 };
 
 const campReducer = (state = initState, action) => {
@@ -20,6 +21,20 @@ const campReducer = (state = initState, action) => {
       console.log("Camp stored in redux store:", state);
       return {
         ...state,
+      };
+
+    case "ANN_CREATED":
+      console.log("Announcement created successfully");
+      return {
+        ...state,
+        formCompleted: true,
+      };
+
+    case "RESET_FORM":
+      console.log("Form reset");
+      return {
+        ...state,
+        formCompleted: false,
       };
 
     default:

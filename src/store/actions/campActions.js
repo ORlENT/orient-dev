@@ -4,11 +4,10 @@ export const storeCampInfo = (camp) => {
   };
 };
 
-// SEND HELP HERE LIONEL
-// OKAY I TRIED NORMAL AND ASYNC ALREADY
 export const fetchCampInfo = (campId) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
+
     console.log("here");
     getFirestore()
       .collection("camps")
@@ -54,7 +53,7 @@ export const createAnn = (camp, state) => {
     console.log(camp, state);
     firestore
       .collection("camps")
-      .doc(camp.campId)
+      .doc(camp.campCode)
       .collection("announcements")
       .add({
         title: state.title,
@@ -62,11 +61,17 @@ export const createAnn = (camp, state) => {
         timestamp: firestore.Timestamp.now(),
       })
       .then(() => {
-        console.log("Announcement created successfully");
+        dispatch({ type: "ANN_CREATED", camp });
       })
       .catch((err) => {
         console.log("error creating announcement:");
         console.log(err);
       });
+  };
+};
+
+export const resetForm = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: "RESET_FORM" });
   };
 };

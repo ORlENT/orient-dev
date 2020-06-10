@@ -8,7 +8,9 @@ class CampNotFound extends Component {
       <CenterBox>
         <Header>Camp {match.params.id} was not found</Header>
         <NavButton to="/join">Join Another Camp</NavButton>
-        <NavButton to="/create">Create New Camp</NavButton>
+        <NavButton to="/create" secondary>
+          Create New Camp
+        </NavButton>
       </CenterBox>
     );
   }

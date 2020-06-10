@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { compose } from "redux";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { Header, SubmitButton, CenterBox, Field } from "../../../UI";
-import { createAnn } from "../../../store/actions/campActions";
+import { createAnn, resetForm } from "../../../store/actions/campActions";
 
 class AnnCreate extends Component {
   state = {
@@ -19,6 +21,13 @@ class AnnCreate extends Component {
     e.preventDefault();
     this.props.createAnn(this.props.camp, this.state);
   };
+
+  componentDidUpdate() {
+    if (this.props.formCompleted) {
+      resetForm();
+      this.props.history.push(`${this.props.match.url}`.replace("/create", ""));
+    }
+  }
 
   render() {
     return (
@@ -42,13 +51,18 @@ const mapStateToProps = (state) => {
   return {
     ...state,
     camp: state.camp.camp,
+    formCompleted: state.camp.formCompleted,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     createAnn: (camp, state) => dispatch(createAnn(camp, state)),
+    resetForm: () => dispatch(resetForm()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AnnCreate);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter
+)(AnnCreate);
