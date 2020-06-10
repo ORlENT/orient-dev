@@ -1,23 +1,17 @@
 import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { isLoaded, isEmpty } from "react-redux-firebase";
 import { Header, CenterBox, NavButton, SummaryCard } from "../../../UI";
+import { fetchCampInfo } from "../../../store/actions/campActions";
 
 class AnnList extends Component {
   render() {
-    let { announcements, isAuthed, match } = this.props;
-    let announcementsList = JSON.parse(sessionStorage.getItem("announcements"));
+    let { announcements, isAuthed, match, isLoaded } = this.props;
+    let announcementsList = announcements;
 
     // Announcements loading
-    if (!isLoaded(announcements)) {
+    if (!isLoaded) {
       return <div>Loading</div>;
-    }
-
-    // Set session variables for annoucements
-    if (!announcementsList) {
-      sessionStorage.setItem("announcements", JSON.stringify(announcements));
-      announcementsList = JSON.parse(sessionStorage.getItem("announcements"));
     }
 
     // Render the announcements
@@ -33,9 +27,7 @@ class AnnList extends Component {
         )}
 
         {/*No announcements*/}
-        {isEmpty(announcementsList) && (
-          <Header>No announcement was found.</Header>
-        )}
+        {!announcementsList && <Header>No announcement was found.</Header>}
 
         {/*Announcement List*/}
         {announcementsList &&
@@ -44,9 +36,9 @@ class AnnList extends Component {
               key={key}
               title={announcementsList[key].title}
               content={announcementsList[key].content}
-              timestamp={announcements[key].timestamp}
+              timestamp={announcementsList[key].timestamp}
               read={announcementsList[key].readStatus}
-              to={`${match.url}/${announcementsList[key].id}`}
+              to={`${match.url}/${key}`}
               onClick={() => {
                 announcementsList[key].readStatus = true;
                 sessionStorage.setItem(
@@ -62,21 +54,21 @@ class AnnList extends Component {
   }
 }
 
-const setReadStatusFalse = (data) => {
-  return Object.keys(data).map((item) => ({
-    ...data[item],
-    readStatus: false,
-  }));
-};
-
 const mapStateToProps = (state) => {
-  let announcements = state.camp.announcements;
-  console.log(announcements);
-  if (announcements) announcements = setReadStatusFalse(announcements);
+  let announcements = sessionStorage.getItem("announcements")
+    ? JSON.parse(sessionStorage.getItem("announcements"))
+    : state.camp.camp.announcements;
   return {
     announcements,
     isAuthed: state.auth.isAuthed,
+    isLoaded: state.camp.isLoaded,
   };
 };
 
-export default compose(connect(mapStateToProps))(AnnList);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchCampInfo: (campID) => dispatch(fetchCampInfo(campID)),
+  };
+};
+
+export default compose(connect(mapStateToProps, mapDispatchToProps))(AnnList);

@@ -25,7 +25,7 @@ class Camp extends Component {
     }
 
     //Camp not found
-    if (!camp) {
+    if (isLoaded && camp == null) {
       console.log("camp not found");
       return <Route path={`${match.path}`} component={CampNotFound} />;
     }
@@ -75,7 +75,7 @@ class Camp extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    camp: state.camp,
+    camp: state.camp.camp,
     isLoaded: state.camp.isLoaded,
   };
 };
