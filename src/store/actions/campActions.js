@@ -7,31 +7,39 @@ export const storeCampInfo = (camp) => {
 // SEND HELP HERE LIONEL
 // OKAY I TRIED NORMAL AND ASYNC ALREADY
 export const fetchCampInfo = (campId) => {
-  return (dispatch, getState, { getFirestore }) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
     console.log("here");
-    firestore
+    getFirestore()
       .collection("camps")
       .doc(campId)
       .get()
       .then((doc) => {
-        console.log("Camp retrieved successfully");
-        const camp = doc;
-        console.log(camp);
-        firestore
-          .collection("camps")
-          .doc(campId)
-          .collection("announcements")
-          .get()
-          .then((querySnapshot) => {
-            // console.log(querySnapshot.docs);
-            console.log("Camp announcements retrieved successfully");
-            dispatch({ type: "CAMP_RETRIEVED", camp: camp });
-          })
-          .catch((err) => {
-            console.log(err);
-            console.log("Error retrieving announcements");
-          });
+        if (doc.exists) {
+          console.log("Camp retrieved successfully");
+          const camp = doc.data();
+          firestore
+            .collection("camps")
+            .doc(campId)
+            .collection("announcements")
+            .get()
+            .then((querySnapshot) => {
+              camp["announcements"] = {};
+              for (let i = 0; i < querySnapshot.docs.length; i++) {
+                camp["announcements"][
+                  querySnapshot.docs[i].id
+                ] = querySnapshot.docs[i].data();
+              }
+              dispatch({ type: "CAMP_RETRIEVED", camp: camp });
+            })
+            .catch((err) => {
+              console.log(err);
+              console.log("Error retrieving announcements");
+            });
+        } else {
+          console.log("No camp found");
+          dispatch({ type: "CAMP_RETRIEVED", camp: null });
+        }
       })
       .catch((err) => {
         console.log("Error retrieving camp");

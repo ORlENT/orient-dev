@@ -110,7 +110,7 @@ const SummaryCard = ({ title, content, timestamp, read, onClick, to }) => (
 
           {/*timestamp*/}
           <p style={{ color: "#bbb", margin: "0px" }}>
-            {timeConverter(timestamp.toDate())}
+            {timeConverter(timestamp.nanoseconds)}
           </p>
         </CardContent>
       </Link>
