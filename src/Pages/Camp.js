@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
 import CampNotFound from "./Camp/CampNotFound.js";
 import Dashboard from "./Camp/Dashboard.js";
 import Announcements from "./Camp/Announcements.js";
@@ -10,26 +9,29 @@ import Reminders from "./Camp/Reminders.js";
 import Questions from "./Camp/Questions.js";
 import Report from "./Camp/Report.js";
 import { Header, NavBar } from "../UI";
-import { storeCampInfo } from "../store/actions/campActions";
+import { fetchCampInfo } from "../store/actions/campActions";
 
 class Camp extends Component {
+  componentDidMount() {
+    this.props.fetchCampInfo(this.props.match.params.id);
+  }
+
   render() {
-    const { match, camp, storeCampInfo } = this.props;
+    const { match, camp, isLoaded } = this.props;
 
     //Firestore loading
-    if (!isLoaded(camp)) {
+    if (!isLoaded) {
       return <div>loading</div>;
     }
 
     //Camp not found
-    if (isEmpty(camp)) {
+    if (!camp) {
       console.log("camp not found");
       return <Route path={`${match.path}`} component={CampNotFound} />;
     }
 
     //Render Camp
-    console.log("camp found");
-    storeCampInfo(camp);
+    // console.log("camp found");
     return (
       <div
         style={{
@@ -73,33 +75,15 @@ class Camp extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    camp: state.firestore.data.camp,
-    announcements: state.firestore.data.announcements,
+    camp: state.camp,
+    isLoaded: state.camp.isLoaded,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    storeCampInfo: (camp) => dispatch(storeCampInfo(camp)),
+    fetchCampInfo: (campID) => dispatch(fetchCampInfo(campID)),
   };
 };
 
-const firestoreQuery = () =>
-  firestoreConnect((props) => [
-    {
-      collection: "camps",
-      doc: props.match.params.id,
-      storeAs: "camp",
-    },
-    {
-      collection: "camps",
-      doc: props.match.params.id,
-      subcollections: [{ collection: "announcements" }],
-      storeAs: "announcements",
-    },
-  ]);
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreQuery()
-)(Camp);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Camp);

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { firestoreConnect, isLoaded, isEmpty } from "react-redux-firebase";
+import { isLoaded, isEmpty } from "react-redux-firebase";
 import { Header, CenterBox, NavButton, SummaryCard } from "../../../UI";
 
 class AnnList extends Component {
@@ -70,7 +70,8 @@ const setReadStatusFalse = (data) => {
 };
 
 const mapStateToProps = (state) => {
-  let announcements = state.firestore.data.announcements;
+  let announcements = state.camp.announcements;
+  console.log(announcements);
   if (announcements) announcements = setReadStatusFalse(announcements);
   return {
     announcements,
@@ -78,14 +79,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const firestoreQuery = () =>
-  firestoreConnect((props) => [
-    {
-      collection: "camps",
-      doc: props.match.params.id,
-      subcollections: [{ collection: "announcements" }],
-      storeAs: "announcements",
-    },
-  ]);
-
-export default compose(connect(mapStateToProps), firestoreQuery())(AnnList);
+export default compose(connect(mapStateToProps))(AnnList);
