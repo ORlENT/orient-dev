@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button } from "@material-ui/core";
 import AdminLogin from "./AdminLogin";
+import { signOut } from "../store/actions/authActions";
 
 class NavBar extends Component {
   state = {
@@ -23,7 +24,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const { isAuthed, children } = this.props;
+    const { isAuthed, signOut, children } = this.props;
     return (
       <div
         style={{
@@ -51,7 +52,7 @@ class NavBar extends Component {
               zIndex: "1",
               width: "150px",
             }}
-            onClick={this.toggleVisibility}
+            onClick={() => (isAuthed ? signOut() : this.toggleVisibility())}
           >
             {isAuthed ? "Logout" : "Login as admin"}
           </Button>
@@ -92,4 +93,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(NavBar);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => dispatch(signOut()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
