@@ -7,8 +7,6 @@ export const storeCampInfo = (camp) => {
 export const fetchCampInfo = (campId) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
-
-    console.log("here");
     getFirestore()
       .collection("camps")
       .doc(campId)

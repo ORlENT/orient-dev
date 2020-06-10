@@ -5,9 +5,34 @@ import { Header, CenterBox, NavButton, SummaryCard } from "../../../UI";
 import { fetchCampInfo } from "../../../store/actions/campActions";
 
 class AnnList extends Component {
+  state = {
+    annCachedInfo: {},
+  };
+
+  setSessionStorage(key) {
+    var annCachedInfo = JSON.parse(sessionStorage.getItem("announcements"));
+    if (!annCachedInfo) {
+      annCachedInfo = {};
+    }
+    annCachedInfo[`${key}`] = {};
+    annCachedInfo[`${key}`].readStatus = true;
+    sessionStorage.setItem("announcements", JSON.stringify(annCachedInfo));
+    this.getCachedInfo();
+  }
+
+  componentDidMount() {
+    this.getCachedInfo();
+  }
+
+  getCachedInfo() {
+    var annCachedInfo = JSON.parse(sessionStorage.getItem("announcements"));
+    if (!annCachedInfo) annCachedInfo = {};
+    this.setState({ annCachedInfo });
+  }
+
   render() {
-    let { announcements, isAuthed, match, isLoaded } = this.props;
-    let announcementsList = announcements;
+    let { annInfo, isAuthed, match, isLoaded } = this.props;
+    const { annCachedInfo } = this.state;
 
     // Announcements loading
     if (!isLoaded) {
@@ -27,24 +52,20 @@ class AnnList extends Component {
         )}
 
         {/*No announcements*/}
-        {!announcementsList && <Header>No announcement was found.</Header>}
+        {!annInfo && <Header>No announcement was found.</Header>}
 
         {/*Announcement List*/}
-        {announcementsList &&
-          Object.keys(announcementsList).map((key) => (
+        {annInfo &&
+          Object.keys(annInfo).map((key) => (
             <SummaryCard
               key={key}
-              title={announcementsList[key].title}
-              content={announcementsList[key].content}
-              timestamp={announcementsList[key].timestamp}
-              read={announcementsList[key].readStatus}
+              title={annInfo[key].title}
+              content={annInfo[key].content}
+              timestamp={annInfo[key].timestamp}
+              read={annCachedInfo[key] ? annCachedInfo[key].readStatus : false}
               to={`${match.url}/${key}`}
               onClick={() => {
-                announcementsList[key].readStatus = true;
-                sessionStorage.setItem(
-                  "announcements",
-                  JSON.stringify(announcementsList)
-                );
+                this.setSessionStorage(key);
                 this.forceUpdate();
               }}
             />
@@ -55,11 +76,9 @@ class AnnList extends Component {
 }
 
 const mapStateToProps = (state) => {
-  let announcements = sessionStorage.getItem("announcements")
-    ? JSON.parse(sessionStorage.getItem("announcements"))
-    : state.camp.camp.announcements;
+  let annInfo = state.camp.camp.announcements;
   return {
-    announcements,
+    annInfo,
     isAuthed: state.auth.isAuthed,
     isLoaded: state.camp.isLoaded,
   };
