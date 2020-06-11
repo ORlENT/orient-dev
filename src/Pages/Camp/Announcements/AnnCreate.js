@@ -35,7 +35,7 @@ class AnnCreate extends Component {
         <Field id="title" admin onChange={this.handleChange}>
           Title
         </Field>
-        <Field id="content" admin onChange={this.handleChange}>
+        <Field id="content" admin long onChange={this.handleChange}>
           Content
         </Field>
         <SubmitButton admin onClick={this.handleSubmit}>

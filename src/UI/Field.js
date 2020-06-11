@@ -8,11 +8,6 @@ const StyledField = withStyles((theme) => ({
     //input
     "& input": {
       color: "#fff",
-      //autofill
-      "&:-webkit-autofill": {
-        transitionDelay: "9999s",
-        transitionProperty: "background-color, color",
-      },
     },
 
     //placeholder
@@ -35,7 +30,14 @@ const StyledField = withStyles((theme) => ({
   },
 }))(TextField);
 
-const Field = ({ password, admin, onEnter = null, children, ...rest }) => (
+const Field = ({
+  password,
+  admin,
+  long,
+  onEnter = null,
+  children,
+  ...rest
+}) => (
   <StyledField
     label={children}
     variant="outlined"
@@ -43,13 +45,20 @@ const Field = ({ password, admin, onEnter = null, children, ...rest }) => (
     fullWidth
     autoComplete="off"
     spellCheck="false"
+    //Admin/User color
     color={admin ? "secondary" : "primary"}
+    //Password
     type={password ? "password" : undefined}
+    //Long Inputs
+    multiline={long}
+    InputProps={{
+      style: { minHeight: long ? "200px" : null, alignItems: "flex-start" },
+    }}
     //On Enter
     onKeyPress={(ev) => {
-      if (ev.key === "Enter") {
+      if (onEnter && ev.key === "Enter") {
         ev.preventDefault();
-        onEnter && onEnter();
+        onEnter();
       }
     }}
     {...rest}

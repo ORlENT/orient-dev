@@ -69,6 +69,7 @@ class Camp extends Component {
           style={{
             gridColumn: "1",
             gridRow: "1",
+            paddingTop: "60px",
           }}
         >
           <Switch>

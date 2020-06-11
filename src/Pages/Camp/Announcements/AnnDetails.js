@@ -1,15 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Header, CenterBox } from "../../../UI";
+import { Header, CenterBox, NavButton, SubmitButton } from "../../../UI";
 import timeConverter from "../../../functions/timeConverter";
 
 class AnnDetails extends Component {
   render() {
-    const { annInfo, match } = this.props;
+    const { annInfo, isAuthed, match } = this.props;
     const key = match.params.annID;
     return (
       <CenterBox>
         <Header>{annInfo[key].title}</Header>
+
+        {/*Edit Announcement button (Admin only)*/}
+        {isAuthed && (
+          <NavButton admin to={`${match.url}/edit`}>
+            Edit announcement
+          </NavButton>
+        )}
+
+        {/*Delete Announcement button (Admin only)*/}
+        {isAuthed && (
+          <SubmitButton admin secondary>
+            Delete announcement
+          </SubmitButton>
+        )}
 
         {/*timestamp*/}
         <p style={{ color: "#bbb", margin: "0px" }}>

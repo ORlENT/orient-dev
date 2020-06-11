@@ -39,7 +39,7 @@ class AnnList extends Component {
 
         {/*Create new Announcement button (Admin only)*/}
         {isAuthed && (
-          <NavButton to={`${match.url}/create`} admin>
+          <NavButton admin to={`${match.url}/create`}>
             Create new announcement
           </NavButton>
         )}

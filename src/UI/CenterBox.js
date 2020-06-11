@@ -15,7 +15,6 @@ const CenterBox = ({ children, ...rest }) => (
         width: "480px",
         padding: "32px",
         margin: "32px",
-        marginTop: "92px",
         backgroundColor: "#444",
         display: "flex",
         justifyContent: "center",
@@ -32,7 +31,7 @@ const CenterBox = ({ children, ...rest }) => (
         style={{ width: "100%" }}
       >
         {React.Children.map(children, (child) => (
-          <Grid item style={{ width: "100%" }}>
+          <Grid item style={{ width: "100%", padding: child ? null : "0" }}>
             {child}
           </Grid>
         ))}
