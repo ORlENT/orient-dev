@@ -2,8 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Header, CenterBox, NavButton, SubmitButton } from "../../../UI";
 import timeConverter from "../../../functions/timeConverter";
+import { deleteAnn } from "../../../store/actions/campActions";
 
 class AnnDetails extends Component {
+  handleDelete = () => {
+    this.props.deleteAnn(
+      this.props.camp,
+      this.state,
+      this.props.match.params.annID
+    );
+    this.props.history.goBack();
+  };
+
   render() {
     const { annInfo, isAuthed, match } = this.props;
     const key = match.params.annID;
@@ -20,7 +30,13 @@ class AnnDetails extends Component {
 
         {/*Delete Announcement button (Admin only)*/}
         {isAuthed && (
-          <SubmitButton admin secondary>
+          <SubmitButton
+            admin
+            secondary
+            onClick={() => {
+              this.handleDelete();
+            }}
+          >
             Delete announcement
           </SubmitButton>
         )}
@@ -50,7 +66,14 @@ const mapStateToProps = (state) => {
   return {
     annInfo: state.camp.camp.announcements,
     isAuthed: state.auth.isAuthed,
+    camp: state.camp.camp,
   };
 };
 
-export default connect(mapStateToProps)(AnnDetails);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteAnn: (camp, state, annID) => dispatch(deleteAnn(camp, state, annID)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AnnDetails);

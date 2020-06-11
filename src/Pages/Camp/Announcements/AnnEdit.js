@@ -18,7 +18,12 @@ class AnnEdit extends Component {
   };
 
   handleSubmit = () => {
-    this.props.editAnn(this.props.camp, this.state);
+    this.props.editAnn(
+      this.props.camp,
+      this.state,
+      this.props.match.params.annID
+    );
+    this.props.history.goBack();
   };
 
   componentDidUpdate() {
@@ -31,15 +36,15 @@ class AnnEdit extends Component {
   render() {
     return (
       <CenterBox>
-        <Header>Edit Announcement</Header>
+        <Header> Edit Announcement </Header>{" "}
         <Field
           id="title"
           admin
           value={this.state.title}
           onChange={this.handleChange}
         >
-          Title
-        </Field>
+          Title{" "}
+        </Field>{" "}
         <Field
           id="content"
           admin
@@ -47,11 +52,11 @@ class AnnEdit extends Component {
           value={this.state.content}
           onChange={this.handleChange}
         >
-          Content
-        </Field>
+          Content{" "}
+        </Field>{" "}
         <SubmitButton admin onClick={this.handleSubmit}>
-          Edit Announcement
-        </SubmitButton>
+          Edit Announcement{" "}
+        </SubmitButton>{" "}
       </CenterBox>
     );
   }
@@ -68,7 +73,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editAnn: (camp, state) => dispatch(editAnn(camp, state)),
+    editAnn: (camp, state, annID) => dispatch(editAnn(camp, state, annID)),
     resetForm: () => dispatch(resetForm()),
   };
 };

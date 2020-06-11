@@ -68,9 +68,45 @@ export const createAnn = (camp, state) => {
   };
 };
 
-export const editAnn = (camp, state) => {
+export const editAnn = (camp, state, annID) => {
   return (dispatch, getState, { getFirestore }) => {
-    //TODO
+    const firestore = getFirestore();
+    firestore
+      .collection("camps")
+      .doc(camp.campCode)
+      .collection("announcements")
+      .doc(annID)
+      .set({
+        title: state.title,
+        content: state.content,
+        timestamp: firestore.Timestamp.now(),
+      })
+      .then(() => {
+        dispatch({ type: "ANN_EDITED", camp });
+      })
+      .catch((err) => {
+        console.log("error editing announcement:");
+        console.log(err);
+      });
+  };
+};
+
+export const deleteAnn = (camp, state, annID) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("camps")
+      .doc(camp.campCode)
+      .collection("announcements")
+      .doc(annID)
+      .delete()
+      .then(() => {
+        dispatch({ type: "ANN_DELETED", camp });
+      })
+      .catch((err) => {
+        console.log("error deleting announcement");
+        console.log(err);
+      });
   };
 };
 

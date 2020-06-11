@@ -30,6 +30,18 @@ const campReducer = (state = initState, action) => {
         formCompleted: true,
       };
 
+    case "ANN_DELETED":
+      console.log("Announcement deleted successfully");
+      return {
+        ...state,
+      };
+
+    case "ANN_EDITED":
+      console.log("Announcement edited successfully");
+      return {
+        ...state,
+      };
+
     case "RESET_FORM":
       console.log("Form reset");
       return {
