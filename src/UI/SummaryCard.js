@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, CardContent, CardActionArea } from "@material-ui/core";
+import { Card, CardContent, CardActionArea, Hidden } from "@material-ui/core";
 import timeConverter from "../functions/timeConverter";
 
-//max length of summary
-const summaryLength = 100;
+//max lines of summary
+const summaryLength = 2;
 
 const SummaryCard = ({ title, content, timestamp, read, onClick, to }) => (
   <Card
@@ -45,6 +45,7 @@ const SummaryCard = ({ title, content, timestamp, read, onClick, to }) => (
             width: "100%",
             padding: "16px",
             paddingLeft: read ? "16px" : "24px",
+            WebkitBoxSizing: "border-box",
           }}
         >
           {/*read/unread NEW!*/}
@@ -78,11 +79,15 @@ const SummaryCard = ({ title, content, timestamp, read, onClick, to }) => (
               margin: "0px",
               marginTop: "8px",
               marginBottom: "8px",
+              //Clamp down to summaryLength
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: summaryLength,
+              WebkitBoxOrient: "vertical",
             }}
           >
-            {content.length > summaryLength
-              ? content.slice(0, summaryLength) + "..."
-              : content}
+            {content}
           </p>
 
           {/*timestamp*/}
