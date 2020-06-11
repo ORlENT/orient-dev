@@ -68,6 +68,12 @@ export const createAnn = (camp, state) => {
   };
 };
 
+export const editAnn = (camp, state) => {
+  return (dispatch, getState, { getFirestore }) => {
+    //TODO
+  };
+};
+
 export const resetForm = () => {
   return (dispatch, getState) => {
     dispatch({ type: "RESET_FORM" });
