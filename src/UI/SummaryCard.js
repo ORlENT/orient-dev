@@ -1,30 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardActionArea } from "@material-ui/core";
-
-//timestamp to date converter
-function timeConverter(UNIX_timestamp) {
-  var a = new Date(UNIX_timestamp);
-  var months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  var year = a.getFullYear();
-  var month = months[a.getMonth()];
-  var date = a.getDate();
-  var time = date + " " + month + " " + year;
-  return time;
-}
+import timeConverter from "../functions/timeConverter";
 
 //max length of summary
 const summaryLength = 100;
@@ -110,7 +87,7 @@ const SummaryCard = ({ title, content, timestamp, read, onClick, to }) => (
 
           {/*timestamp*/}
           <p style={{ color: "#bbb", margin: "0px" }}>
-            {timeConverter(timestamp.nanoseconds)}
+            {timeConverter(timestamp)}
           </p>
         </CardContent>
       </Link>

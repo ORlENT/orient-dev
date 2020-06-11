@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { compose } from "redux";
 import { connect } from "react-redux";
 import { Header, CenterBox, NavButton, SummaryCard } from "../../../UI";
-import { fetchCampInfo } from "../../../store/actions/campActions";
 
 class AnnList extends Component {
   state = {
@@ -31,13 +29,8 @@ class AnnList extends Component {
   }
 
   render() {
-    let { annInfo, isAuthed, match, isLoaded } = this.props;
+    let { annInfo, isAuthed, match } = this.props;
     const { annCachedInfo } = this.state;
-
-    // Announcements loading
-    if (!isLoaded) {
-      return <div>Loading</div>;
-    }
 
     // Render the announcements
     return (
@@ -76,18 +69,10 @@ class AnnList extends Component {
 }
 
 const mapStateToProps = (state) => {
-  let annInfo = state.camp.camp.announcements;
   return {
-    annInfo,
+    annInfo: state.camp.camp.announcements,
     isAuthed: state.auth.isAuthed,
-    isLoaded: state.camp.isLoaded,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchCampInfo: (campID) => dispatch(fetchCampInfo(campID)),
-  };
-};
-
-export default compose(connect(mapStateToProps, mapDispatchToProps))(AnnList);
+export default connect(mapStateToProps)(AnnList);
