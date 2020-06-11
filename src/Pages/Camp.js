@@ -8,7 +8,7 @@ import Announcements from "./Camp/Announcements.js";
 import Reminders from "./Camp/Reminders.js";
 import Questions from "./Camp/Questions.js";
 import Report from "./Camp/Report.js";
-import { Header, NavBar } from "../UI";
+import { Header, NavBar, LoadingScreen } from "../UI";
 import { fetchCampInfo } from "../store/actions/campActions";
 
 class Camp extends Component {
@@ -32,7 +32,7 @@ class Camp extends Component {
 
     //Firestore loading
     if (!isLoaded) {
-      return <div>loading</div>;
+      return <LoadingScreen />;
     }
 
     //Camp not found

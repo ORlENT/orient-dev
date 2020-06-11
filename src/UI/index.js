@@ -4,6 +4,7 @@ import Header from "./Header";
 import Field from "./Field";
 import SummaryCard from "./SummaryCard";
 import NavBar from "./NavBar";
+import LoadingScreen from "./LoadingScreen";
 
 export {
   NavButton,
@@ -13,4 +14,5 @@ export {
   Field,
   SummaryCard,
   NavBar,
+  LoadingScreen,
 };
