@@ -1,43 +1,81 @@
-import React from "react";
+import React, { Component } from "react";
 import { Grid, Paper } from "@material-ui/core";
+import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 
-const CenterBox = ({ children, ...rest }) => (
-  <div
-    className="centerContent"
-    style={{
-      height: "100%",
-    }}
-    {...rest}
-  >
-    <Paper
-      elevation={3}
-      style={{
-        width: "480px",
-        padding: "32px",
-        margin: "32px",
-        backgroundColor: "#444",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
-      <Grid
-        container
-        spacing={2}
-        direction="column"
-        alignItems="center"
-        justify="center"
-        style={{ width: "100%" }}
-      >
-        {React.Children.map(children, (child) => (
-          <Grid item style={{ width: "100%", padding: child ? null : "0" }}>
-            {child}
+class CenterBox extends Component {
+  render() {
+    const { width, children } = this.props;
+
+    //MOBILE VERSION
+    if (isWidthDown("xs", width)) {
+      return (
+        <div
+          className="centerContent"
+          style={{
+            maxWidth: "100vw",
+            boxSizing: "border-box",
+            height: "100%",
+            padding: "0 32px",
+            backgroundColor: "#444",
+          }}
+        >
+          <Grid
+            container
+            spacing={2}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            style={{ maxWidth: "100%" }}
+          >
+            {React.Children.map(children, (child) => (
+              <Grid item style={{ width: "100%", padding: child ? null : "0" }}>
+                {child}
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-    </Paper>
-  </div>
-);
+        </div>
+      );
+    }
 
-export default CenterBox;
+    //WEB VERSION
+    return (
+      <div
+        className="centerContent"
+        style={{
+          height: "100%",
+        }}
+      >
+        <Paper
+          elevation={3}
+          style={{
+            width: "480px",
+            padding: "32px",
+            margin: "32px",
+            backgroundColor: "#444",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <Grid
+            container
+            spacing={2}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            style={{ width: "100%" }}
+          >
+            {React.Children.map(children, (child) => (
+              <Grid item style={{ width: "100%", padding: child ? null : "0" }}>
+                {child}
+              </Grid>
+            ))}
+          </Grid>
+        </Paper>
+      </div>
+    );
+  }
+}
+
+export default withWidth()(CenterBox);

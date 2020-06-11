@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, CardContent, CardActionArea, Hidden } from "@material-ui/core";
+import { Card, CardContent, CardActionArea } from "@material-ui/core";
 import timeConverter from "../functions/timeConverter";
 
 //max lines of summary
