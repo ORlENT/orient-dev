@@ -2,29 +2,19 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Header, SubmitButton, CenterBox, Field, Form } from "../UI";
 import { signIn } from "../store/actions";
+import ValidationError from "../errors/ValidationError";
 
 class AdminLogin extends Component {
-  state = {
-    password: "",
-  };
-
-  handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value,
-    });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.signIn(this.props.camp, this.state);
-  };
+  failHandler() {
+    throw new ValidationError("password", "Password is incorrect");
+  }
 
   render() {
     return (
       <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", height: "100vh" }}>
         <CenterBox>
           <Header>Admin Login</Header>
-          <Form admin onChange={this.handleChange} onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.props.signIn} onFail={this.failHandler}>
             <Field id="password" password>
               Password
             </Field>
@@ -39,17 +29,10 @@ class AdminLogin extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const camp = state.store.camp;
-  return {
-    camp: camp,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: (camp, state) => dispatch(signIn(camp, state)),
+    signIn: (state) => dispatch(signIn(state)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminLogin);
+export default connect(null, mapDispatchToProps)(AdminLogin);

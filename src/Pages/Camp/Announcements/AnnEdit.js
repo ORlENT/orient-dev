@@ -3,45 +3,28 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Header, SubmitButton, CenterBox, Field, Form } from "../../../UI";
-import { editAnn, resetForm } from "../../../store/actions";
+import { editAnn } from "../../../store/actions";
 
 class AnnEdit extends Component {
-  state = {
-    title: this.props.annInfo[this.props.match.params.annID].title,
-    content: this.props.annInfo[this.props.match.params.annID].content,
-  };
-
-  handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value,
-    });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.editAnn(
-      this.props.camp,
-      this.state,
-      this.props.match.params.annID
-    );
-  };
-
-  componentDidUpdate() {
-    if (this.props.formCompleted) {
-      resetForm();
-      this.props.history.push(`${this.props.match.url}`.replace("/edit", ""));
-    }
+  successHandler(state, props) {
+    props.history.goBack();
   }
 
   render() {
+    const { editAnn, history, match, annInfo } = this.props;
     return (
       <CenterBox>
         <Header> Edit Announcement </Header>
-        <Form admin onChange={this.handleChange} onSubmit={this.handleSubmit}>
-          <Field id="title" value={this.state.title}>
+        <Form
+          onSubmit={editAnn}
+          onSuccess={this.successHandler}
+          history={history}
+          annID={match.params.annID}
+        >
+          <Field id="title" value={annInfo[match.params.annID].title}>
             Title
           </Field>
-          <Field id="content" long value={this.state.content}>
+          <Field id="content" long value={annInfo[match.params.annID].content}>
             Content
           </Field>
           <SubmitButton>Edit Announcement</SubmitButton>
@@ -54,16 +37,13 @@ class AnnEdit extends Component {
 const mapStateToProps = (state) => {
   return {
     ...state,
-    camp: state.store.camp,
     annInfo: state.store.camp.announcements,
-    formCompleted: state.store.formCompleted,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     editAnn: (camp, state, annID) => dispatch(editAnn(camp, state, annID)),
-    resetForm: () => dispatch(resetForm()),
   };
 };
 

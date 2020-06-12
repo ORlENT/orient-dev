@@ -1,6 +1,6 @@
-export const signIn = (camp, state) => {
+export const signIn = (state) => {
   return (dispatch, getState, { getFirebase }) => {
-    const email = camp.campCode + "@orient.org";
+    const email = getState().store.camp.campCode + "@orient.org";
     console.log("Signing in with:", email, state.password);
 
     getFirebase()
@@ -141,13 +141,13 @@ export const deleteCamp = (camp, state, campID) => {
   };
 };
 
-export const createAnn = (camp, state) => {
+export const createAnn = (state) => {
   return (dispatch, getState, { getFirestore }) => {
     console.log("Creating announcement");
 
     getFirestore()
       .collection("camps")
-      .doc(camp.campCode)
+      .doc(getState().store.camp.campCode)
       .collection("announcements")
       .add({
         title: state.title,
@@ -155,7 +155,7 @@ export const createAnn = (camp, state) => {
         timestamp: getFirestore().Timestamp.now(),
       })
       .then(() => {
-        dispatch({ type: "ANN_CREATED", camp });
+        dispatch({ type: "ANN_CREATED" });
       })
       .catch((err) => {
         console.log("Error creating announcement:");
@@ -164,22 +164,22 @@ export const createAnn = (camp, state) => {
   };
 };
 
-export const editAnn = (camp, state, annID) => {
+export const editAnn = (state, props) => {
   return (dispatch, getState, { getFirestore }) => {
     console.log("Editing announcement");
 
     getFirestore()
       .collection("camps")
-      .doc(camp.campCode)
+      .doc(getState().store.camp.campCode)
       .collection("announcements")
-      .doc(annID)
+      .doc(props.annID)
       .set({
         title: state.title,
         content: state.content,
         timestamp: getFirestore().Timestamp.now(),
       })
       .then(() => {
-        dispatch({ type: "ANN_EDITED", camp });
+        dispatch({ type: "ANN_EDITED" });
       })
       .catch((err) => {
         console.log("Error editing announcement:");

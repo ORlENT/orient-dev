@@ -18,6 +18,7 @@ export const LoadingScreenSmall = ({ ...rest }) => (
         backgroundColor: "rgba(0, 0, 0, 0.5)",
         borderRadius: "25px",
         padding: "50px",
+        margin: "-25px",
       }}
     >
       <CircularProgress />

@@ -3,37 +3,23 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Header, SubmitButton, CenterBox, Field, Form } from "../../../UI";
-import { createAnn, resetForm } from "../../../store/actions";
+import { createAnn } from "../../../store/actions";
 
 class AnnCreate extends Component {
-  state = {
-    title: "",
-    content: "",
-  };
-
-  handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value,
-    });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.createAnn(this.props.camp, this.state);
-  };
-
-  componentDidUpdate() {
-    if (this.props.formCompleted) {
-      resetForm();
-      this.props.history.push(`${this.props.match.url}`.replace("/create", ""));
-    }
+  successHandler(state, props) {
+    props.history.goBack();
   }
 
   render() {
     return (
       <CenterBox>
         <Header>Create New Announcement</Header>
-        <Form admin onChange={this.handleChange} onSubmit={this.handleSubmit}>
+        <Form
+          admin
+          onSubmit={this.props.createAnn}
+          onSuccess={this.successHandler}
+          history={this.props.history}
+        >
           <Field id="title">Title</Field>
           <Field id="content" long>
             Content
@@ -45,22 +31,13 @@ class AnnCreate extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    ...state,
-    camp: state.store.camp,
-    formCompleted: state.store.formCompleted,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    createAnn: (camp, state) => dispatch(createAnn(camp, state)),
-    resetForm: () => dispatch(resetForm()),
+    createAnn: (state) => dispatch(createAnn(state)),
   };
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(null, mapDispatchToProps),
   withRouter
 )(AnnCreate);

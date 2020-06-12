@@ -1,6 +1,6 @@
 const initState = {
   isAuthed: false,
-  formCompleted: false,
+  formSuccess: false,
   formFailed: false,
   isLoaded: false,
   camp: null,
@@ -18,13 +18,16 @@ const myReducer = (state = initState, action) => {
     case "LOGIN_ERROR":
       console.log("Login error");
       console.log(action.err.message);
-      return state;
+      return {
+        ...state,
+        formFailed: true,
+      };
 
     case "SIGNUP_SUCCESS":
       console.log("Signup success");
       return {
         ...state,
-        formCompleted: true,
+        formSuccess: true,
       };
 
     case "SIGNUP_ERROR":
@@ -62,7 +65,7 @@ const myReducer = (state = initState, action) => {
       console.log("Announcement created successfully");
       return {
         ...state,
-        formCompleted: true,
+        formSuccess: true,
       };
 
     case "ANN_DELETED":
@@ -75,14 +78,14 @@ const myReducer = (state = initState, action) => {
       console.log("Announcement edited successfully");
       return {
         ...state,
-        formCompleted: true,
+        formSuccess: true,
       };
 
     case "RESET_FORM":
       console.log("Form reset");
       return {
         ...state,
-        formCompleted: false,
+        formSuccess: false,
         formFailed: false,
       };
 

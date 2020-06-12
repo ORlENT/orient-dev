@@ -3,65 +3,26 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Header, SubmitButton, CenterBox, Field, Form } from "../UI";
-import { signUp, resetForm } from "../store/actions";
+import { signUp } from "../store/actions";
+import ValidationError from "../errors/ValidationError";
 
 class CreateCamp extends Component {
-  state = {
-    campName: "",
-    campCode: "",
-    campCodeError: "",
-    password: "",
-    passwordError: "",
-    loading: false,
-  };
-
-  validatePassword = () => {
-    const valid =
-      this.state.password.length <= 0 || this.state.password.length >= 8;
-    this.setState({
-      passwordError: valid ? "" : "Password must be at least 8 characters",
-    });
-    return valid;
-  };
-
-  handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value,
-    });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    if (this.validatePassword()) {
-      this.props.signUp(this.state);
-      this.setState({
-        loading: true,
-        campCodeError: "",
-      });
-    }
-  };
-
-  componentDidUpdate() {
-    if (this.props.formCompleted) {
-      this.props.resetForm();
-      this.setState({
-        loading: false,
-      });
-      this.props.history.push(
-        `${this.props.match.url}`.replace(
-          "/create",
-          `/camp/${this.state.campCode}`
-        )
+  validate = (state) => {
+    if (state.password && state.password.length < 8) {
+      throw new ValidationError(
+        "password",
+        "Password must be at least 8 characters"
       );
     }
+  };
 
-    if (this.props.formFailed) {
-      this.props.resetForm();
-      this.setState({
-        loading: false,
-        campCodeError: "Camp Code is already in use",
-      });
-    }
+  successHandler(state, props) {
+    console.log(props.history);
+    props.history.push("/camp/" + state.campCode);
+  }
+
+  failHandler() {
+    throw new ValidationError("campCode", "Camp Code is already in use");
   }
 
   render() {
@@ -69,20 +30,15 @@ class CreateCamp extends Component {
       <CenterBox>
         <Header>Create New Camp</Header>
         <Form
-          onChange={this.handleChange}
-          onSubmit={this.handleSubmit}
-          loading={this.state.loading}
+          onSubmit={this.props.signUp}
+          validate={this.validate}
+          onSuccess={this.successHandler}
+          onFail={this.failHandler}
+          history={this.props.history}
         >
           <Field id="campName">Camp Name</Field>
-          <Field id="campCode" errorText={this.state.campCodeError}>
-            Camp Code
-          </Field>
-          <Field
-            id="password"
-            password
-            onBlur={this.validatePassword}
-            errorText={this.state.passwordError}
-          >
+          <Field id="campCode">Camp Code</Field>
+          <Field id="password" password>
             Password
           </Field>
           <SubmitButton>Create New Camp</SubmitButton>
@@ -92,22 +48,13 @@ class CreateCamp extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    ...state,
-    formCompleted: state.store.formCompleted,
-    formFailed: state.store.formFailed,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     signUp: (state) => dispatch(signUp(state)),
-    resetForm: () => dispatch(resetForm()),
   };
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(null, mapDispatchToProps),
   withRouter
 )(CreateCamp);
