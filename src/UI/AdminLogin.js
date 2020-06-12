@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Header, SubmitButton, CenterBox, Field } from "../UI";
+import { Header, SubmitButton, CenterBox, Field, Form } from "../UI";
 import { signIn } from "../store/actions/authActions";
 
 class AdminLogin extends Component {
@@ -14,7 +14,8 @@ class AdminLogin extends Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
     this.props.signIn(this.props.camp, this.state);
   };
 
@@ -23,18 +24,12 @@ class AdminLogin extends Component {
       <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", height: "100vh" }}>
         <CenterBox>
           <Header>Admin Login</Header>
-          <Field
-            id="password"
-            password
-            admin
-            onChange={this.handleChange}
-            onEnter={this.handleSubmit}
-          >
-            Password
-          </Field>
-          <SubmitButton admin onClick={this.handleSubmit}>
-            Login
-          </SubmitButton>
+          <Form admin onChange={this.handleChange} onSubmit={this.handleSubmit}>
+            <Field id="password" password>
+              Password
+            </Field>
+            <SubmitButton>Login</SubmitButton>
+          </Form>
           <SubmitButton secondary admin onClick={this.props.toggleVisibility}>
             Back
           </SubmitButton>

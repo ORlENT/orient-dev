@@ -5,6 +5,7 @@ import Field from "./Field";
 import SummaryCard from "./SummaryCard";
 import NavBar from "./NavBar";
 import LoadingScreen from "./LoadingScreen";
+import Form from "./Form";
 
 export {
   NavButton,
@@ -15,4 +16,5 @@ export {
   SummaryCard,
   NavBar,
   LoadingScreen,
+  Form,
 };

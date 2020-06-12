@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Header, SubmitButton, CenterBox, Field } from "../UI";
+import { Header, SubmitButton, CenterBox, Field, Form } from "../UI";
 import { signUp, resetForm } from "../store/actions/authActions";
 
 class CreateCamp extends Component {
@@ -18,7 +18,8 @@ class CreateCamp extends Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
     console.log("SUBMIT");
     this.props.signUp(this.state);
   };
@@ -39,21 +40,14 @@ class CreateCamp extends Component {
     return (
       <CenterBox>
         <Header>Create New Camp</Header>
-        <Field id="campName" onChange={this.handleChange}>
-          Camp Name
-        </Field>
-        <Field id="campCode" onChange={this.handleChange}>
-          Camp Code
-        </Field>
-        <Field
-          id="password"
-          password
-          onChange={this.handleChange}
-          onEnter={this.handleSubmit}
-        >
-          Password
-        </Field>
-        <SubmitButton onClick={this.handleSubmit}>Create New Camp</SubmitButton>
+        <Form onChange={this.handleChange} onSubmit={this.handleSubmit}>
+          <Field id="campName">Camp Name</Field>
+          <Field id="campCode">Camp Code</Field>
+          <Field id="password" password>
+            Password
+          </Field>
+          <SubmitButton>Create New Camp</SubmitButton>
+        </Form>
       </CenterBox>
     );
   }

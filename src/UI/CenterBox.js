@@ -27,11 +27,13 @@ class CenterBox extends Component {
             justify="center"
             style={{ maxWidth: "100%" }}
           >
-            {React.Children.map(children, (child) => (
-              <Grid item style={{ width: "100%", padding: child ? null : "0" }}>
-                {child}
-              </Grid>
-            ))}
+            {React.Children.map(children, (child) =>
+              child ? (
+                <Grid item style={{ width: "100%" }}>
+                  {child}
+                </Grid>
+              ) : null
+            )}
           </Grid>
         </div>
       );
@@ -47,15 +49,12 @@ class CenterBox extends Component {
       >
         <Paper
           elevation={3}
+          className="centerContent"
           style={{
             width: "480px",
             padding: "32px",
             margin: "32px",
             backgroundColor: "#444",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
           }}
         >
           <Grid
@@ -66,11 +65,13 @@ class CenterBox extends Component {
             justify="center"
             style={{ width: "100%" }}
           >
-            {React.Children.map(children, (child) => (
-              <Grid item style={{ width: "100%", padding: child ? null : "0" }}>
-                {child}
-              </Grid>
-            ))}
+            {React.Children.map(children, (child) =>
+              child ? (
+                <Grid item style={{ width: "100%" }}>
+                  {child}
+                </Grid>
+              ) : null
+            )}
           </Grid>
         </Paper>
       </div>

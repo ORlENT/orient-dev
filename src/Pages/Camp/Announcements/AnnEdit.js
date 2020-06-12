@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Header, SubmitButton, CenterBox, Field } from "../../../UI";
+import { Header, SubmitButton, CenterBox, Field, Form } from "../../../UI";
 import { editAnn, resetForm } from "../../../store/actions/campActions";
 
 class AnnEdit extends Component {
@@ -17,13 +17,13 @@ class AnnEdit extends Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
     this.props.editAnn(
       this.props.camp,
       this.state,
       this.props.match.params.annID
     );
-    this.props.history.goBack();
   };
 
   componentDidUpdate() {
@@ -36,27 +36,16 @@ class AnnEdit extends Component {
   render() {
     return (
       <CenterBox>
-        <Header> Edit Announcement </Header>{" "}
-        <Field
-          id="title"
-          admin
-          value={this.state.title}
-          onChange={this.handleChange}
-        >
-          Title{" "}
-        </Field>{" "}
-        <Field
-          id="content"
-          admin
-          long
-          value={this.state.content}
-          onChange={this.handleChange}
-        >
-          Content{" "}
-        </Field>{" "}
-        <SubmitButton admin onClick={this.handleSubmit}>
-          Edit Announcement{" "}
-        </SubmitButton>{" "}
+        <Header> Edit Announcement </Header>
+        <Form admin onChange={this.handleChange} onSubmit={this.handleSubmit}>
+          <Field id="title" value={this.state.title}>
+            Title
+          </Field>
+          <Field id="content" long value={this.state.content}>
+            Content
+          </Field>
+          <SubmitButton>Edit Announcement</SubmitButton>
+        </Form>
       </CenterBox>
     );
   }

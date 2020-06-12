@@ -30,14 +30,7 @@ const StyledField = withStyles((theme) => ({
   },
 }))(TextField);
 
-const Field = ({
-  password,
-  admin,
-  long,
-  onEnter = null,
-  children,
-  ...rest
-}) => (
+const Field = ({ password, admin, long, children, ...rest }) => (
   <StyledField
     label={children}
     variant="outlined"
@@ -53,13 +46,6 @@ const Field = ({
     multiline={long}
     InputProps={{
       style: { minHeight: long ? "200px" : null, alignItems: "flex-start" },
-    }}
-    //On Enter
-    onKeyPress={(ev) => {
-      if (onEnter && ev.key === "Enter") {
-        ev.preventDefault();
-        onEnter();
-      }
     }}
     {...rest}
   />

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Header, SubmitButton, CenterBox, Field } from "../../../UI";
+import { Header, SubmitButton, CenterBox, Field, Form } from "../../../UI";
 import { createAnn, resetForm } from "../../../store/actions/campActions";
 
 class AnnCreate extends Component {
@@ -17,7 +17,8 @@ class AnnCreate extends Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
     this.props.createAnn(this.props.camp, this.state);
   };
 
@@ -32,15 +33,13 @@ class AnnCreate extends Component {
     return (
       <CenterBox>
         <Header>Create New Announcement</Header>
-        <Field id="title" admin onChange={this.handleChange}>
-          Title
-        </Field>
-        <Field id="content" admin long onChange={this.handleChange}>
-          Content
-        </Field>
-        <SubmitButton admin onClick={this.handleSubmit}>
-          Create New Announcement
-        </SubmitButton>
+        <Form admin onChange={this.handleChange} onSubmit={this.handleSubmit}>
+          <Field id="title">Title</Field>
+          <Field id="content" long>
+            Content
+          </Field>
+          <SubmitButton>Create New Announcement</SubmitButton>
+        </Form>
       </CenterBox>
     );
   }

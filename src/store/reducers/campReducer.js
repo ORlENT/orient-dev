@@ -40,6 +40,7 @@ const campReducer = (state = initState, action) => {
       console.log("Announcement edited successfully");
       return {
         ...state,
+        formCompleted: true,
       };
 
     case "RESET_FORM":

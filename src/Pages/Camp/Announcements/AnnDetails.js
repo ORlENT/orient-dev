@@ -30,13 +30,7 @@ class AnnDetails extends Component {
 
         {/*Delete Announcement button (Admin only)*/}
         {isAuthed && (
-          <SubmitButton
-            admin
-            secondary
-            onClick={() => {
-              this.handleDelete();
-            }}
-          >
+          <SubmitButton admin secondary onClick={this.handleDelete}>
             Delete announcement
           </SubmitButton>
         )}
