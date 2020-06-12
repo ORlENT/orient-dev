@@ -4,7 +4,7 @@ import Header from "./Header";
 import Field from "./Field";
 import SummaryCard from "./SummaryCard";
 import NavBar from "./NavBar";
-import LoadingScreen from "./LoadingScreen";
+import { LoadingScreen, LoadingScreenSmall } from "./LoadingScreen";
 import Form from "./Form";
 
 export {
@@ -16,5 +16,6 @@ export {
   SummaryCard,
   NavBar,
   LoadingScreen,
+  LoadingScreenSmall,
   Form,
 };

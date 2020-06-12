@@ -1,6 +1,7 @@
 const initState = {
   isAuthed: false,
   formCompleted: false,
+  formFailed: false,
 };
 
 const authReducer = (state = initState, action) => {
@@ -25,7 +26,10 @@ const authReducer = (state = initState, action) => {
 
     case "SIGNUP_ERROR":
       console.log(action.err.message);
-      return state;
+      return {
+        ...state,
+        formFailed: true,
+      };
 
     case "SIGNOUT_SUCCESS":
       console.log("Signout success");
@@ -39,6 +43,7 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         formCompleted: false,
+        formFailed: false,
       };
 
     default:

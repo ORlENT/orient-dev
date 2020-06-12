@@ -30,11 +30,12 @@ const StyledField = withStyles((theme) => ({
   },
 }))(TextField);
 
-const Field = ({ password, admin, long, children, ...rest }) => (
+const Field = ({ password, admin, long, errorText, children, ...rest }) => (
   <StyledField
     label={children}
     variant="outlined"
     margin="dense"
+    required
     fullWidth
     autoComplete="off"
     spellCheck="false"
@@ -42,11 +43,18 @@ const Field = ({ password, admin, long, children, ...rest }) => (
     color={admin ? "secondary" : "primary"}
     //Password
     type={password ? "password" : undefined}
+    //Error Text
+    error={!!errorText}
+    helperText={errorText}
     //Long Inputs
     multiline={long}
+    inputProps={{
+      maxLength: long ? null : "45",
+    }}
     InputProps={{
       style: { minHeight: long ? "200px" : null, alignItems: "flex-start" },
     }}
+    InputLabelProps={{ required: false }}
     {...rest}
   />
 );
