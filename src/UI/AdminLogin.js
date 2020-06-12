@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Header, SubmitButton, CenterBox, Field, Form } from "../UI";
-import { signIn } from "../store/actions/authActions";
+import { signIn } from "../store/actions";
 
 class AdminLogin extends Component {
   state = {
@@ -40,7 +40,7 @@ class AdminLogin extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const camp = state.camp.camp;
+  const camp = state.store.camp;
   return {
     camp: camp,
   };

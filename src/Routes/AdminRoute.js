@@ -15,7 +15,7 @@ const AdminRoute = ({ component: Component, redirect, isAuthed, ...rest }) => {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthed: state.auth.isAuthed,
+    isAuthed: state.store.isAuthed,
   };
 };
 

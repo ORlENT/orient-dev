@@ -9,7 +9,7 @@ import Reminders from "./Camp/Reminders.js";
 import Questions from "./Camp/Questions.js";
 import Report from "./Camp/Report.js";
 import { Header, NavBar, LoadingScreen } from "../UI";
-import { fetchCampInfo } from "../store/actions/campActions";
+import { fetchCampInfo } from "../store/actions";
 
 class Camp extends Component {
   componentDidMount() {
@@ -37,12 +37,10 @@ class Camp extends Component {
 
     //Camp not found
     if (isLoaded && camp == null) {
-      console.log("camp not found");
       return <Route path={`${match.path}`} component={CampNotFound} />;
     }
 
     //Render Camp
-    // console.log("camp found");
     return (
       <div
         style={{
@@ -87,8 +85,8 @@ class Camp extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    camp: state.camp.camp,
-    isLoaded: state.camp.isLoaded,
+    camp: state.store.camp,
+    isLoaded: state.store.isLoaded,
   };
 };
 

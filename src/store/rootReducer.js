@@ -1,12 +1,10 @@
 import { combineReducers } from "redux";
 import { firestoreReducer } from "redux-firestore";
 import { firebaseReducer } from "react-redux-firebase";
-import authReducer from "./authReducer";
-import campReducer from "./campReducer";
+import myReducer from "./myReducer";
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  camp: campReducer,
+  store: myReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer,
 });

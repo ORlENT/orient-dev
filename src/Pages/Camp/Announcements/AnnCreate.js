@@ -3,7 +3,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Header, SubmitButton, CenterBox, Field, Form } from "../../../UI";
-import { createAnn, resetForm } from "../../../store/actions/campActions";
+import { createAnn, resetForm } from "../../../store/actions";
 
 class AnnCreate extends Component {
   state = {
@@ -48,8 +48,8 @@ class AnnCreate extends Component {
 const mapStateToProps = (state) => {
   return {
     ...state,
-    camp: state.camp.camp,
-    formCompleted: state.camp.formCompleted,
+    camp: state.store.camp,
+    formCompleted: state.store.formCompleted,
   };
 };
 

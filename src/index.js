@@ -14,7 +14,7 @@ import {
 } from "redux-firestore";
 import thunk from "redux-thunk";
 import firebase from "./Firebase/firebase";
-import rootReducer from "./store/reducers/rootReducer";
+import rootReducer from "./store/rootReducer";
 
 const store = createStore(
   rootReducer,

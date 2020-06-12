@@ -3,7 +3,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Header, SubmitButton, CenterBox, Field, Form } from "../UI";
-import { signUp, resetForm } from "../store/actions/authActions";
+import { signUp, resetForm } from "../store/actions";
 
 class CreateCamp extends Component {
   state = {
@@ -95,8 +95,8 @@ class CreateCamp extends Component {
 const mapStateToProps = (state) => {
   return {
     ...state,
-    formCompleted: state.auth.formCompleted,
-    formFailed: state.auth.formFailed,
+    formCompleted: state.store.formCompleted,
+    formFailed: state.store.formFailed,
   };
 };
 

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button } from "@material-ui/core";
 import AdminLogin from "./AdminLogin";
-import { signOut } from "../store/actions/authActions";
+import { signOut } from "../store/actions";
 
 class NavBar extends Component {
   state = {
@@ -89,7 +89,7 @@ class NavBar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthed: state.auth.isAuthed,
+    isAuthed: state.store.isAuthed,
   };
 };
 

@@ -70,8 +70,8 @@ class AnnList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    annInfo: state.camp.camp.announcements,
-    isAuthed: state.auth.isAuthed,
+    annInfo: state.store.camp.announcements,
+    isAuthed: state.store.isAuthed,
   };
 };
 

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Header, CenterBox, NavButton, SubmitButton } from "../../../UI";
 import timeConverter from "../../../functions/timeConverter";
-import { deleteAnn } from "../../../store/actions/campActions";
+import { deleteAnn } from "../../../store/actions";
 
 class AnnDetails extends Component {
   handleDelete = () => {
@@ -58,9 +58,9 @@ class AnnDetails extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    annInfo: state.camp.camp.announcements,
-    isAuthed: state.auth.isAuthed,
-    camp: state.camp.camp,
+    annInfo: state.store.camp.announcements,
+    isAuthed: state.store.isAuthed,
+    camp: state.store.camp,
   };
 };
 
