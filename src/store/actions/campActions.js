@@ -4,6 +4,43 @@ export const storeCampInfo = (camp) => {
   };
 };
 
+export const editCamp = (camp, state, campID) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("camps")
+      .doc(camp.campCode)
+      .set({
+        campCode: state.campCode,
+        campName: state.campName,
+      })
+      .then(() => {
+        dispatch({ type: "CAMP_EDITED", camp });
+      })
+      .catch((err) => {
+        console.log("error editing camp");
+        console.log(err);
+      });
+  };
+};
+
+export const deleteCamp = (camp, state, campID) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("camps")
+      .doc(camp.campCode)
+      .delete()
+      .then(() => {
+        dispatch({ type: "CAMP_DELETED", camp });
+      })
+      .catch((err) => {
+        console.log("error deleting camp");
+        console.log(err);
+      });
+  };
+};
+
 export const fetchCampInfo = (campId) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
