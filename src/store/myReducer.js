@@ -81,6 +81,13 @@ const myReducer = (state = initState, action) => {
         formSuccess: true,
       };
 
+    case "CAMP_EDITED":
+      console.log("Camp edited successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
     case "RESET_FORM":
       console.log("Form reset");
       return {

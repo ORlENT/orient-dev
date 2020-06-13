@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Header, NavButton, CenterBox } from "../../UI";
 
 class Dashboard extends Component {
   render() {
-    const { match } = this.props;
+    const { match, isAuthed } = this.props;
     return (
       <CenterBox>
         <Header>Dashboard</Header>
@@ -11,9 +12,22 @@ class Dashboard extends Component {
         <NavButton to={`${match.url}/rem`}>Reminders</NavButton>
         <NavButton to={`${match.url}/qna`}>Questions</NavButton>
         <NavButton to={`${match.url}/rpt`}>Report</NavButton>
+
+        {/*Edit Announcement button (Admin only)*/}
+        {isAuthed && (
+          <NavButton admin to={`${match.url}/edit`}>
+            Edit camp
+          </NavButton>
+        )}
       </CenterBox>
     );
   }
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => {
+  return {
+    isAuthed: state.store.isAuthed,
+  };
+};
+
+export default connect(mapStateToProps)(Dashboard);

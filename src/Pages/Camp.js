@@ -8,6 +8,7 @@ import Announcements from "./Camp/Announcements.js";
 import Reminders from "./Camp/Reminders.js";
 import Questions from "./Camp/Questions.js";
 import Report from "./Camp/Report.js";
+import CampEdit from "./Camp/CampEdit";
 import { Header, NavBar, LoadingScreen } from "../UI";
 import { fetchCampInfo } from "../store/actions";
 
@@ -76,6 +77,7 @@ class Camp extends Component {
             <Route path={`${match.path}/rem`} component={Reminders} />
             <Route path={`${match.path}/qna`} component={Questions} />
             <Route path={`${match.path}/rpt`} component={Report} />
+            <Route path={`${match.path}/edit`} component={CampEdit} />
           </Switch>
         </div>
       </div>

@@ -48,6 +48,39 @@ export const signUp = (state) => async (
   }
 };
 
+export const editAuth = (state) => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  const email = state.campCode + "@orient.org";
+  console.log("Signing up with:", email, state.password);
+
+  let user = await getFirebase()
+    .auth()
+    .createUserWithEmailAndPassword(email, state.password)
+    .catch((err) => {
+      dispatch({ type: "SIGNUP_ERROR", err });
+    });
+
+  if (user) {
+    console.log("Account created, Creating camp:" + state.campCode);
+    await getFirestore()
+      .collection("camps")
+      .doc(state.campCode)
+      .set({
+        campCode: state.campCode,
+        campName: state.campName,
+      })
+      .then(() => {
+        dispatch({ type: "SIGNUP_SUCCESS" });
+      })
+      .catch((err) => {
+        dispatch({ type: "CAMP_CREATE_ERROR", err });
+      });
+  }
+};
+
 export const signOut = () => {
   return (dispatch, getState, { getFirebase }) => {
     console.log("Signing out");
@@ -102,25 +135,40 @@ export const fetchCampInfo = (campId) => {
   };
 };
 
-export const editCamp = (camp, state, campID) => {
-  return (dispatch, getState, { getFirestore }) => {
-    console.log("Editing camp");
+export const editCamp = (state) => async (
+  dispatch,
+  getState,
+  { getFirebase, getFirestore }
+) => {
+  console.log("Editing camp");
+  const email = getState().store.camp.campCode + "@orient.org";
+  // If campCode have change
+  // getFirebase()
+  //   .auth.currentUser
+  // let user = await getFirebase()
+  //   .auth()
+  //   .updateEmail(email)
+  //   .then((success) => {
+  //     console.log("sucess");
+  //   })
+  //   .catch((err) => {
+  //     dispatch({ type: "SIGNUP_ERROR", err });
+  //   });
 
-    getFirestore()
-      .collection("camps")
-      .doc(camp.campCode)
-      .set({
-        campCode: state.campCode,
-        campName: state.campName,
-      })
-      .then(() => {
-        dispatch({ type: "CAMP_EDITED", camp });
-      })
-      .catch((err) => {
-        console.log("Error editing camp");
-        console.log(err);
-      });
-  };
+  // getFirestore()
+  //   .collection("camps")
+  //   .doc(getState().store.camp.campCode)
+  //   .set({
+  //     campCode: state.campCode,
+  //     campName: state.campName,
+  //   })
+  //   .then(() => {
+  //     dispatch({ type: "CAMP_EDITED" });
+  //   })
+  //   .catch((err) => {
+  //     console.log("Error editing camp");
+  //     console.log(err);
+  //   });
 };
 
 export const deleteCamp = (camp, state, campID) => {
