@@ -32,7 +32,6 @@ class AnnList extends Component {
     let { annInfo, isAuthed, match } = this.props;
     const { annCachedInfo } = this.state;
 
-    // Render the announcements
     return (
       <CenterBox>
         <Header>Announcements</Header>
@@ -45,7 +44,9 @@ class AnnList extends Component {
         )}
 
         {/*No announcements*/}
-        {!annInfo && <Header>No announcement was found.</Header>}
+        {Object.keys(annInfo).length === 0 && (
+          <Header>No announcement was found.</Header>
+        )}
 
         {/*Announcement List*/}
         {annInfo &&

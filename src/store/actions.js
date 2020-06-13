@@ -48,37 +48,23 @@ export const signUp = (state) => async (
   }
 };
 
-export const editAuth = (state) => async (
+export const editPassword = (state) => async (
   dispatch,
   getState,
-  { getFirebase, getFirestore }
+  { getFirebase }
 ) => {
-  const email = state.campCode + "@orient.org";
-  console.log("Signing up with:", email, state.password);
-
-  let user = await getFirebase()
+  console.log("Editing Password");
+  // Update email
+  await getFirebase()
     .auth()
-    .createUserWithEmailAndPassword(email, state.password)
+    .currentUser.updatePassword(state.password)
+    .then((success) => {
+      console.log("Updated password");
+      dispatch({ type: "PASSWORD_EDITED" });
+    })
     .catch((err) => {
-      dispatch({ type: "SIGNUP_ERROR", err });
+      dispatch({ type: "UPDATE_EMAIL_ERR", err });
     });
-
-  if (user) {
-    console.log("Account created, Creating camp:" + state.campCode);
-    await getFirestore()
-      .collection("camps")
-      .doc(state.campCode)
-      .set({
-        campCode: state.campCode,
-        campName: state.campName,
-      })
-      .then(() => {
-        dispatch({ type: "SIGNUP_SUCCESS" });
-      })
-      .catch((err) => {
-        dispatch({ type: "CAMP_CREATE_ERROR", err });
-      });
-  }
 };
 
 export const signOut = () => {
@@ -94,20 +80,19 @@ export const signOut = () => {
   };
 };
 
-export const fetchCampInfo = (campId) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
+export const fetchCampInfo = (campCode) => {
+  return (dispatch, getState, { getFirestore }) => {
     console.log("Fetching camp info");
-
     getFirestore()
       .collection("camps")
-      .doc(campId)
+      .where("campCode", "==", campCode)
       .get()
-      .then((doc) => {
-        if (doc.exists) {
-          const camp = doc.data();
+      .then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          const camp = querySnapshot.docs[0].data();
           getFirestore()
             .collection("camps")
-            .doc(campId)
+            .doc(camp.campCode)
             .collection("announcements")
             .get()
             .then((querySnapshot) => {
@@ -141,52 +126,68 @@ export const editCamp = (state) => async (
   { getFirebase, getFirestore }
 ) => {
   console.log("Editing camp");
-  const email = getState().store.camp.campCode + "@orient.org";
-  // If campCode have change
-  // getFirebase()
-  //   .auth.currentUser
-  // let user = await getFirebase()
-  //   .auth()
-  //   .updateEmail(email)
-  //   .then((success) => {
-  //     console.log("sucess");
-  //   })
-  //   .catch((err) => {
-  //     dispatch({ type: "SIGNUP_ERROR", err });
-  //   });
+  const campCode = state.campCode;
+  const email = campCode + "@orient.org";
 
-  // getFirestore()
-  //   .collection("camps")
-  //   .doc(getState().store.camp.campCode)
-  //   .set({
-  //     campCode: state.campCode,
-  //     campName: state.campName,
-  //   })
-  //   .then(() => {
-  //     dispatch({ type: "CAMP_EDITED" });
-  //   })
-  //   .catch((err) => {
-  //     console.log("Error editing camp");
-  //     console.log(err);
-  //   });
-};
-
-export const deleteCamp = (camp, state, campID) => {
-  return (dispatch, getState, { getFirestore }) => {
-    console.log("Deleting camp");
-
-    getFirestore()
-      .collection("camps")
-      .doc(camp.campCode)
-      .delete()
-      .then(() => {
-        dispatch({ type: "CAMP_DELETED", camp });
+  // Update email
+  if (campCode !== getState().store.camp.campCode) {
+    await getFirebase()
+      .auth()
+      .currentUser.updateEmail(email)
+      .then((success) => {
+        console.log("Updated email");
       })
       .catch((err) => {
-        console.log("Error deleting camp");
-        console.log(err);
+        dispatch({ type: "UPDATE_EMAIL_ERR", err });
       });
-  };
+  }
+
+  // Update campCode and campName
+  await getFirestore()
+    .collection("camps")
+    .where("campCode", "==", getState().store.camp.campCode)
+    .get()
+    .then((querySnapshot) => {
+      const camp = querySnapshot.docs[0].ref;
+      console.log(querySnapshot.docs[0]);
+      console.log(camp);
+      camp.set({
+        campCode: state.campCode,
+        campName: state.campName,
+      });
+    })
+    .then(() => {
+      dispatch({ type: "CAMP_EDITED" });
+    })
+    .catch((err) => {
+      console.log("Error editing camp");
+      console.log(err);
+    });
+};
+
+export const deleteCamp = (state) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  console.log("Deleting camp");
+  console.log(getState().store.camp.campCode);
+  await getFirestore()
+    .collection("camps")
+    .where("campCode", "==", getState().store.camp.campCode)
+    .get()
+    .then((querySnapshot) => {
+      const camp = querySnapshot.docs[0].ref;
+      console.log(querySnapshot.docs[0]);
+      console.log(camp);
+      return camp.delete().then(() => {
+        dispatch({ type: "CAMP_DELETED" });
+      });
+    })
+    .catch((err) => {
+      console.log("Error deleting camp");
+      console.log(err);
+    });
 };
 
 export const createAnn = (state) => {
@@ -215,7 +216,6 @@ export const createAnn = (state) => {
 export const editAnn = (state, props) => {
   return (dispatch, getState, { getFirestore }) => {
     console.log("Editing announcement");
-
     getFirestore()
       .collection("camps")
       .doc(getState().store.camp.campCode)
@@ -236,18 +236,17 @@ export const editAnn = (state, props) => {
   };
 };
 
-export const deleteAnn = (camp, state, annID) => {
+export const deleteAnn = (state) => {
   return (dispatch, getState, { getFirestore }) => {
     console.log("Editing announcement");
-
     getFirestore()
       .collection("camps")
-      .doc(camp.campCode)
+      .doc(getState().store.camp.campCode)
       .collection("announcements")
-      .doc(annID)
+      .doc(state.annID)
       .delete()
       .then(() => {
-        dispatch({ type: "ANN_DELETED", camp });
+        dispatch({ type: "ANN_DELETED" });
       })
       .catch((err) => {
         console.log("Error deleting announcement");

@@ -3,35 +3,37 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Header, SubmitButton, CenterBox, Field, Form } from "../../UI";
-import { editCamp } from "../../store/actions";
+import { editPassword } from "../../store/actions";
 import ValidationError from "../../errors/ValidationError";
 
-class CampEdit extends Component {
-  successHandler(state, props) {
-    props.history.push("/camp/" + state.campCode);
-  }
+class PasswordEdit extends Component {
+  validate = (state) => {
+    if (state.password && state.password.length < 8) {
+      throw new ValidationError(
+        "password",
+        "Password must be at least 8 characters"
+      );
+    }
+  };
 
-  failHandler() {
-    throw new ValidationError("campCode", "Camp Code is already in use");
+  successHandler(state, props) {
+    props.history.goBack();
   }
 
   render() {
     return (
       <CenterBox>
-        <Header>Edit Camp</Header>
+        <Header>Edit Password</Header>
         <Form
-          onSubmit={this.props.editCamp}
+          onSubmit={this.props.editPassword}
+          validate={this.validate}
           onSuccess={this.successHandler}
-          onFail={this.failHandler}
           history={this.props.history}
         >
-          <Field id="campName" value={this.props.camp.campName}>
-            Camp Name
+          <Field id="password" value={""}>
+            New Password
           </Field>
-          <Field id="campCode" value={this.props.camp.campCode}>
-            Camp Code
-          </Field>
-          <SubmitButton>Edit Camp</SubmitButton>
+          <SubmitButton>Edit Password</SubmitButton>
         </Form>
       </CenterBox>
     );
@@ -46,11 +48,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editCamp: (state) => dispatch(editCamp(state)),
+    editPassword: (state) => dispatch(editPassword(state)),
   };
 };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withRouter
-)(CampEdit);
+)(PasswordEdit);

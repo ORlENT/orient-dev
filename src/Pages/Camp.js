@@ -9,6 +9,7 @@ import Reminders from "./Camp/Reminders.js";
 import Questions from "./Camp/Questions.js";
 import Report from "./Camp/Report.js";
 import CampEdit from "./Camp/CampEdit";
+import PasswordEdit from "./Camp/PasswordEdit";
 import { Header, NavBar, LoadingScreen } from "../UI";
 import { fetchCampInfo } from "../store/actions";
 
@@ -78,6 +79,10 @@ class Camp extends Component {
             <Route path={`${match.path}/qna`} component={Questions} />
             <Route path={`${match.path}/rpt`} component={Report} />
             <Route path={`${match.path}/edit`} component={CampEdit} />
+            <Route
+              path={`${match.path}/passwordedit`}
+              component={PasswordEdit}
+            />
           </Switch>
         </div>
       </div>
@@ -94,7 +99,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCampInfo: (campID) => dispatch(fetchCampInfo(campID)),
+    fetchCampInfo: (campCode) => dispatch(fetchCampInfo(campCode)),
   };
 };
 

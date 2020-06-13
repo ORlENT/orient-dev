@@ -5,12 +5,12 @@ import timeConverter from "../../../functions/timeConverter";
 import { deleteAnn } from "../../../store/actions";
 
 class AnnDetails extends Component {
+  componentDidMount() {
+    this.setState({ annID: this.props.match.params.annID });
+  }
+
   handleDelete = () => {
-    this.props.deleteAnn(
-      this.props.camp,
-      this.state,
-      this.props.match.params.annID
-    );
+    this.props.deleteAnn(this.state);
     this.props.history.goBack();
   };
 
@@ -66,7 +66,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteAnn: (camp, state, annID) => dispatch(deleteAnn(camp, state, annID)),
+    deleteAnn: (state) => dispatch(deleteAnn(state)),
   };
 };
 

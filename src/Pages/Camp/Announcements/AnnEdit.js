@@ -43,7 +43,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editAnn: (camp, state, annID) => dispatch(editAnn(camp, state, annID)),
+    editAnn: (state) => dispatch(editAnn(state)),
   };
 };
 
