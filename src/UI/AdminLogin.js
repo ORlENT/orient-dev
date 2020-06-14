@@ -14,7 +14,7 @@ class AdminLogin extends Component {
       <div style={{ backgroundColor: "rgba(0, 0, 0, 0.5)", height: "100vh" }}>
         <CenterBox>
           <Header>Admin Login</Header>
-          <Form onSubmit={this.props.signIn} onFail={this.failHandler}>
+          <Form admin onSubmit={this.props.signIn} onFail={this.failHandler}>
             <Field id="password" password>
               Password
             </Field>

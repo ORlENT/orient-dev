@@ -16,19 +16,20 @@ class CampEdit extends Component {
   }
 
   render() {
+    const { editCamp, history, camp } = this.props;
     return (
       <CenterBox>
         <Header>Edit Camp</Header>
         <Form
-          onSubmit={this.props.editCamp}
+          onSubmit={editCamp}
           onSuccess={this.successHandler}
           onFail={this.failHandler}
-          history={this.props.history}
+          history={history}
         >
-          <Field id="campName" value={this.props.camp.campName}>
+          <Field id="campName" value={camp.campName}>
             Camp Name
           </Field>
-          <Field id="campCode" value={this.props.camp.campCode}>
+          <Field id="campCode" value={camp.campCode}>
             Camp Code
           </Field>
           <SubmitButton>Edit Camp</SubmitButton>

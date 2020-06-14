@@ -9,10 +9,10 @@ import { resetForm } from "../store/actions";
 Form Wrapper Component
 
 @props
-onSubmit(state, props):          action for submitting the form
-validate(state, props):          throws ValidationError for bad input
+onSubmit(state, props):   action for submitting the form
+validate(state, props):   throws ValidationError for bad input before submission
 onSuccess(state, props):  what to do when the submission is successful
-onFail(state, props):     throws ValidationError for bad input
+onFail(state, props):     throws ValidationError for bad input after submission
  */
 
 class Form extends Component {
@@ -58,12 +58,13 @@ class Form extends Component {
   };
 
   componentDidMount() {
-    this.props.children.map((child) => {
-      child.props.id &&
+    this.props.children.map(
+      (child) =>
+        child.props.id &&
         this.setState({
           [child.props.id]: child.props.value,
-        });
-    });
+        })
+    );
   }
 
   componentDidUpdate() {
@@ -119,21 +120,21 @@ class Form extends Component {
           }}
         >
           <Grid container spacing={2}>
-            {React.Children.map(children, (child) => {
-              return child ? (
-                <Grid item style={{ width: "100%" }}>
-                  {child.type === Field
-                    ? React.cloneElement(child, {
-                        onChange: this.handleChange,
-                        onBlur: this.handleBlur,
-                        errorText: this.state.errorText[child.props.id],
-                        value: this.state[child.props.id] || "",
-                        admin,
-                      })
-                    : React.cloneElement(child, { admin })}
-                </Grid>
-              ) : null;
-            })}
+            {React.Children.map(children, (child) => (
+              <Grid item style={{ width: "100%" }}>
+                {child.type === Field
+                  ? //Fields
+                    React.cloneElement(child, {
+                      onChange: this.handleChange,
+                      onBlur: this.handleBlur,
+                      errorText: this.state.errorText[child.props.id],
+                      value: this.state[child.props.id] || "",
+                      admin,
+                    })
+                  : //Buttons
+                    React.cloneElement(child, { admin })}
+              </Grid>
+            ))}
           </Grid>
         </form>
       </div>

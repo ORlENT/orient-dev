@@ -76,7 +76,7 @@ class NavBar extends Component {
             style={{
               gridColumn: "1",
               gridRow: "1",
-              zIndex: "1",
+              zIndex: "2",
             }}
           >
             <AdminLogin toggleVisibility={this.toggleVisibility} />
