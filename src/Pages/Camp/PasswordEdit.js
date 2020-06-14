@@ -25,6 +25,7 @@ class PasswordEdit extends Component {
       <CenterBox>
         <Header>Edit Password</Header>
         <Form
+          admin
           onSubmit={this.props.editPassword}
           validate={this.validate}
           onSuccess={this.successHandler}

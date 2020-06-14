@@ -21,6 +21,7 @@ class CampEdit extends Component {
       <CenterBox>
         <Header>Edit Camp</Header>
         <Form
+          admin
           onSubmit={editCamp}
           onSuccess={this.successHandler}
           onFail={this.failHandler}

@@ -34,7 +34,7 @@ export const signUp = (state) => async (
     console.log("Account created, Creating camp:" + state.campCode);
     await getFirestore()
       .collection("camps")
-      .doc(state.campCode)
+      .doc(user.user.uid)
       .set({
         campCode: state.campCode,
         campName: state.campName,
@@ -109,7 +109,7 @@ export const fetchCampInfo = (campCode) => {
               console.log(err);
             });
         } else {
-          console.log("No camp found");
+          console.log("Camp " + campCode + " not found");
           dispatch({ type: "CAMP_RETRIEVED", camp: null });
         }
       })

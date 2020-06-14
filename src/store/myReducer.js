@@ -54,7 +54,7 @@ const myReducer = (state = initState, action) => {
       };
 
     case "CAMP_RETRIEVED":
-      console.log("Camp retrieved successfully", action.camp);
+      console.log("Camp retrieved:", action.camp);
       return {
         ...state,
         camp: action.camp,

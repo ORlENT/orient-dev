@@ -16,6 +16,7 @@ class AnnEdit extends Component {
       <CenterBox>
         <Header> Edit Announcement </Header>
         <Form
+          admin
           onSubmit={editAnn}
           onSuccess={this.successHandler}
           history={history}

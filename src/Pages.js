@@ -13,7 +13,7 @@ class Pages extends Component {
         <Route exact path="/" component={Home} />
         <Route path="/join" component={JoinCamp} />
         <Route path="/create" component={CreateCamp} />
-        <Route path="/camp/:id" component={Camp} />
+        <Route path="/camp/:campCode" component={Camp} />
       </Switch>
     );
   }

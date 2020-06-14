@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
+
 import CampNotFound from "./Camp/CampNotFound.js";
 import Dashboard from "./Camp/Dashboard.js";
 import Announcements from "./Camp/Announcements.js";
@@ -10,12 +11,14 @@ import Questions from "./Camp/Questions.js";
 import Report from "./Camp/Report.js";
 import CampEdit from "./Camp/CampEdit";
 import PasswordEdit from "./Camp/PasswordEdit";
+
 import { Header, NavBar, LoadingScreen } from "../UI";
 import { fetchCampInfo } from "../store/actions";
+import AdminRoute from "../Routes/AdminRoute";
 
 class Camp extends Component {
   componentDidMount() {
-    this.props.fetchCampInfo(this.props.match.params.id);
+    this.props.fetchCampInfo(this.props.match.params.campCode);
   }
 
   componentDidUpdate(prevProps) {
@@ -26,7 +29,7 @@ class Camp extends Component {
 
   onRouteChanged() {
     console.log("Route Changed");
-    this.props.fetchCampInfo(this.props.match.params.id);
+    this.props.fetchCampInfo(this.props.match.params.campCode);
   }
 
   render() {
@@ -78,9 +81,14 @@ class Camp extends Component {
             <Route path={`${match.path}/rem`} component={Reminders} />
             <Route path={`${match.path}/qna`} component={Questions} />
             <Route path={`${match.path}/rpt`} component={Report} />
-            <Route path={`${match.path}/edit`} component={CampEdit} />
-            <Route
+            <AdminRoute
+              path={`${match.path}/edit`}
+              redirect={`${match.url}`}
+              component={CampEdit}
+            />
+            <AdminRoute
               path={`${match.path}/passwordedit`}
+              redirect={`${match.url}`}
               component={PasswordEdit}
             />
           </Switch>

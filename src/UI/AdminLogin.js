@@ -15,7 +15,7 @@ class AdminLogin extends Component {
         <CenterBox>
           <Header>Admin Login</Header>
           <Form admin onSubmit={this.props.signIn} onFail={this.failHandler}>
-            <Field id="password" password>
+            <Field id="password" password autoFocus>
               Password
             </Field>
             <SubmitButton>Login</SubmitButton>
