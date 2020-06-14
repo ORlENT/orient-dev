@@ -33,15 +33,15 @@ class Camp extends Component {
   }
 
   render() {
-    const { match, camp, isLoaded } = this.props;
+    const { match, camp, campLoaded } = this.props;
 
     //Firestore loading
-    if (!isLoaded) {
+    if (campLoaded != match.params.campCode) {
       return <LoadingScreen />;
     }
 
     //Camp not found
-    if (isLoaded && camp == null) {
+    if (camp == null) {
       return <Route path={`${match.path}`} component={CampNotFound} />;
     }
 
@@ -101,7 +101,7 @@ class Camp extends Component {
 const mapStateToProps = (state) => {
   return {
     camp: state.store.camp,
-    isLoaded: state.store.isLoaded,
+    campLoaded: state.store.campLoaded,
   };
 };
 

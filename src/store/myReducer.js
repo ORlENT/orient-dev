@@ -2,7 +2,7 @@ const initState = {
   isAuthed: false,
   formSuccess: false,
   formFailed: false,
-  isLoaded: false,
+  campLoaded: null,
   camp: null,
 };
 
@@ -58,7 +58,7 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         camp: action.camp,
-        isLoaded: true,
+        campLoaded: action.campCode,
       };
 
     case "ANN_CREATED":

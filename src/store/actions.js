@@ -102,7 +102,11 @@ export const fetchCampInfo = (campCode) => {
                   querySnapshot.docs[i].id
                 ] = querySnapshot.docs[i].data();
               }
-              dispatch({ type: "CAMP_RETRIEVED", camp: camp });
+              dispatch({
+                type: "CAMP_RETRIEVED",
+                camp: camp,
+                campCode: campCode,
+              });
             })
             .catch((err) => {
               console.log("Error retrieving announcements");
@@ -110,7 +114,7 @@ export const fetchCampInfo = (campCode) => {
             });
         } else {
           console.log("Camp " + campCode + " not found");
-          dispatch({ type: "CAMP_RETRIEVED", camp: null });
+          dispatch({ type: "CAMP_RETRIEVED", camp: null, campCode: campCode });
         }
       })
       .catch((err) => {
