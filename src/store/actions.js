@@ -90,9 +90,7 @@ export const fetchCampInfo = (campCode) => {
       .then((querySnapshot) => {
         if (!querySnapshot.empty) {
           const camp = querySnapshot.docs[0].data();
-          getFirestore()
-            .collection("camps")
-            .doc(camp.campCode)
+          querySnapshot.docs[0].ref
             .collection("announcements")
             .get()
             .then((querySnapshot) => {
@@ -200,18 +198,27 @@ export const createAnn = (state) => {
 
     getFirestore()
       .collection("camps")
-      .doc(getState().store.camp.campCode)
-      .collection("announcements")
-      .add({
-        title: state.title,
-        content: state.content,
-        timestamp: getFirestore().Timestamp.now(),
-      })
-      .then(() => {
-        dispatch({ type: "ANN_CREATED" });
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("announcements")
+          .add({
+            title: state.title,
+            content: state.content,
+            timestamp: getFirestore().Timestamp.now(),
+          })
+          .then(() => {
+            dispatch({ type: "ANN_CREATED" });
+          })
+          .catch((err) => {
+            console.log("Error creating announcement:");
+            console.log(err);
+          });
       })
       .catch((err) => {
-        console.log("Error creating announcement:");
+        console.log("Error retrieving camp");
         console.log(err);
       });
   };
@@ -222,19 +229,28 @@ export const editAnn = (state, props) => {
     console.log("Editing announcement");
     getFirestore()
       .collection("camps")
-      .doc(getState().store.camp.campCode)
-      .collection("announcements")
-      .doc(props.annID)
-      .set({
-        title: state.title,
-        content: state.content,
-        timestamp: getFirestore().Timestamp.now(),
-      })
-      .then(() => {
-        dispatch({ type: "ANN_EDITED" });
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("announcements")
+          .doc(props.annID)
+          .set({
+            title: state.title,
+            content: state.content,
+            timestamp: getFirestore().Timestamp.now(),
+          })
+          .then(() => {
+            dispatch({ type: "ANN_EDITED" });
+          })
+          .catch((err) => {
+            console.log("Error editing announcement:");
+            console.log(err);
+          });
       })
       .catch((err) => {
-        console.log("Error editing announcement:");
+        console.log("Error retrieving camp");
         console.log(err);
       });
   };
@@ -245,15 +261,24 @@ export const deleteAnn = (state) => {
     console.log("Editing announcement");
     getFirestore()
       .collection("camps")
-      .doc(getState().store.camp.campCode)
-      .collection("announcements")
-      .doc(state.annID)
-      .delete()
-      .then(() => {
-        dispatch({ type: "ANN_DELETED" });
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("announcements")
+          .doc(state.annID)
+          .delete()
+          .then(() => {
+            dispatch({ type: "ANN_DELETED" });
+          })
+          .catch((err) => {
+            console.log("Error deleting announcement");
+            console.log(err);
+          });
       })
       .catch((err) => {
-        console.log("Error deleting announcement");
+        console.log("Error retrieving camp");
         console.log(err);
       });
   };

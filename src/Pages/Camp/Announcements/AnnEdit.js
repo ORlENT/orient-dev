@@ -44,7 +44,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editAnn: (state) => dispatch(editAnn(state)),
+    editAnn: (state, props) => dispatch(editAnn(state, props)),
   };
 };
 

@@ -36,7 +36,7 @@ class Camp extends Component {
     const { match, camp, campLoaded } = this.props;
 
     //Firestore loading
-    if (campLoaded != match.params.campCode) {
+    if (campLoaded !== match.params.campCode) {
       return <LoadingScreen />;
     }
 
