@@ -134,8 +134,10 @@ export const fetchCampInfo = (campCode) => {
         .where("campCode", "==", campCode)
         .get()
         .then((querySnapshot) => {
+          console.log(querySnapshot);
           if (!querySnapshot.empty) {
             const camp = querySnapshot.docs[0].data();
+            console.log(camp);
             querySnapshot.docs[0].ref
               .collection("announcements")
               .get()
@@ -153,10 +155,12 @@ export const fetchCampInfo = (campCode) => {
                 });
               })
               .catch((err) => {
+                console.log("no document");
                 console.log("Error retrieving announcements");
                 console.log(err);
               });
           } else {
+            console.log("no document");
             console.log("Camp " + campCode + " not found");
             dispatch({
               type: "CAMP_RETRIEVED",
@@ -221,7 +225,7 @@ export const editCamp = (state) => async (
 export const deleteCamp = (state) => async (
   dispatch,
   getState,
-  { getFirestore }
+  { getFirebase, getFirestore }
 ) => {
   console.log("Deleting camp");
   console.log(getState().store.camp.campCode);
@@ -240,6 +244,17 @@ export const deleteCamp = (state) => async (
     .catch((err) => {
       console.log("Error deleting camp");
       console.log(err);
+    });
+
+  await getFirebase()
+    .auth()
+    .currentUser.delete()
+    .then((success) => {
+      console.log("User deleted");
+      dispatch({ type: "USER_DELETED" });
+    })
+    .catch((err) => {
+      console.log("Error deleting user");
     });
 };
 
