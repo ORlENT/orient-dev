@@ -1,5 +1,5 @@
 export const signIn = (state) => {
-  return (dispatch, getState, { getFirebase }) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
     const email = getState().store.camp.campCode + "@orient.org";
     console.log("Signing in with:", email, state.password);
 
@@ -8,6 +8,8 @@ export const signIn = (state) => {
       .signInWithEmailAndPassword(email, state.password)
       .then(() => {
         dispatch({ type: "LOGIN_SUCCESS" });
+
+        getFirestore().collection("camps").get();
       })
       .catch((err) => {
         dispatch({ type: "LOGIN_ERROR", err });
@@ -81,7 +83,14 @@ export const signOut = () => {
 };
 
 export const fetchCampInfo = (campCode) => {
-  return (dispatch, getState, { getFirestore }) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    // Sign out if logged in for a different camp
+    const user = getFirebase().auth().currentUser;
+    if (user && user.email.replace(/@[^@]+$/, "") !== campCode) {
+      dispatch(signOut());
+    }
+
+    // Fetch camp info
     console.log("Fetching camp info");
     getFirestore()
       .collection("camps")
@@ -90,6 +99,8 @@ export const fetchCampInfo = (campCode) => {
       .then((querySnapshot) => {
         if (!querySnapshot.empty) {
           const camp = querySnapshot.docs[0].data();
+
+          // Fetch Announcements
           querySnapshot.docs[0].ref
             .collection("announcements")
             .get()
