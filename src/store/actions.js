@@ -96,12 +96,12 @@ export const fetchCampInfo = (campCode) => {
       .collection("camps")
       .where("campCode", "==", campCode)
       .get()
-      .then((querySnapshot) => {
+      .then(async (querySnapshot) => {
         if (!querySnapshot.empty) {
           const camp = querySnapshot.docs[0].data();
 
           // Fetch Announcements
-          querySnapshot.docs[0].ref
+          await querySnapshot.docs[0].ref
             .collection("announcements")
             .get()
             .then((querySnapshot) => {
@@ -111,16 +111,34 @@ export const fetchCampInfo = (campCode) => {
                   querySnapshot.docs[i].id
                 ] = querySnapshot.docs[i].data();
               }
-              dispatch({
-                type: "CAMP_RETRIEVED",
-                camp: camp,
-                campCode: campCode,
-              });
             })
             .catch((err) => {
               console.log("Error retrieving announcements");
               console.log(err);
             });
+
+          // Fetch Questions
+          await querySnapshot.docs[0].ref
+            .collection("questions")
+            .get()
+            .then((querySnapshot) => {
+              camp["questions"] = {};
+              for (let i = 0; i < querySnapshot.docs.length; i++) {
+                camp["questions"][
+                  querySnapshot.docs[i].id
+                ] = querySnapshot.docs[i].data();
+              }
+            })
+            .catch((err) => {
+              console.log("Error retrieving questions");
+              console.log(err);
+            });
+
+          dispatch({
+            type: "CAMP_RETRIEVED",
+            camp: camp,
+            campCode: campCode,
+          });
         } else {
           console.log("Camp " + campCode + " not found");
           dispatch({ type: "CAMP_RETRIEVED", camp: null, campCode: campCode });
@@ -296,6 +314,94 @@ export const deleteAnn = (state) => {
           })
           .catch((err) => {
             console.log("Error deleting announcement");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
+export const askQna = (state) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Asking question");
+
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("questions")
+          .add({
+            question: state.question,
+            answer: null,
+            timestamp: getFirestore().Timestamp.now(),
+          })
+          .then(() => {
+            dispatch({ type: "QNA_ASKED" });
+          })
+          .catch((err) => {
+            console.log("Error asking question:");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
+export const answerQna = (state, props) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Editing question");
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("questions")
+          .doc(props.qnaID)
+          .set({ answer: state.answer }, { merge: true })
+          .then(() => {
+            dispatch({ type: "QNA_ANSWERED" });
+          })
+          .catch((err) => {
+            console.log("Error editing question:");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
+export const deleteQna = (state) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Editing question");
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("questions")
+          .doc(state.qnaID)
+          .delete()
+          .then(() => {
+            dispatch({ type: "QNA_DELETED" });
+          })
+          .catch((err) => {
+            console.log("Error deleting question");
             console.log(err);
           });
       })

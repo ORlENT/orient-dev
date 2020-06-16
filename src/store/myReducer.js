@@ -81,6 +81,26 @@ const myReducer = (state = initState, action) => {
         formSuccess: true,
       };
 
+    case "QNA_ASKED":
+      console.log("Question asked successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
+    case "QNA_DELETED":
+      console.log("Question deleted successfully");
+      return {
+        ...state,
+      };
+
+    case "QNA_ANSWERED":
+      console.log("Question answered successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
     case "CAMP_EDITED":
       console.log("Camp edited successfully");
       return {
