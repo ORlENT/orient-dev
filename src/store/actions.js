@@ -83,97 +83,42 @@ export const signOut = () => {
 export const fetchCampInfo = (campCode) => {
   return (dispatch, getState, { getFirestore }) => {
     console.log("Fetching camp info");
-    if (getState().firebase.auth.email) {
-      console.log(getState());
-      getFirestore()
-        .collection("camps")
-        .doc(getState().firebase.auth.uid)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            const camp = doc.data();
-            console.log(doc);
-            getFirestore()
-              .collection("camps")
-              .doc(getState().firebase.auth.uid)
-              .collection("announcements")
-              .get()
-              .then((querySnapshot) => {
-                camp["announcements"] = {};
-                for (let i = 0; i < querySnapshot.docs.length; i++) {
-                  camp["announcements"][
-                    querySnapshot.docs[i].id
-                  ] = querySnapshot.docs[i].data();
-                }
-                dispatch({
-                  type: "CAMP_RETRIEVED",
-                  camp: camp,
-                  campCode: campCode,
-                });
-              })
-              .catch((err) => {
-                console.log("Error retrieving announcements");
-                console.log(err);
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", campCode)
+      .get()
+      .then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          const camp = querySnapshot.docs[0].data();
+          querySnapshot.docs[0].ref
+            .collection("announcements")
+            .get()
+            .then((querySnapshot) => {
+              camp["announcements"] = {};
+              for (let i = 0; i < querySnapshot.docs.length; i++) {
+                camp["announcements"][
+                  querySnapshot.docs[i].id
+                ] = querySnapshot.docs[i].data();
+              }
+              dispatch({
+                type: "CAMP_RETRIEVED",
+                camp: camp,
+                campCode: campCode,
               });
-          } else {
-            console.log("Camp " + campCode + " not found");
-            dispatch({
-              type: "CAMP_RETRIEVED",
-              camp: null,
-              campCode: campCode,
+            })
+            .catch((err) => {
+              console.log("Error retrieving announcements");
+              console.log(err);
             });
-          }
-        })
-        .catch((err) => {
-          console.log("Error retrieving camp");
-          console.log(err);
-        });
-    } else {
-      getFirestore()
-        .collection("camps")
-        .where("campCode", "==", campCode)
-        .get()
-        .then((querySnapshot) => {
-          console.log(querySnapshot);
-          if (!querySnapshot.empty) {
-            const camp = querySnapshot.docs[0].data();
-            console.log(camp);
-            querySnapshot.docs[0].ref
-              .collection("announcements")
-              .get()
-              .then((querySnapshot) => {
-                camp["announcements"] = {};
-                for (let i = 0; i < querySnapshot.docs.length; i++) {
-                  camp["announcements"][
-                    querySnapshot.docs[i].id
-                  ] = querySnapshot.docs[i].data();
-                }
-                dispatch({
-                  type: "CAMP_RETRIEVED",
-                  camp: camp,
-                  campCode: campCode,
-                });
-              })
-              .catch((err) => {
-                console.log("no document");
-                console.log("Error retrieving announcements");
-                console.log(err);
-              });
-          } else {
-            console.log("no document");
-            console.log("Camp " + campCode + " not found");
-            dispatch({
-              type: "CAMP_RETRIEVED",
-              camp: null,
-              campCode: campCode,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log("Error retrieving camp");
-          console.log(err);
-        });
-    }
+        } else {
+          console.log("Camp " + campCode + " not found");
+          dispatch({ type: "CAMP_RETRIEVED", camp: null, campCode: campCode });
+        }
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
   };
 };
 
