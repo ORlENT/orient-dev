@@ -108,6 +108,27 @@ const myReducer = (state = initState, action) => {
         formSuccess: true,
       };
 
+    case "REMINDER_EDITED":
+      console.log("Reminder edited successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
+    case "REMINDER_CREATED":
+      console.log("Reminder created successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
+    case "REMINDER_DELETED":
+      console.log("Reminder deleted successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
     case "PASSWORD_EDITED":
       console.log("Password edited successfully");
       return {

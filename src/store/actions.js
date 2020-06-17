@@ -412,6 +412,96 @@ export const deleteQna = (state) => {
   };
 };
 
+export const createReminder = (state) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Creating reminder");
+
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("reminders")
+          .add({
+            title: state.title,
+            timestamp: state.time,
+          })
+          .then(() => {
+            dispatch({ type: "REMINDER_CREATED" });
+          })
+          .catch((err) => {
+            console.log("Error creating reminder");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
+export const editReminder = (state, props) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Editing reminder");
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("reminders")
+          .doc(props.reminderID)
+          .set({
+            title: state.title,
+            timestamp: state.time,
+          })
+          .then(() => {
+            dispatch({ type: "REMINDER_EDITED" });
+          })
+          .catch((err) => {
+            console.log("Error editing reminders");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
+export const deleteReminder = (state) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Editing reminder");
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("reminders")
+          .doc(state.reminderID)
+          .delete()
+          .then(() => {
+            dispatch({ type: "REMINDER_DELETED" });
+          })
+          .catch((err) => {
+            console.log("Error deleting reminder");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
 export const resetForm = () => {
   return (dispatch, getState) => {
     dispatch({ type: "RESET_FORM" });
