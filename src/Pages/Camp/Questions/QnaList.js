@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Header, CenterBox, NavButton, SummaryCard } from "../../../UI";
+import { Header, CenterBox, NavButton, QnaCard } from "../../../UI";
 
 class QnaList extends Component {
   state = {
@@ -47,12 +47,13 @@ class QnaList extends Component {
         {/*Question List*/}
         {qnaInfo &&
           Object.keys(qnaInfo).map((key) => (
-            <SummaryCard
+            <QnaCard
               key={key}
               title={qnaInfo[key].question}
               content={qnaInfo[key].answer}
               timestamp={qnaInfo[key].timestamp}
-              read={qnaCachedInfo[key] ? qnaCachedInfo[key].readStatus : false}
+              //asked={TODO: boolean - true if this question is asked by you}
+              answered={!!qnaInfo[key].answer}
               to={`${match.url}/${key}`}
               onClick={() => {
                 this.setSessionStorage(key);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Header, CenterBox, NavButton, SummaryCard } from "../../../UI";
+import { Header, CenterBox, NavButton, AnnCard } from "../../../UI";
 
 class AnnList extends Component {
   state = {
@@ -51,7 +51,7 @@ class AnnList extends Component {
         {/*Announcement List*/}
         {annInfo &&
           Object.keys(annInfo).map((key) => (
-            <SummaryCard
+            <AnnCard
               key={key}
               title={annInfo[key].title}
               content={annInfo[key].content}
