@@ -348,7 +348,7 @@ export const askQna = (state) => {
             }
             qnaCachedInfo[`${doc.id}`] = {};
             qnaCachedInfo[`${doc.id}`].askedStatus = true;
-            localStorage.setItem("questions", JSON.stringify(qnaCachedInfo));
+            sessionStorage.setItem("questions", JSON.stringify(qnaCachedInfo));
             dispatch({ type: "QNA_ASKED"});
           })
           .catch((err) => {

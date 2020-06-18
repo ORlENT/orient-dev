@@ -42,7 +42,7 @@ class QnaList extends Component {
               title={qnaInfo[key].question}
               content={qnaInfo[key].answer}
               timestamp={qnaInfo[key].timestamp}
-              read={qnaCachedInfo[key] ? qnaCachedInfo[key].askedStatus : false}
+              asked={qnaCachedInfo[key] ? qnaCachedInfo[key].askedStatus : false}
               to={`${match.url}/${key}`}
             />
           ))}
