@@ -28,6 +28,20 @@ class AnnDetails extends Component {
           </NavButton>
         )}
 
+        {/*Create new reminder button (Admin only)*/}
+        {isAuthed && !annInfo[key].reminder && (
+          <NavButton admin to={`${match.url}/rem/create`}>
+            Create a new reminder
+          </NavButton>
+        )}
+
+        {/*Create new reminder button (Admin only)*/}
+          {isAuthed && annInfo[key].reminder && (
+          <NavButton admin to={`/camp/${this.props.camp.campCode}/rem`}>
+            View reminder
+          </NavButton>
+        )}
+
         {/*Delete Announcement button (Admin only)*/}
         {isAuthed && (
           <SubmitButton admin secondary onClick={this.handleDelete}>

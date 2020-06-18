@@ -6,6 +6,7 @@ import AnnCreate from "./Announcements/AnnCreate";
 import AnnDetails from "./Announcements/AnnDetails";
 import AnnEdit from "./Announcements/AnnEdit";
 import AnnList from "./Announcements/AnnList";
+import RemCreate from "./Announcements/Reminder/RemCreate";
 
 class Announcements extends Component {
   render() {
@@ -23,6 +24,11 @@ class Announcements extends Component {
           path={`${match.path}/:annID/edit`}
           redirect={`${match.url}`}
           component={AnnEdit}
+        />
+        <AdminRoute
+          path={`${match.path}/:annID/rem/create`}
+          redirect={`${match.url}`}
+          component={RemCreate}
         />
       </Switch>
     );

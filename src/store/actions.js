@@ -437,6 +437,54 @@ export const deleteQna = (state) => {
   };
 };
 
+
+
+export const createAnnRem = (state,props) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Creating reminder");
+    const annID = props.annID;
+
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot,props) => {
+        const camp = querySnapshot.docs[0].ref;
+
+        camp
+          .collection("reminders")
+          .add({
+            title: state.title,
+            duedate: new Date(state.duedate),
+            timestamp: getFirestore().Timestamp.now(),
+            annID: annID,
+          })
+          .then((doc) => {        
+          
+            camp
+            .collection("announcements")
+            .doc(annID).update({
+              remID: doc.id
+            }).then(() => {
+              dispatch({ type: "REMINDER_CREATED" });
+            }).catch(() => {
+              console.log("Error linking announcement with reminder.")
+            });
+  
+          })
+          .catch((err) => {
+            console.log("Error creating reminder");
+            console.log(err);
+          });
+        
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+}
+
 export const createRem = (state) => {
   return (dispatch, getState, { getFirestore }) => {
     console.log("Creating reminder");

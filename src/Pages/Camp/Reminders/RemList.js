@@ -4,34 +4,9 @@ import { Header, CenterBox, NavButton } from "../../../UI";
 import { RemCard } from "../../../UI/SummaryCard";
 
 class RemList extends Component {
-  state = {
-    remCachedInfo: {},
-  };
-
-  setSessionStorage(key) {
-    var remCachedInfo = JSON.parse(sessionStorage.getItem("reminders"));
-    if (!remCachedInfo) {
-      remCachedInfo = {};
-    }
-    remCachedInfo[`${key}`] = {};
-    remCachedInfo[`${key}`].readStatus = true;
-    sessionStorage.setItem("reminders", JSON.stringify(remCachedInfo));
-    this.getCachedInfo();
-  }
-
-  componentDidMount() {
-    this.getCachedInfo();
-  }
-
-  getCachedInfo() {
-    var remCachedInfo = JSON.parse(sessionStorage.getItem("reminders"));
-    if (!remCachedInfo) remCachedInfo = {};
-    this.setState({ remCachedInfo });
-  }
 
   render() {
     let { remInfo, isAuthed, match } = this.props;
-    const { remCachedInfo } = this.state;
 
     return (
       <CenterBox>
@@ -57,12 +32,6 @@ class RemList extends Component {
               title={remInfo[key].title}
               content={remInfo[key].content}
               timestamp={remInfo[key].duedate}
-              read={remCachedInfo[key] ? remCachedInfo[key].readStatus : false}
-              to={`${match.url}/${key}`}
-              onClick={() => {
-                this.setSessionStorage(key);
-                this.forceUpdate();
-              }}
             />
           ))}
       </CenterBox>
