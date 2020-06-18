@@ -12,7 +12,7 @@ class QnaList extends Component {
   }
 
   getCachedInfo() {
-    var qnaCachedInfo = JSON.parse(localStorage.getItem("questions"));
+    var qnaCachedInfo = JSON.parse(sessionStorage.getItem("questions"));
     if (!qnaCachedInfo) qnaCachedInfo = {};
     console.log(qnaCachedInfo)
     this.setState({ qnaCachedInfo });
@@ -43,6 +43,7 @@ class QnaList extends Component {
               content={qnaInfo[key].answer}
               timestamp={qnaInfo[key].timestamp}
               asked={qnaCachedInfo[key] ? qnaCachedInfo[key].askedStatus : false}
+              answered={!!qnaInfo[key].answer}
               to={`${match.url}/${key}`}
             />
           ))}
