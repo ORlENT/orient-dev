@@ -133,6 +133,24 @@ export const fetchCampInfo = (campCode) => {
               console.log("Error retrieving questions");
               console.log(err);
             });
+          
+          // Fetch Reminders
+          await querySnapshot.docs[0].ref
+          .collection("reminders")
+          .get()
+          .then((querySnapshot) => {
+            camp["reminders"] = {};
+            for (let i = 0; i < querySnapshot.docs.length; i++) {
+              camp["reminders"][
+                querySnapshot.docs[i].id
+              ] = querySnapshot.docs[i].data();
+            }
+          })
+          .catch((err) => {
+            console.log("Error retrieving reminders");
+            console.log(err);
+          });
+
 
           dispatch({
             type: "CAMP_RETRIEVED",
@@ -419,7 +437,7 @@ export const deleteQna = (state) => {
   };
 };
 
-export const createReminder = (state) => {
+export const createRem = (state) => {
   return (dispatch, getState, { getFirestore }) => {
     console.log("Creating reminder");
 
@@ -433,7 +451,8 @@ export const createReminder = (state) => {
           .collection("reminders")
           .add({
             title: state.title,
-            timestamp: state.time,
+            duedate: new Date(state.duedate),
+            timestamp: getFirestore().Timestamp.now(),
           })
           .then(() => {
             dispatch({ type: "REMINDER_CREATED" });
@@ -450,7 +469,7 @@ export const createReminder = (state) => {
   };
 };
 
-export const editReminder = (state, props) => {
+export const editRem = (state, props) => {
   return (dispatch, getState, { getFirestore }) => {
     console.log("Editing reminder");
     getFirestore()
@@ -461,10 +480,11 @@ export const editReminder = (state, props) => {
         const camp = querySnapshot.docs[0].ref;
         camp
           .collection("reminders")
-          .doc(props.reminderID)
+          .doc(props.remID)
           .set({
             title: state.title,
-            timestamp: state.time,
+            duedate: new Date(state.duedate),
+            timestamp: getFirestore().Timestamp.now(),
           })
           .then(() => {
             dispatch({ type: "REMINDER_EDITED" });
@@ -481,7 +501,7 @@ export const editReminder = (state, props) => {
   };
 };
 
-export const deleteReminder = (state) => {
+export const deleteRem = (state) => {
   return (dispatch, getState, { getFirestore }) => {
     console.log("Editing reminder");
     getFirestore()
@@ -492,7 +512,7 @@ export const deleteReminder = (state) => {
         const camp = querySnapshot.docs[0].ref;
         camp
           .collection("reminders")
-          .doc(state.reminderID)
+          .doc(state.remID)
           .delete()
           .then(() => {
             dispatch({ type: "REMINDER_DELETED" });
