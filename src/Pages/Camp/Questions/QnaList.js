@@ -7,24 +7,14 @@ class QnaList extends Component {
     qnaCachedInfo: {},
   };
 
-  setSessionStorage(key) {
-    var qnaCachedInfo = JSON.parse(sessionStorage.getItem("questions"));
-    if (!qnaCachedInfo) {
-      qnaCachedInfo = {};
-    }
-    qnaCachedInfo[`${key}`] = {};
-    qnaCachedInfo[`${key}`].readStatus = true;
-    sessionStorage.setItem("questions", JSON.stringify(qnaCachedInfo));
-    this.getCachedInfo();
-  }
-
   componentDidMount() {
     this.getCachedInfo();
   }
 
   getCachedInfo() {
-    var qnaCachedInfo = JSON.parse(sessionStorage.getItem("questions"));
+    var qnaCachedInfo = JSON.parse(localStorage.getItem("questions"));
     if (!qnaCachedInfo) qnaCachedInfo = {};
+    console.log(qnaCachedInfo)
     this.setState({ qnaCachedInfo });
   }
 
@@ -52,13 +42,8 @@ class QnaList extends Component {
               title={qnaInfo[key].question}
               content={qnaInfo[key].answer}
               timestamp={qnaInfo[key].timestamp}
-              //asked={TODO: boolean - true if this question is asked by you}
-              answered={!!qnaInfo[key].answer}
+              read={qnaCachedInfo[key] ? qnaCachedInfo[key].askedStatus : false}
               to={`${match.url}/${key}`}
-              onClick={() => {
-                this.setSessionStorage(key);
-                this.forceUpdate();
-              }}
             />
           ))}
       </CenterBox>

@@ -341,8 +341,15 @@ export const askQna = (state) => {
             answer: null,
             timestamp: getFirestore().Timestamp.now(),
           })
-          .then(() => {
-            dispatch({ type: "QNA_ASKED" });
+          .then((doc) => {
+            var qnaCachedInfo = JSON.parse(sessionStorage.getItem("questions"));
+            if (!qnaCachedInfo) {
+              qnaCachedInfo = {};
+            }
+            qnaCachedInfo[`${doc.id}`] = {};
+            qnaCachedInfo[`${doc.id}`].askedStatus = true;
+            localStorage.setItem("questions", JSON.stringify(qnaCachedInfo));
+            dispatch({ type: "QNA_ASKED"});
           })
           .catch((err) => {
             console.log("Error asking question:");
