@@ -149,7 +149,14 @@ const myReducer = (state = initState, action) => {
       };
 
     case "REPORT_CREATED":
-      console.log("Reminder created successfully");
+      console.log("Report created successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
+    case "REPORT_DELETED":
+      console.log("Report deleted successfully");
       return {
         ...state,
         formSuccess: true,
