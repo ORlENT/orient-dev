@@ -8,9 +8,10 @@ import Dashboard from "./Camp/Dashboard.js";
 import Announcements from "./Camp/Announcements.js";
 import Reminders from "./Camp/Reminders.js";
 import Questions from "./Camp/Questions.js";
-import Report from "./Camp/Report.js";
+import Reports from "./Camp/Reports.js";
 import CampEdit from "./Camp/CampEdit";
 import PasswordEdit from "./Camp/PasswordEdit";
+import RptCreate from "./Camp/Reports/RptCreate";
 
 import { Header, NavBar, LoadingScreen } from "../UI";
 import { fetchCampInfo } from "../store/actions";
@@ -80,7 +81,12 @@ class Camp extends Component {
             <Route path={`${match.path}/ann`} component={Announcements} />
             <Route path={`${match.path}/rem`} component={Reminders} />
             <Route path={`${match.path}/qna`} component={Questions} />
-            <Route path={`${match.path}/rpt`} component={Report} />
+            <Route path={`${match.path}/rpt/create`} component={RptCreate} />
+            <AdminRoute
+              path={`${match.path}/rpt`}
+              redirect={`${match.url}`}
+              component={Reports}
+            />
             <AdminRoute
               path={`${match.path}/edit`}
               redirect={`${match.url}`}

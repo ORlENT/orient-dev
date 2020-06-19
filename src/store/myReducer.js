@@ -148,6 +148,21 @@ const myReducer = (state = initState, action) => {
         initState,
       };
 
+    case "REPORT_CREATED":
+      console.log("Reminder created successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
+    case "UPDATE_SESSION_ID":
+      console.log("Updated session ID successfully");
+      return {
+        ...state,
+        currSessID: action.newSessID,
+        formSuccess: true,
+      };
+
     default:
       return state;
   }

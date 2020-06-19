@@ -19,7 +19,17 @@ class Dashboard extends Component {
         <NavButton to={`${match.url}/ann`}>Announcements</NavButton>
         <NavButton to={`${match.url}/rem`}>Reminders</NavButton>
         <NavButton to={`${match.url}/qna`}>Questions</NavButton>
-        <NavButton to={`${match.url}/rpt`}>Report</NavButton>
+
+        {/*View Reports button (Admin only)*/}
+        {!isAuthed && (
+          <NavButton to={`${match.url}/rpt/create`}>Create A Report</NavButton>
+        )}
+        {/*View Reports button (Admin only)*/}
+        {isAuthed && (
+          <NavButton admin to={`${match.url}/rpt`}>
+            Reports
+          </NavButton>
+        )}
 
         {/*Edit Camp button (Admin only)*/}
         {isAuthed && (

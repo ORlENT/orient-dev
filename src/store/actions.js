@@ -90,6 +90,12 @@ export const fetchCampInfo = (campCode) => {
       dispatch(signOut());
     }
 
+    // Fetch Correct User Status
+    // var isAuthed = false;
+    // if (user) {
+    //   isAuthed = true;
+    // }
+
     // Fetch camp info
     console.log("Fetching camp info");
     getFirestore()
@@ -133,24 +139,40 @@ export const fetchCampInfo = (campCode) => {
               console.log("Error retrieving questions");
               console.log(err);
             });
-          
+
           // Fetch Reminders
           await querySnapshot.docs[0].ref
-          .collection("reminders")
-          .get()
-          .then((querySnapshot) => {
-            camp["reminders"] = {};
-            for (let i = 0; i < querySnapshot.docs.length; i++) {
-              camp["reminders"][
-                querySnapshot.docs[i].id
-              ] = querySnapshot.docs[i].data();
-            }
-          })
-          .catch((err) => {
-            console.log("Error retrieving reminders");
-            console.log(err);
-          });
+            .collection("reminders")
+            .get()
+            .then((querySnapshot) => {
+              camp["reminders"] = {};
+              for (let i = 0; i < querySnapshot.docs.length; i++) {
+                camp["reminders"][
+                  querySnapshot.docs[i].id
+                ] = querySnapshot.docs[i].data();
+              }
+            })
+            .catch((err) => {
+              console.log("Error retrieving reminders");
+              console.log(err);
+            });
 
+          // Fetch Reports
+          await querySnapshot.docs[0].ref
+            .collection("reports")
+            .get()
+            .then((querySnapshot) => {
+              camp["reports"] = {};
+              for (let i = 0; i < querySnapshot.docs.length; i++) {
+                camp["reports"][querySnapshot.docs[i].id] = querySnapshot.docs[
+                  i
+                ].data();
+              }
+            })
+            .catch((err) => {
+              console.log("Error retrieving reminders");
+              console.log(err);
+            });
 
           dispatch({
             type: "CAMP_RETRIEVED",
@@ -159,7 +181,11 @@ export const fetchCampInfo = (campCode) => {
           });
         } else {
           console.log("Camp " + campCode + " not found");
-          dispatch({ type: "CAMP_RETRIEVED", camp: null, campCode: campCode });
+          dispatch({
+            type: "CAMP_RETRIEVED",
+            camp: null,
+            campCode: campCode,
+          });
         }
       })
       .catch((err) => {
@@ -220,7 +246,6 @@ export const deleteCamp = (state) => async (
   { getFirebase, getFirestore }
 ) => {
   console.log("Deleting camp");
-  console.log(getState().store.camp.campCode);
   await getFirestore()
     .collection("camps")
     .where("campCode", "==", getState().store.camp.campCode)
@@ -367,7 +392,7 @@ export const askQna = (state) => {
             qnaCachedInfo[`${doc.id}`] = {};
             qnaCachedInfo[`${doc.id}`].askedStatus = true;
             sessionStorage.setItem("questions", JSON.stringify(qnaCachedInfo));
-            dispatch({ type: "QNA_ASKED"});
+            dispatch({ type: "QNA_ASKED" });
           })
           .catch((err) => {
             console.log("Error asking question:");
@@ -437,9 +462,7 @@ export const deleteQna = (state) => {
   };
 };
 
-
-
-export const createAnnRem = (state,props) => {
+export const createAnnRem = (state, props) => {
   return (dispatch, getState, { getFirestore }) => {
     console.log("Creating reminder");
     const annID = props.annID;
@@ -448,7 +471,7 @@ export const createAnnRem = (state,props) => {
       .collection("camps")
       .where("campCode", "==", getState().store.camp.campCode)
       .get()
-      .then((querySnapshot,props) => {
+      .then((querySnapshot, props) => {
         const camp = querySnapshot.docs[0].ref;
 
         camp
@@ -459,31 +482,31 @@ export const createAnnRem = (state,props) => {
             timestamp: getFirestore().Timestamp.now(),
             annID: annID,
           })
-          .then((doc) => {        
-          
+          .then((doc) => {
             camp
-            .collection("announcements")
-            .doc(annID).update({
-              remID: doc.id
-            }).then(() => {
-              dispatch({ type: "REMINDER_CREATED" });
-            }).catch(() => {
-              console.log("Error linking announcement with reminder.")
-            });
-  
+              .collection("announcements")
+              .doc(annID)
+              .update({
+                remID: doc.id,
+              })
+              .then(() => {
+                dispatch({ type: "REMINDER_CREATED" });
+              })
+              .catch(() => {
+                console.log("Error linking announcement with reminder.");
+              });
           })
           .catch((err) => {
             console.log("Error creating reminder");
             console.log(err);
           });
-        
       })
       .catch((err) => {
         console.log("Error retrieving camp");
         console.log(err);
       });
   };
-}
+};
 
 export const createRem = (state) => {
   return (dispatch, getState, { getFirestore }) => {
@@ -567,6 +590,66 @@ export const deleteRem = (state) => {
           })
           .catch((err) => {
             console.log("Error deleting reminder");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
+export const createRpt = (state) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Creating report");
+
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("reports")
+          .add({
+            title: state.title,
+            content: state.content,
+            timestamp: getFirestore().Timestamp.now(),
+          })
+          .then(() => {
+            dispatch({ type: "REPORT_CREATED" });
+          })
+          .catch((err) => {
+            console.log("Error creating report");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
+export const deleteRpt = (state) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Delete report");
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("reports")
+          .doc(state.rptID)
+          .delete()
+          .then(() => {
+            dispatch({ type: "REPORT_DELETED" });
+          })
+          .catch((err) => {
+            console.log("Error deleting report");
             console.log(err);
           });
       })
