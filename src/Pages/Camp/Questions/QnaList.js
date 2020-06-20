@@ -14,7 +14,6 @@ class QnaList extends Component {
   getCachedInfo() {
     var qnaCachedInfo = JSON.parse(sessionStorage.getItem("questions"));
     if (!qnaCachedInfo) qnaCachedInfo = {};
-    console.log(qnaCachedInfo);
     this.setState({ qnaCachedInfo });
   }
 
