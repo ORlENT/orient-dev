@@ -109,6 +109,7 @@ export const fetchCampInfo = (campCode) => {
           // Fetch Announcements
           await querySnapshot.docs[0].ref
             .collection("announcements")
+            .orderBy("timestamp", "desc")
             .get()
             .then((querySnapshot) => {
               camp["announcements"] = {};
@@ -126,6 +127,7 @@ export const fetchCampInfo = (campCode) => {
           // Fetch Questions
           await querySnapshot.docs[0].ref
             .collection("questions")
+            .orderBy("timestamp", "desc")
             .get()
             .then((querySnapshot) => {
               camp["questions"] = {};
@@ -143,6 +145,7 @@ export const fetchCampInfo = (campCode) => {
           // Fetch Reminders
           await querySnapshot.docs[0].ref
             .collection("reminders")
+            .orderBy("timestamp", "desc")
             .get()
             .then((querySnapshot) => {
               camp["reminders"] = {};
@@ -160,6 +163,7 @@ export const fetchCampInfo = (campCode) => {
           // Fetch Reports
           await querySnapshot.docs[0].ref
             .collection("reports")
+            .orderBy("timestamp", "desc")
             .get()
             .then((querySnapshot) => {
               camp["reports"] = {};
@@ -177,6 +181,7 @@ export const fetchCampInfo = (campCode) => {
           // Fetch Groups
           await querySnapshot.docs[0].ref
             .collection("groups")
+            .orderBy("point", "desc")
             .get()
             .then((querySnapshot) => {
               camp["groups"] = {};
@@ -690,7 +695,7 @@ export const createGrp = (state) => {
           .collection("groups")
           .add({
             groupName: state.groupname,
-            point: state.point,
+            point: parseInt(state.point),
             timestamp: getFirestore().Timestamp.now(),
           })
           .then(() => {
