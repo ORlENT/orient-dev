@@ -28,6 +28,7 @@ class RemList extends Component {
           Object.keys(remInfo).map((key) => (
             <RemCard
               key={key}
+              remID={key}
               title={remInfo[key].title}
               timestamp={remInfo[key].duedate}
             />

@@ -6,6 +6,7 @@ import { SummaryCard, AnnCard, QnaCard, RemCard, PtCard } from "./SummaryCard";
 import NavBar from "./NavBar";
 import { LoadingScreen, LoadingScreenSmall } from "./LoadingScreen";
 import Form from "./Form";
+import AdminMenu from "./AdminMenu";
 
 export {
   NavButton,
@@ -22,4 +23,5 @@ export {
   LoadingScreen,
   LoadingScreenSmall,
   Form,
+  AdminMenu,
 };

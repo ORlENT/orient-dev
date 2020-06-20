@@ -53,6 +53,7 @@ class AnnList extends Component {
           Object.keys(annInfo).map((key) => (
             <AnnCard
               key={key}
+              annID={key}
               title={annInfo[key].title}
               content={annInfo[key].content}
               timestamp={annInfo[key].timestamp}

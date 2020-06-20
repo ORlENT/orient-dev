@@ -13,8 +13,14 @@ export default function AdminMenu(props) {
     setAnchorEl(null);
   };
 
+  const handleOption = (option) => {
+    handleClose();
+    option.handler();
+  };
+
+  const { menuOptions, ...rest } = props;
   return (
-    <div {...props}>
+    <div {...rest}>
       <IconButton
         color="secondary"
         aria-controls="simple-menu"
@@ -30,9 +36,11 @@ export default function AdminMenu(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        {menuOptions.map((option) => (
+          <MenuItem key={option.name} onClick={() => handleOption(option)}>
+            {option.name}
+          </MenuItem>
+        ))}
       </Menu>
     </div>
   );

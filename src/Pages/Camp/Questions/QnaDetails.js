@@ -5,12 +5,8 @@ import timeConverter from "../../../functions/timeConverter";
 import { deleteQna } from "../../../store/actions";
 
 class QnaDetails extends Component {
-  componentDidMount() {
-    this.setState({ qnaID: this.props.match.params.qnaID });
-  }
-
   handleDelete = () => {
-    this.props.deleteQna(this.state);
+    this.props.deleteQna(this.props.match.params.qnaID);
     this.props.history.goBack();
   };
 
@@ -66,7 +62,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteQna: (state) => dispatch(deleteQna(state)),
+    deleteQna: (qnaID) => dispatch(deleteQna(qnaID)),
   };
 };
 

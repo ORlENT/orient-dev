@@ -295,13 +295,13 @@ export const editAnn = (state, props) => {
   };
 };
 
-export const deleteAnn = (state) => {
+export const deleteAnn = (annID) => {
   return (dispatch, getState, { getFirestore }) =>
     deleteSubCollectionDoc(
       getFirestore,
       dispatch,
       "announcements",
-      state.annID,
+      annID,
       getState().store.camp.campCode,
       "ANN_DELETED"
     );
@@ -374,13 +374,13 @@ export const answerQna = (state, props) => {
   };
 };
 
-export const deleteQna = (state) => {
+export const deleteQna = (qnaID) => {
   return (dispatch, getState, { getFirestore }) => {
     deleteSubCollectionDoc(
       getFirestore,
       dispatch,
       "questions",
-      state.qnaID,
+      qnaID,
       getState().store.camp.campCode,
       "QNA_DELETED"
     );
@@ -482,13 +482,13 @@ export const editRem = (state, props) => {
   };
 };
 
-export const deleteRem = (state) => {
+export const deleteRem = (remID) => {
   return (dispatch, getState, { getFirestore }) => {
     deleteSubCollectionDoc(
       getFirestore,
       dispatch,
       "reminders",
-      state.remID,
+      remID,
       getState().store.camp.campCode,
       "REMINDER_DELETED"
     );

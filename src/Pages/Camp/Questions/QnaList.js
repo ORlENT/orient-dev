@@ -38,6 +38,7 @@ class QnaList extends Component {
           Object.keys(qnaInfo).map((key) => (
             <QnaCard
               key={key}
+              qnaID={key}
               title={qnaInfo[key].question}
               content={qnaInfo[key].answer}
               timestamp={qnaInfo[key].timestamp}

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Header, NavButton, CenterBox } from "../UI";
+import { NavButton, CenterBox } from "../UI";
 
 class Home extends Component {
   render() {
     return (
       <CenterBox>
-        <Header>Home</Header>
+        <img src="logoHome.png" alt="Home Logo" width="480px" />
         <NavButton to="/join">Join Camp</NavButton>
         <NavButton to="/create" secondary>
           Create New Camp

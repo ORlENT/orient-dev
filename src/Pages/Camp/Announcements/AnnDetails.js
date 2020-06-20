@@ -5,12 +5,8 @@ import timeConverter from "../../../functions/timeConverter";
 import { deleteAnn } from "../../../store/actions";
 
 class AnnDetails extends Component {
-  componentDidMount() {
-    this.setState({ annID: this.props.match.params.annID });
-  }
-
   handleDelete = () => {
-    this.props.deleteAnn(this.state);
+    this.props.deleteAnn(this.props.match.params.annID);
     this.props.history.goBack();
   };
 
@@ -36,7 +32,7 @@ class AnnDetails extends Component {
         )}
 
         {/*Create new reminder button (Admin only)*/}
-          {isAuthed && annInfo[key].reminder && (
+        {isAuthed && annInfo[key].reminder && (
           <NavButton admin to={`/camp/${this.props.camp.campCode}/rem`}>
             View reminder
           </NavButton>
@@ -80,7 +76,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteAnn: (state) => dispatch(deleteAnn(state)),
+    deleteAnn: (annID) => dispatch(deleteAnn(annID)),
   };
 };
 

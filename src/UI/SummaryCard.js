@@ -1,156 +1,252 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
 import { Card, CardContent, CardActionArea } from "@material-ui/core";
 import timeConverter from "../functions/timeConverter";
 import timeFromNow from "../functions/timeFromNow";
+import AdminMenu from "./AdminMenu";
+import { deleteAnn, deleteRem, deleteQna } from "../store/actions";
 
 //max lines of summary
 const summaryLength = 2;
 
-export const SummaryCard = ({
-  title,
-  content,
-  timestamp,
-  highlight,
-  highlightText,
-  to = "#",
-  onClick,
-  children,
-  ...rest
-}) => (
-  <Card
-    style={{
-      backgroundColor: "#555",
-    }}
-    {...rest}
-  >
-    <CardActionArea
-      onClick={onClick}
-      style={{
-        font: "unset",
-      }}
-    >
-      <Link to={to} style={{ textDecoration: "none" }}>
-        <CardContent
+const mapStateToProps = (state) => {
+  return {
+    isAuthed: state.store.isAuthed,
+  };
+};
+
+export const SummaryCard = connect(mapStateToProps)(
+  ({
+    title,
+    content,
+    timestamp,
+    highlight,
+    highlightText,
+    to = "#",
+    onClick,
+    menuOptions,
+    children,
+    isAuthed,
+  }) => {
+    if (isAuthed) {
+      highlight = false;
+      highlightText = null;
+    }
+    return (
+      <Card
+        style={{
+          backgroundColor: "#555",
+        }}
+      >
+        <CardActionArea
+          onClick={onClick}
           style={{
-            width: "100%",
-            padding: "16px",
-            paddingLeft: highlight ? "24px" : null,
-            WebkitBoxSizing: "border-box",
+            font: "unset",
           }}
         >
-          {/*border highlight*/}
-          {highlight && (
-            <div
+          {/*more options (Admin only)*/}
+          {isAuthed && (
+            <AdminMenu
+              menuOptions={menuOptions}
               style={{
-                width: "8px",
-                backgroundColor: "#ff9800",
-                position: "absolute",
-                top: "0",
-                bottom: "0",
-                left: "0",
+                float: "right",
+                margin: "16px",
               }}
             />
           )}
-          {/*highlight text*/}
-          <h5
-            style={{
-              float: "right",
-              textAlign: "right",
-              color: "#ff9800",
-              margin: "0px",
-            }}
-          >
-            {highlightText}
-          </h5>
-          {/*title*/}
-          <h3
-            style={{
-              color: "#fff",
-              margin: "0px",
-              marginBottom: "8px",
-            }}
-          >
-            {title}
-          </h3>
+          <Link to={to} style={{ textDecoration: "none" }}>
+            <CardContent
+              style={{
+                width: "100%",
+                padding: "16px",
+                paddingLeft: highlight ? "24px" : null,
+                WebkitBoxSizing: "border-box",
+              }}
+            >
+              {/*border highlight*/}
+              {highlight && (
+                <div
+                  style={{
+                    width: "8px",
+                    backgroundColor: "#ff9800",
+                    position: "absolute",
+                    top: "0",
+                    bottom: "0",
+                    left: "0",
+                  }}
+                />
+              )}
+              {/*highlight text*/}
+              <h5
+                style={{
+                  float: "right",
+                  textAlign: "right",
+                  color: "#ff9800",
+                  margin: "0px",
+                }}
+              >
+                {highlightText}
+              </h5>
+              {/*title*/}
+              <h3
+                style={{
+                  color: "#fff",
+                  margin: "0px",
+                  marginBottom: "8px",
+                }}
+              >
+                {title}
+              </h3>
 
-          {/*content*/}
-          <p
-            style={{
-              color: "#fff",
-              margin: "0px",
-              //Clamp down to summaryLength
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              display: "-webkit-box",
-              WebkitLineClamp: summaryLength,
-              WebkitBoxOrient: "vertical",
-            }}
-          >
-            {content}
-          </p>
+              {/*content*/}
+              <p
+                style={{
+                  color: "#fff",
+                  margin: "0px",
+                  //Clamp down to summaryLength
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: summaryLength,
+                  WebkitBoxOrient: "vertical",
+                }}
+              >
+                {content}
+              </p>
 
-          {children}
+              {children}
 
-          {/*timestamp*/}
-          <p style={{ color: "#bbb", margin: "0px", marginTop: "8px" }}>
-            {timestamp}
-          </p>
-        </CardContent>
-      </Link>
-    </CardActionArea>
-  </Card>
+              {/*timestamp*/}
+              <p style={{ color: "#bbb", margin: "0px", marginTop: "8px" }}>
+                {timestamp}
+              </p>
+            </CardContent>
+          </Link>
+        </CardActionArea>
+      </Card>
+    );
+  }
 );
 
-export const AnnCard = ({ read, timestamp, ...rest }) => (
-  <SummaryCard
-    elevation={read ? 3 : 10}
-    highlight={!read}
-    highlightText={read ? null : "NEW!"}
-    timestamp={"Posted on " + timeConverter(timestamp)}
-    {...rest}
-  />
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteAnn: (annID) => dispatch(deleteAnn(annID)),
+    deleteRem: (remID) => dispatch(deleteRem(remID)),
+    deleteQna: (qnaID) => dispatch(deleteQna(qnaID)),
+  };
+};
+
+export const AnnCard = compose(
+  connect(null, mapDispatchToProps),
+  withRouter
+)(
+  ({
+    annID,
+    history,
+    read,
+    timestamp,
+    to,
+    deleteAnn,
+    deleteRem,
+    deleteQna,
+    ...rest
+  }) => (
+    <SummaryCard
+      elevation={read ? 3 : 10}
+      highlight={!read}
+      highlightText={read ? null : "NEW!"}
+      timestamp={"Posted on " + timeConverter(timestamp)}
+      to={to}
+      menuOptions={[
+        { name: "Edit", handler: () => history.push(`${to}/edit`) },
+        { name: "Delete", handler: () => deleteAnn(annID) },
+      ]}
+      {...rest}
+    />
+  )
 );
 
-export const QnaCard = ({ asked, answered, timestamp, ...rest }) => (
-  <SummaryCard
-    elevation={asked && answered ? 3 : 10}
-    highlight={asked && answered}
-    highlightText={asked ? (answered ? "ANSWERED!" : "Your Question") : null}
-    timestamp={"Asked on " + timeConverter(timestamp)}
-    style={{ opacity: answered ? "1" : "0.5" }}
-    {...rest}
-  />
+export const QnaCard = compose(
+  connect(null, mapDispatchToProps),
+  withRouter
+)(
+  ({
+    qnaID,
+    history,
+    asked,
+    answered,
+    timestamp,
+    to,
+    deleteAnn,
+    deleteRem,
+    deleteQna,
+    ...rest
+  }) => (
+    <SummaryCard
+      elevation={asked && answered ? 3 : 10}
+      highlight={asked && answered}
+      highlightText={asked ? (answered ? "ANSWERED!" : "Your Question") : null}
+      timestamp={"Asked on " + timeConverter(timestamp)}
+      to={to}
+      menuOptions={[
+        { name: "Answer", handler: () => history.push(`${to}/answer`) },
+        { name: "Delete", handler: () => deleteQna(qnaID) },
+      ]}
+      style={{ opacity: answered ? "1" : "0.5" }}
+      {...rest}
+    />
+  )
 );
 
-export const RemCard = ({ timestamp, ...rest }) => (
-  // > 1 week - green,  low priority
-  // > 1 day  - orange, medium priority
-  // < 1 day  - red,    high priority
+export const RemCard = compose(
+  connect(null, mapDispatchToProps),
+  withRouter
+)(
+  ({
+    remID,
+    history,
+    timestamp,
+    to,
+    deleteAnn,
+    deleteRem,
+    deleteQna,
+    ...rest
+  }) => (
+    // > 1 week - green,  low priority
+    // > 1 day  - orange, medium priority
+    // < 1 day  - red,    high priority
 
-  <SummaryCard
-    content={"Due in " + timeFromNow(timestamp)}
-    timestamp={"Due on " + timeConverter(timestamp)}
-    {...rest}
-  >
-    <div
-      style={{
-        width: "100%",
-        height: "8px",
-        borderRadius: "4px",
-        backgroundColor: "#444",
-      }}
+    <SummaryCard
+      content={"Due in " + timeFromNow(timestamp)}
+      timestamp={"Due on " + timeConverter(timestamp)}
+      to={to}
+      menuOptions={[
+        { name: "Edit", handler: () => history.push(`rem/${remID}/edit`) },
+        { name: "Delete", handler: () => deleteRem(remID) },
+      ]}
+      {...rest}
     >
       <div
         style={{
-          width: remWidth(timestamp),
-          height: "100%",
+          width: "100%",
+          height: "8px",
           borderRadius: "4px",
-          backgroundColor: remColor(timestamp),
+          backgroundColor: "#444",
         }}
-      />
-    </div>
-  </SummaryCard>
+      >
+        <div
+          style={{
+            width: remWidth(timestamp),
+            height: "100%",
+            borderRadius: "4px",
+            backgroundColor: remColor(timestamp),
+          }}
+        />
+      </div>
+    </SummaryCard>
+  )
 );
 
 function remWidth(timestamp) {
