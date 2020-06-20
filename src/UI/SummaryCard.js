@@ -94,7 +94,7 @@ export const SummaryCard = ({
 
           {/*timestamp*/}
           <p style={{ color: "#bbb", margin: "0px", marginTop: "8px" }}>
-            {timeConverter(timestamp)}
+            {timestamp}
           </p>
         </CardContent>
       </Link>
@@ -102,20 +102,22 @@ export const SummaryCard = ({
   </Card>
 );
 
-export const AnnCard = ({ read, ...rest }) => (
+export const AnnCard = ({ read, timestamp, ...rest }) => (
   <SummaryCard
     elevation={read ? 3 : 10}
     highlight={!read}
     highlightText={read ? null : "NEW!"}
+    timestamp={"Posted on " + timeConverter(timestamp)}
     {...rest}
   />
 );
 
-export const QnaCard = ({ asked, answered, ...rest }) => (
+export const QnaCard = ({ asked, answered, timestamp, ...rest }) => (
   <SummaryCard
     elevation={asked && answered ? 3 : 10}
     highlight={asked && answered}
     highlightText={asked ? (answered ? "ANSWERED!" : "Your Question") : null}
+    timestamp={"Asked on " + timeConverter(timestamp)}
     style={{ opacity: answered ? "1" : "0.5" }}
     {...rest}
   />
@@ -128,7 +130,7 @@ export const RemCard = ({ timestamp, ...rest }) => (
 
   <SummaryCard
     content={"Due in " + timeFromNow(timestamp)}
-    timestamp={timestamp}
+    timestamp={"Due on " + timeConverter(timestamp)}
     {...rest}
   >
     <div
@@ -178,3 +180,62 @@ function remColor(timestamp) {
   //less than a day - red
   return "#f44336";
 }
+
+export const PtCard = ({ onClick, to, title, content, ...rest }) => (
+  <Card
+    style={{
+      backgroundColor: "#555",
+    }}
+    {...rest}
+  >
+    <CardActionArea
+      onClick={onClick}
+      style={{
+        font: "unset",
+      }}
+    >
+      <Link to={to} style={{ textDecoration: "none" }}>
+        <CardContent
+          style={{
+            width: "100%",
+            padding: "16px",
+            paddingLeft: "24px",
+            WebkitBoxSizing: "border-box",
+          }}
+        >
+          {/*border highlight*/}
+          <div
+            style={{
+              width: "8px",
+              backgroundColor: "#ff9800",
+              position: "absolute",
+              top: "0",
+              bottom: "0",
+              left: "0",
+            }}
+          />
+          {/*content*/}
+          <p
+            style={{
+              color: "#fff",
+              margin: "0px",
+              float: "right",
+              textAlign: "right",
+            }}
+          >
+            {content}
+          </p>
+          {/*title*/}
+          <h3
+            style={{
+              color: "#fff",
+              margin: "0px",
+            }}
+          >
+            {title}
+          </h3>
+        </CardContent>
+      </Link>
+    </CardActionArea>
+  </Card>
+);
