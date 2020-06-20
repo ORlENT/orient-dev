@@ -4,7 +4,6 @@ import { Header, CenterBox, NavButton } from "../../../UI";
 import { RemCard } from "../../../UI/SummaryCard";
 
 class RemList extends Component {
-
   render() {
     let { remInfo, isAuthed, match } = this.props;
 
@@ -30,7 +29,6 @@ class RemList extends Component {
             <RemCard
               key={key}
               title={remInfo[key].title}
-              content={remInfo[key].content}
               timestamp={remInfo[key].duedate}
             />
           ))}

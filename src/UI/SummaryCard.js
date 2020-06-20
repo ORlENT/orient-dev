@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardActionArea } from "@material-ui/core";
 import timeConverter from "../functions/timeConverter";
+import timeFromNow from "../functions/timeFromNow";
 
 //max lines of summary
 const summaryLength = 2;
@@ -12,7 +13,7 @@ export const SummaryCard = ({
   timestamp,
   highlight,
   highlightText,
-  to,
+  to = "#",
   onClick,
   children,
   ...rest
@@ -67,6 +68,7 @@ export const SummaryCard = ({
             style={{
               color: "#fff",
               margin: "0px",
+              marginBottom: "8px",
             }}
           >
             {title}
@@ -77,8 +79,6 @@ export const SummaryCard = ({
             style={{
               color: "#fff",
               margin: "0px",
-              marginTop: "8px",
-              marginBottom: "8px",
               //Clamp down to summaryLength
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -90,8 +90,10 @@ export const SummaryCard = ({
             {content}
           </p>
 
+          {children}
+
           {/*timestamp*/}
-          <p style={{ color: "#bbb", margin: "0px" }}>
+          <p style={{ color: "#bbb", margin: "0px", marginTop: "8px" }}>
             {timeConverter(timestamp)}
           </p>
         </CardContent>
@@ -119,4 +121,60 @@ export const QnaCard = ({ asked, answered, ...rest }) => (
   />
 );
 
-export const RemCard = ({ ...rest }) => <SummaryCard {...rest} />;
+export const RemCard = ({ timestamp, ...rest }) => (
+  // > 1 week - green,  low priority
+  // > 1 day  - orange, medium priority
+  // < 1 day  - red,    high priority
+
+  <SummaryCard
+    content={"Due in " + timeFromNow(timestamp)}
+    timestamp={timestamp}
+    {...rest}
+  >
+    <div
+      style={{
+        width: "100%",
+        height: "8px",
+        borderRadius: "4px",
+        backgroundColor: "#444",
+      }}
+    >
+      <div
+        style={{
+          width: remWidth(timestamp),
+          height: "100%",
+          borderRadius: "4px",
+          backgroundColor: remColor(timestamp),
+        }}
+      />
+    </div>
+  </SummaryCard>
+);
+
+function remWidth(timestamp) {
+  const diff = timestamp.toDate() - Date.now();
+  const week = 1000 * 60 * 60 * 24 * 7;
+
+  //overdue
+  if (diff <= 0) return "100%";
+
+  //more than a week
+  if (diff > week) return "8px";
+
+  return (1 - diff / week) * 100 + "%";
+}
+
+function remColor(timestamp) {
+  const diff = timestamp.toDate() - Date.now();
+  const week = 1000 * 60 * 60 * 24 * 7;
+  const day = 1000 * 60 * 60 * 24;
+
+  //more than a week - green
+  if (diff > week) return "#4caf50";
+
+  //more than a day - orange
+  if (diff > day) return "#ff9800";
+
+  //less than a day - red
+  return "#f44336";
+}

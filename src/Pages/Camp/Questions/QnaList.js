@@ -14,12 +14,12 @@ class QnaList extends Component {
   getCachedInfo() {
     var qnaCachedInfo = JSON.parse(sessionStorage.getItem("questions"));
     if (!qnaCachedInfo) qnaCachedInfo = {};
-    console.log(qnaCachedInfo)
+    console.log(qnaCachedInfo);
     this.setState({ qnaCachedInfo });
   }
 
   render() {
-    let { qnaInfo, isAuthed, match } = this.props;
+    let { qnaInfo, match } = this.props;
     const { qnaCachedInfo } = this.state;
 
     return (
@@ -42,7 +42,9 @@ class QnaList extends Component {
               title={qnaInfo[key].question}
               content={qnaInfo[key].answer}
               timestamp={qnaInfo[key].timestamp}
-              asked={qnaCachedInfo[key] ? qnaCachedInfo[key].askedStatus : false}
+              asked={
+                qnaCachedInfo[key] ? qnaCachedInfo[key].askedStatus : false
+              }
               answered={!!qnaInfo[key].answer}
               to={`${match.url}/${key}`}
             />
@@ -55,7 +57,6 @@ class QnaList extends Component {
 const mapStateToProps = (state) => {
   return {
     qnaInfo: state.store.camp.questions,
-    isAuthed: state.store.isAuthed,
   };
 };
 
