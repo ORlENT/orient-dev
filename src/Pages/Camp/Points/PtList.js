@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Header, CenterBox, AnnCard, NavButton } from "../../../UI";
+import { Header, CenterBox, PtCard, NavButton } from "../../../UI";
 
 class PtList extends Component {
   render() {
@@ -24,11 +24,10 @@ class PtList extends Component {
         {/*Report List*/}
         {grpInfo &&
           Object.keys(grpInfo).map((key) => (
-            <AnnCard
+            <PtCard
               key={key}
               title={grpInfo[key].groupName}
               content={grpInfo[key].point}
-              timestamp={grpInfo[key].timestamp}
               to={`${match.url}/${key}`}
             />
           ))}
