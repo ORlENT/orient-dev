@@ -170,7 +170,24 @@ export const fetchCampInfo = (campCode) => {
               }
             })
             .catch((err) => {
-              console.log("Error retrieving reminders");
+              console.log("Error retrieving reports");
+              console.log(err);
+            });
+
+          // Fetch Groups
+          await querySnapshot.docs[0].ref
+            .collection("groups")
+            .get()
+            .then((querySnapshot) => {
+              camp["groups"] = {};
+              for (let i = 0; i < querySnapshot.docs.length; i++) {
+                camp["groups"][querySnapshot.docs[i].id] = querySnapshot.docs[
+                  i
+                ].data();
+              }
+            })
+            .catch((err) => {
+              console.log("Error retrieving groups");
               console.log(err);
             });
 
@@ -650,6 +667,98 @@ export const deleteRpt = (state) => {
           })
           .catch((err) => {
             console.log("Error deleting report");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
+export const createGrp = (state) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Creating group");
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("groups")
+          .add({
+            groupName: state.groupname,
+            point: state.point,
+            timestamp: getFirestore().Timestamp.now(),
+          })
+          .then(() => {
+            dispatch({ type: "GROUP_CREATED" });
+          })
+          .catch((err) => {
+            console.log("Error creating report");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
+export const addPt = (state, props) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Creating group");
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("groups")
+          .doc(props.grpID)
+          .update({
+            point:
+              parseInt(getState().store.camp.groups[props.grpID].point) +
+              parseInt(state.newpoint),
+            timestamp: getFirestore().Timestamp.now(),
+          })
+          .then(() => {
+            dispatch({ type: "ADD_POINTS" });
+          })
+          .catch((err) => {
+            console.log("Error adding points");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
+export const deleteGrp = (state) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Delete group");
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("groups")
+          .doc(state.grpID)
+          .delete()
+          .then(() => {
+            dispatch({ type: "GROUP_DELETED" });
+          })
+          .catch((err) => {
+            console.log("Error deleting group");
             console.log(err);
           });
       })

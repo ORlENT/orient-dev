@@ -9,9 +9,10 @@ import Announcements from "./Camp/Announcements.js";
 import Reminders from "./Camp/Reminders.js";
 import Questions from "./Camp/Questions.js";
 import Reports from "./Camp/Reports.js";
+import Points from "./Camp/Points.js";
+import RptCreate from "./Camp/Reports/RptCreate";
 import CampEdit from "./Camp/CampEdit";
 import PasswordEdit from "./Camp/PasswordEdit";
-import RptCreate from "./Camp/Reports/RptCreate";
 
 import { Header, NavBar, LoadingScreen } from "../UI";
 import { fetchCampInfo } from "../store/actions";
@@ -81,6 +82,7 @@ class Camp extends Component {
             <Route path={`${match.path}/ann`} component={Announcements} />
             <Route path={`${match.path}/rem`} component={Reminders} />
             <Route path={`${match.path}/qna`} component={Questions} />
+            <Route path={`${match.path}/pt`} component={Points} />
             <Route path={`${match.path}/rpt/create`} component={RptCreate} />
             <AdminRoute
               path={`${match.path}/rpt`}

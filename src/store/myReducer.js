@@ -162,11 +162,24 @@ const myReducer = (state = initState, action) => {
         formSuccess: true,
       };
 
-    case "UPDATE_SESSION_ID":
-      console.log("Updated session ID successfully");
+    case "GROUP_CREATED":
+      console.log("Group created successfully");
       return {
         ...state,
-        currSessID: action.newSessID,
+        formSuccess: true,
+      };
+
+    case "GROUP_DELETED":
+      console.log("Group deleted successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
+    case "ADD_POINTS":
+      console.log("Add points successfully");
+      return {
+        ...state,
         formSuccess: true,
       };
 
