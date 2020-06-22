@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import { compose } from "redux";
 import { connect } from "react-redux";
-import { Button } from "@material-ui/core";
+import { Button, IconButton } from "@material-ui/core";
+import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
+import { AccountCircle } from "@material-ui/icons";
 import AdminLogin from "./AdminLogin";
 import { signOut } from "../store/actions";
 
@@ -24,7 +27,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const { isAuthed, signOut, children } = this.props;
+    const { width, isAuthed, signOut, children } = this.props;
     return (
       <div
         style={{
@@ -43,19 +46,37 @@ class NavBar extends Component {
           }}
         >
           {/*Admin login button*/}
-          <Button
-            color="secondary"
-            style={{
-              gridColumn: "1",
-              gridRow: "1",
-              justifySelf: "end",
-              zIndex: "1",
-              width: "150px",
-            }}
-            onClick={() => (isAuthed ? signOut() : this.toggleVisibility())}
-          >
-            {isAuthed ? "Logout" : "Login as admin"}
-          </Button>
+          {isWidthDown("xs", width) ? (
+            //MOBILE VERSION
+            <IconButton
+              color="secondary"
+              style={{
+                gridColumn: "1",
+                gridRow: "1",
+                justifySelf: "end",
+                zIndex: "1",
+                width: "60px",
+              }}
+              onClick={() => (isAuthed ? signOut() : this.toggleVisibility())}
+            >
+              <AccountCircle fontSize="small" />
+            </IconButton>
+          ) : (
+            //WEB VERSION
+            <Button
+              color="secondary"
+              style={{
+                gridColumn: "1",
+                gridRow: "1",
+                justifySelf: "end",
+                zIndex: "1",
+                width: "150px",
+              }}
+              onClick={() => (isAuthed ? signOut() : this.toggleVisibility())}
+            >
+              {isAuthed ? "Logout" : "Login as admin"}
+            </Button>
+          )}
 
           {/*Title*/}
           <div
@@ -99,4 +120,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default compose(
+  withWidth(),
+  connect(mapStateToProps, mapDispatchToProps)
+)(NavBar);
