@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { Button, IconButton } from "@material-ui/core";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
-import { AccountCircle } from "@material-ui/icons";
+import { AccountCircle, ArrowBack } from "@material-ui/icons";
 import AdminLogin from "./AdminLogin";
 import { signOut } from "../store/actions";
 
@@ -27,7 +28,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const { width, isAuthed, signOut, children } = this.props;
+    const { history, width, isAuthed, signOut, children } = this.props;
     return (
       <div
         style={{
@@ -45,6 +46,21 @@ class NavBar extends Component {
             height: "60px",
           }}
         >
+          {/*Back button*/}
+          <IconButton
+            color="primary"
+            style={{
+              gridColumn: "1",
+              gridRow: "1",
+              justifySelf: "start",
+              zIndex: "1",
+              width: "60px",
+            }}
+            onClick={() => history.goBack()}
+          >
+            <ArrowBack />
+          </IconButton>
+
           {/*Admin login button*/}
           {isWidthDown("xs", width) ? (
             //MOBILE VERSION
@@ -59,7 +75,7 @@ class NavBar extends Component {
               }}
               onClick={() => (isAuthed ? signOut() : this.toggleVisibility())}
             >
-              <AccountCircle fontSize="small" />
+              <AccountCircle />
             </IconButton>
           ) : (
             //WEB VERSION
@@ -122,5 +138,6 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
   withWidth(),
+  withRouter,
   connect(mapStateToProps, mapDispatchToProps)
 )(NavBar);
