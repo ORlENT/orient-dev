@@ -7,6 +7,7 @@ import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { AccountCircle, ArrowBack } from "@material-ui/icons";
 import AdminLogin from "./AdminLogin";
 import { signOut } from "../store/actions";
+import copyToClipboard from "../functions/copyToClipboard";
 
 class NavBar extends Component {
   state = {
@@ -28,7 +29,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const { history, width, isAuthed, signOut, children } = this.props;
+    const { camp, history, width, isAuthed, signOut } = this.props;
     return (
       <div
         style={{
@@ -103,7 +104,15 @@ class NavBar extends Component {
               backgroundColor: "#222",
             }}
           >
-            {children}
+            <h2 style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
+              {camp.campName}
+            </h2>
+            <h5
+              style={{ color: "#ff9800", textAlign: "center", margin: "0px" }}
+              onClick={() => copyToClipboard(camp.campCode)}
+            >
+              @{camp.campCode}
+            </h5>
           </div>
         </div>
 
@@ -126,6 +135,7 @@ class NavBar extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    camp: state.store.camp,
     isAuthed: state.store.isAuthed,
   };
 };

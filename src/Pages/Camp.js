@@ -64,9 +64,7 @@ class Camp extends Component {
             height: "60px",
           }}
         >
-          <NavBar>
-            <Header>Camp {camp.campName}</Header>
-          </NavBar>
+          <NavBar />
         </div>
 
         {/*Layer 2: Page content */}
