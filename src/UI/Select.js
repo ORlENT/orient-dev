@@ -49,6 +49,8 @@ const SelectField = ({
 }) => {
   return (
     <StyledField
+      id={id}
+      name={id}
       variant="outlined"
       margin="dense"
       required
