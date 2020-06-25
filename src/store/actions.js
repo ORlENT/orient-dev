@@ -575,6 +575,42 @@ export const addPt = (state, props) => {
   };
 };
 
+export const transferPt = (state, props) => {
+  return (dispatch, getState, { getFirestore }) => {
+    console.log("Transferring points");
+    console.log(state.point);
+    console.log(state.groupname);
+    console.log(state.groupname2);
+    // getFirestore()
+    //   .collection("camps")
+    //   .where("campCode", "==", getState().store.camp.campCode)
+    //   .get()
+    //   .then((querySnapshot) => {
+    //     const camp = querySnapshot.docs[0].ref;
+    //     camp
+    //       .collection("groups")
+    //       .doc(props.grpID)
+    //       .update({
+    //         point:
+    //           parseInt(getState().store.camp.groups[props.grpID].point) +
+    //           parseInt(state.newpoint),
+    //         timestamp: getFirestore().Timestamp.now(),
+    //       })
+    //       .then(() => {
+    //         dispatch({ type: "ADD_POINTS" });
+    //       })
+    //       .catch((err) => {
+    //         console.log("Error adding points");
+    //         console.log(err);
+    //       });
+    //   })
+    //   .catch((err) => {
+    //     console.log("Error retrieving camp");
+    //     console.log(err);
+    //   });
+  };
+};
+
 export const deleteGrp = (state) => {
   return (dispatch, getState, { getFirestore }) => {
     deleteSubCollectionDoc(

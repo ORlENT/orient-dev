@@ -7,6 +7,7 @@ import NavBar from "./NavBar";
 import { LoadingScreen, LoadingScreenSmall } from "./LoadingScreen";
 import Form from "./Form";
 import AdminMenu from "./AdminMenu";
+import Select from "./Select";
 
 export {
   NavButton,
@@ -24,4 +25,5 @@ export {
   LoadingScreenSmall,
   Form,
   AdminMenu,
+  Select,
 };

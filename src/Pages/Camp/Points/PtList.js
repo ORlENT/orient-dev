@@ -21,6 +21,13 @@ class PtList extends Component {
           </NavButton>
         )}
 
+        {/*Transfer points button (Admin only)*/}
+        {isAuthed && (
+          <NavButton admin to={`${match.url}/transfer`}>
+            Transfer points
+          </NavButton>
+        )}
+
         {/*Report List*/}
         {grpInfo &&
           Object.keys(grpInfo).map((key) => (

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
 import Field from "./Field";
+import Select from "./Select";
 import { LoadingScreenSmall } from "./LoadingScreen";
 import { resetForm } from "../store/actions";
 
@@ -93,6 +94,7 @@ class Form extends Component {
   }
 
   render() {
+    console.log(this.state);
     const { admin, children } = this.props;
     return (
       <div
@@ -122,7 +124,7 @@ class Form extends Component {
           <Grid container spacing={2}>
             {React.Children.map(children, (child) => (
               <Grid item style={{ width: "100%" }}>
-                {child.type === Field
+                {child.type === Field || child.type === Select
                   ? //Fields
                     React.cloneElement(child, {
                       onChange: this.handleChange,
