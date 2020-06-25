@@ -14,7 +14,7 @@ import RptCreate from "./Camp/Reports/RptCreate";
 import CampEdit from "./Camp/CampEdit";
 import PasswordEdit from "./Camp/PasswordEdit";
 
-import { Header, NavBar, LoadingScreen } from "../UI";
+import { NavBar, LoadingScreen } from "../UI";
 import { fetchCampInfo } from "../store/actions";
 import AdminRoute from "../Routes/AdminRoute";
 
@@ -72,6 +72,7 @@ class Camp extends Component {
           style={{
             gridColumn: "1",
             gridRow: "1",
+            zIndex: "0",
             paddingTop: "60px",
           }}
         >

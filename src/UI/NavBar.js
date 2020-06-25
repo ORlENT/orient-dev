@@ -95,7 +95,7 @@ class NavBar extends Component {
             </Button>
           )}
 
-          {/*Title*/}
+          {/*Title and Background*/}
           <div
             className="centerContent"
             style={{
