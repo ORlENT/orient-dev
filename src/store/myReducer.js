@@ -183,6 +183,13 @@ const myReducer = (state = initState, action) => {
         formSuccess: true,
       };
 
+    case "TRANSFER_POINTS":
+      console.log("Transfer points successfully");
+      return {
+        ...state,
+        formSuccess: true,
+      };
+
     default:
       return state;
   }
