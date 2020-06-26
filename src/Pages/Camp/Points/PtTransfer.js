@@ -18,7 +18,6 @@ class PtTransfer extends Component {
   }
 
   render() {
-    console.log(this.props.grpInfo);
     return (
       <CenterBox>
         <Header>Point Transfer</Header>

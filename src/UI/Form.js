@@ -94,7 +94,6 @@ class Form extends Component {
   }
 
   render() {
-    console.log(this.state);
     const { admin, children } = this.props;
     return (
       <div
