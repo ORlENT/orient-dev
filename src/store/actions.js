@@ -145,6 +145,25 @@ export const fetchCampInfo = (campCode) => {
             ["desc"]
           );
 
+          // Set sessionStorage for announcements unread
+          var annCachedInfo = JSON.parse(
+            sessionStorage.getItem("announcements")
+          );
+
+          if (!annCachedInfo) annCachedInfo = {};
+
+          Object.keys(camp["announcements"]).map((key) => {
+            if (!annCachedInfo[`${key}`]) {
+              annCachedInfo[`${key}`] = {};
+              annCachedInfo[`${key}`].readStatus = false;
+            }
+          });
+
+          sessionStorage.setItem(
+            "announcements",
+            JSON.stringify(annCachedInfo)
+          );
+
           dispatch({
             type: "CAMP_RETRIEVED",
             camp: camp,
