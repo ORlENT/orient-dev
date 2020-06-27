@@ -157,6 +157,7 @@ export const fetchCampInfo = (campCode) => {
               annCachedInfo[`${key}`] = {};
               annCachedInfo[`${key}`].readStatus = false;
             }
+            return annCachedInfo[`${key}`];
           });
 
           sessionStorage.setItem(
