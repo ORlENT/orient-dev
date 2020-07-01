@@ -9,6 +9,7 @@ import Form from "./Form";
 import AdminMenu from "./AdminMenu";
 import Select from "./Select";
 import Notification from "./Notification";
+import ConfirmDialog from "./ConfirmDialog";
 
 export {
   NavButton,
@@ -28,4 +29,5 @@ export {
   AdminMenu,
   Select,
   Notification,
+  ConfirmDialog,
 };

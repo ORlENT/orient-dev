@@ -5,6 +5,13 @@ import { Header, CenterBox, NavButton, AnnCard } from "../../../UI";
 class AnnList extends Component {
   state = {
     annCachedInfo: {},
+    visible: false,
+  };
+
+  toggleVisibility = () => {
+    this.setState({
+      visible: !this.state.visible,
+    });
   };
 
   setSessionStorage(key) {
@@ -33,39 +40,43 @@ class AnnList extends Component {
     const { annCachedInfo } = this.state;
 
     return (
-      <CenterBox>
-        <Header>Announcements</Header>
+      <React.Fragment>
+        <CenterBox>
+          <Header>Announcements</Header>
 
-        {/*Create new Announcement button (Admin only)*/}
-        {isAuthed && (
-          <NavButton admin to={`${match.url}/create`}>
-            Create new announcement
-          </NavButton>
-        )}
+          {/*Create new Announcement button (Admin only)*/}
+          {isAuthed && (
+            <NavButton admin to={`${match.url}/create`}>
+              Create new announcement
+            </NavButton>
+          )}
 
-        {/*No announcements*/}
-        {Object.keys(annInfo).length === 0 && (
-          <Header>No announcement was found.</Header>
-        )}
+          {/*No announcements*/}
+          {Object.keys(annInfo).length === 0 && (
+            <Header>No announcement was found.</Header>
+          )}
 
-        {/*Announcement List*/}
-        {annInfo &&
-          Object.keys(annInfo).map((key) => (
-            <AnnCard
-              key={key}
-              annID={key}
-              title={annInfo[key].title}
-              content={annInfo[key].content}
-              timestamp={annInfo[key].timestamp}
-              read={annCachedInfo[key] ? annCachedInfo[key].readStatus : false}
-              to={`${match.url}/${key}`}
-              onClick={() => {
-                this.setSessionStorage(key);
-                this.forceUpdate();
-              }}
-            />
-          ))}
-      </CenterBox>
+          {/*Announcement List*/}
+          {annInfo &&
+            Object.keys(annInfo).map((key) => (
+              <AnnCard
+                key={key}
+                annID={key}
+                title={annInfo[key].title}
+                content={annInfo[key].content}
+                timestamp={annInfo[key].timestamp}
+                read={
+                  annCachedInfo[key] ? annCachedInfo[key].readStatus : false
+                }
+                to={`${match.url}/${key}`}
+                onClick={() => {
+                  this.setSessionStorage(key);
+                  this.forceUpdate();
+                }}
+              />
+            ))}
+        </CenterBox>
+      </React.Fragment>
     );
   }
 }
