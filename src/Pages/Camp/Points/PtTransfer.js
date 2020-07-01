@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import ValidationError from "../../../errors/ValidationError";
+
 import {
   Header,
   SubmitButton,
@@ -13,6 +15,12 @@ import {
 import { transferPt } from "../../../store/actions";
 
 class PtTransfer extends Component {
+  validate = (state) => {
+    if (isNaN(state.newpoint)) {
+      throw new ValidationError("point", "Point must be numerical characters.");
+    }
+  };
+
   successHandler(state, props) {
     props.history.goBack();
   }
@@ -26,6 +34,7 @@ class PtTransfer extends Component {
           onSubmit={this.props.transferPt}
           onSuccess={this.successHandler}
           history={this.props.history}
+          validate={this.validate}
         >
           <Select
             label="From: Group Name"
