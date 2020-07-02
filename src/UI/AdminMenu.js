@@ -34,6 +34,7 @@ class AdminMenu extends Component {
         this.setState({
           callback: null,
         });
+        this.props.clearCallback();
       }
     } catch (err) {
       console.log(err);
@@ -68,8 +69,12 @@ class AdminMenu extends Component {
                     key={option.name}
                     onClick={() => {
                       this.handleClose();
+                      this.setState({
+                        callback: () => {
+                          this.handleOption(option);
+                        },
+                      });
                       this.props.openConfirmForm();
-                      this.setState({ callback: this.handleOption(option) });
                     }}
                   >
                     {option.name}

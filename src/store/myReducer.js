@@ -217,19 +217,6 @@ const myReducer = (state = initState, action) => {
         ...state,
         callback: false,
       };
-    case "REFRESH_PAGE":
-      console.log("Refresh Page successfully");
-      return {
-        ...state,
-        refreshPage: true,
-      };
-
-    case "REFRESH_PAGE_COMPLETED":
-      console.log("finish Refresh Page successfully");
-      return {
-        ...state,
-        refreshPage: false,
-      };
 
     default:
       return state;
