@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Header, CenterBox, NavButton, AnnCard } from "../../../UI";
+import {
+  Header,
+  CenterBox,
+  NavButton,
+  AnnCard,
+  ConfirmDialog,
+} from "../../../UI";
 
 class AnnList extends Component {
   state = {
     annCachedInfo: {},
-    visible: false,
-  };
-
-  toggleVisibility = () => {
-    this.setState({
-      visible: !this.state.visible,
-    });
   };
 
   setSessionStorage(key) {
@@ -40,7 +39,7 @@ class AnnList extends Component {
     const { annCachedInfo } = this.state;
 
     return (
-      <React.Fragment>
+      <ConfirmDialog actionText="Delete" admin>
         <CenterBox>
           <Header>Announcements</Header>
 
@@ -76,7 +75,7 @@ class AnnList extends Component {
               />
             ))}
         </CenterBox>
-      </React.Fragment>
+      </ConfirmDialog>
     );
   }
 }

@@ -620,7 +620,7 @@ export const transferPt = (state, props) => async (
           timestamp: getFirestore().Timestamp.now(),
         })
         .catch((err) => {
-          console.log("Error trasnfering points");
+          console.log("Error transferring points");
           console.log(err);
         });
 
@@ -663,5 +663,39 @@ export const deleteGrp = (state) => {
 export const resetForm = () => {
   return (dispatch, getState) => {
     dispatch({ type: "RESET_FORM" });
+  };
+};
+
+export const openConfirmForm = () => {
+  return (dispatch) => {
+    dispatch({
+      type: "CONFIRM_FORM_OPEN",
+      confirmForm: true,
+    });
+  };
+};
+
+export const closeConfirmForm = () => {
+  return (dispatch) => {
+    dispatch({
+      type: "CONFIRM_FORM_CLOSE",
+      confirmForm: false,
+    });
+  };
+};
+
+export const setCallback = () => {
+  return (dispatch) => {
+    dispatch({
+      type: "CALLBACK_SET",
+    });
+  };
+};
+
+export const clearCallback = () => {
+  return (dispatch) => {
+    dispatch({
+      type: "CALLBACK_CLEAR",
+    });
   };
 };

@@ -190,6 +190,47 @@ const myReducer = (state = initState, action) => {
         formSuccess: true,
       };
 
+    case "CONFIRM_FORM_OPEN":
+      console.log("Open confirm form successfully");
+      return {
+        ...state,
+        confirmForm: true,
+      };
+
+    case "CONFIRM_FORM_CLOSE":
+      console.log("Close confirm form successfully");
+      return {
+        ...state,
+        confirmForm: false,
+      };
+
+    case "CALLBACK_SET":
+      console.log("Callback successfully");
+      return {
+        ...state,
+        callback: true,
+      };
+
+    case "CALLBACK_CLEAR":
+      console.log("Callback clear successfully");
+      return {
+        ...state,
+        callback: false,
+      };
+    case "REFRESH_PAGE":
+      console.log("Refresh Page successfully");
+      return {
+        ...state,
+        refreshPage: true,
+      };
+
+    case "REFRESH_PAGE_COMPLETED":
+      console.log("finish Refresh Page successfully");
+      return {
+        ...state,
+        refreshPage: false,
+      };
+
     default:
       return state;
   }

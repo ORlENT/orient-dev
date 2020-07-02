@@ -8,19 +8,9 @@ import {
   ConfirmDialog,
 } from "../../../UI";
 import timeConverter from "../../../functions/timeConverter";
-import { deleteAnn } from "../../../store/actions";
+import { deleteAnn, openConfirmForm } from "../../../store/actions";
 
 class AnnDetails extends Component {
-  state = {
-    visible: false,
-  };
-
-  toggleVisibility = () => {
-    this.setState({
-      visible: !this.state.visible,
-    });
-  };
-
   handleDelete = () => {
     this.props.deleteAnn(this.props.match.params.annID);
     this.props.history.goBack();
@@ -30,7 +20,7 @@ class AnnDetails extends Component {
     const { annInfo, isAuthed, match } = this.props;
     const key = match.params.annID;
     return (
-      <React.Fragment>
+      <ConfirmDialog actionText="Delete" action={this.handleDelete} admin>
         <CenterBox>
           <Header>{annInfo[key].title}</Header>
 
@@ -57,7 +47,13 @@ class AnnDetails extends Component {
 
           {/*Delete Announcement button (Admin only)*/}
           {isAuthed && (
-            <SubmitButton admin secondary onClick={this.toggleVisibility}>
+            <SubmitButton
+              admin
+              secondary
+              onClick={() => {
+                this.props.openConfirmForm();
+              }}
+            >
               Delete announcement
             </SubmitButton>
           )}
@@ -79,19 +75,7 @@ class AnnDetails extends Component {
             {annInfo[key].content}
           </p>
         </CenterBox>
-
-        <ConfirmDialog
-          toggleVisibility={() => {
-            this.toggleVisibility();
-          }}
-          action={() => {
-            this.handleDelete();
-          }}
-          actionText="Delete"
-          admin
-          open={this.state.visible}
-        />
-      </React.Fragment>
+      </ConfirmDialog>
     );
   }
 }
@@ -107,6 +91,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteAnn: (annID) => dispatch(deleteAnn(annID)),
+    openConfirmForm: () => dispatch(openConfirmForm()),
   };
 };
 

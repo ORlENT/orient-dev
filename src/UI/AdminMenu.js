@@ -1,19 +1,15 @@
 import React, { Component } from "react";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
-import ConfirmDialog from "./ConfirmDialog";
+import { connect } from "react-redux";
+import { openConfirmForm, clearCallback } from "../store/actions";
 
 class AdminMenu extends Component {
   state = {
     anchorEl: null,
-    visible: false,
+    callback: false,
   };
 
-  toggleVisibility = () => {
-    this.setState({
-      visible: !this.state.visible,
-    });
-  };
   handleClick = (event) => {
     this.setState({
       anchorEl: event.currentTarget,
@@ -31,8 +27,21 @@ class AdminMenu extends Component {
     option.handler();
   };
 
+  componentDidUpdate() {
+    try {
+      if (this.state.callback && this.props.callback) {
+        this.state.callback();
+        this.setState({
+          callback: null,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   render() {
-    const { menuOptions, ...rest } = this.props;
+    const { menuOptions, openConfirmForm, clearCallback, ...rest } = this.props;
     const { anchorEl } = this.state;
     return (
       <div {...rest}>
@@ -58,23 +67,13 @@ class AdminMenu extends Component {
                   <MenuItem
                     key={option.name}
                     onClick={() => {
-                      this.toggleVisibility();
+                      this.handleClose();
+                      this.props.openConfirmForm();
+                      this.setState({ callback: this.handleOption(option) });
                     }}
                   >
                     {option.name}
                   </MenuItem>
-                  <ConfirmDialog
-                    key={option.name}
-                    toggleVisibility={() => {
-                      this.toggleVisibility();
-                    }}
-                    action={() => {
-                      this.handleOption(option);
-                    }}
-                    actionText="Delete"
-                    admin
-                    open={this.state.visible}
-                  />
                 </div>
               );
             return (
@@ -94,4 +93,18 @@ class AdminMenu extends Component {
   }
 }
 
-export default AdminMenu;
+const mapStateToProps = (state) => {
+  return {
+    ...state,
+    callback: state.store.callback,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    openConfirmForm: () => dispatch(openConfirmForm()),
+    clearCallback: () => dispatch(clearCallback()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminMenu);
