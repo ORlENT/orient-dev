@@ -108,12 +108,13 @@ const mapStateToProps = (state) => {
   return {
     ...state,
     confirm: state.store.confirm,
+    clearAction: state.store.clearAction,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatchType: (callbackStatus) => dispatch(dispatchType(callbackStatus)),
+    dispatchType: (type) => dispatch(dispatchType(type)),
   };
 };
 

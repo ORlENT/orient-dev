@@ -12,6 +12,7 @@ import { deleteAnn, dispatchType } from "../../../store/actions";
 
 class AnnDetails extends Component {
   handleDelete = () => {
+    this.props.dispatchType("CONFIRM_FORM_CLOSE");
     this.props.deleteAnn(this.props.match.params.annID);
     this.props.history.goBack();
   };

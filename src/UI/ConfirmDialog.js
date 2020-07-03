@@ -118,7 +118,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchCampInfo: (campCode) => dispatch(fetchCampInfo(campCode)),
-    dispatchType: (callbackStatus) => dispatch(dispatchType(callbackStatus)),
+    dispatchType: (type) => dispatch(dispatchType(type)),
   };
 };
 
