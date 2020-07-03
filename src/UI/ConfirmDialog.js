@@ -4,12 +4,7 @@ import { connect } from "react-redux";
 
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
-import {
-  closeConfirmForm,
-  setCallback,
-  fetchCampInfo,
-  clearCallback,
-} from "../store/actions";
+import { fetchCampInfo, dispatchType } from "../store/actions";
 
 class ConfirmDialog extends Component {
   state = {
@@ -82,9 +77,8 @@ class ConfirmDialog extends Component {
                       if (this.props.action) {
                         this.props.action();
                       } else {
-                        this.props.setCallback();
+                        this.props.dispatchType("CONFIRMFORM_CONFIRM");
                       }
-                      this.props.closeConfirmForm();
                     }}
                   >
                     {this.props.actionText}
@@ -93,8 +87,7 @@ class ConfirmDialog extends Component {
                     secondary
                     admin={this.props.admin}
                     onClick={() => {
-                      this.props.clearCallback();
-                      this.props.closeConfirmForm();
+                      this.props.dispatchType("CONFIRM_FORM_CLOSE");
                     }}
                   >
                     Back
@@ -118,15 +111,14 @@ const mapStateToProps = (state) => {
   return {
     ...state,
     confirmForm: state.store.confirmForm,
+    clearAction: state.store.clearAction,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    closeConfirmForm: () => dispatch(closeConfirmForm()),
-    setCallback: () => dispatch(setCallback()),
     fetchCampInfo: (campCode) => dispatch(fetchCampInfo(campCode)),
-    clearCallback: () => dispatch(clearCallback()),
+    dispatchType: (callbackStatus) => dispatch(dispatchType(callbackStatus)),
   };
 };
 

@@ -8,7 +8,7 @@ import {
   ConfirmDialog,
 } from "../../../UI";
 import timeConverter from "../../../functions/timeConverter";
-import { deleteAnn, openConfirmForm } from "../../../store/actions";
+import { deleteAnn, dispatchType } from "../../../store/actions";
 
 class AnnDetails extends Component {
   handleDelete = () => {
@@ -51,7 +51,7 @@ class AnnDetails extends Component {
               admin
               secondary
               onClick={() => {
-                this.props.openConfirmForm();
+                this.props.dispatchType("CONFIRM_FORM_OPEN");
               }}
             >
               Delete announcement
@@ -91,7 +91,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteAnn: (annID) => dispatch(deleteAnn(annID)),
-    openConfirmForm: () => dispatch(openConfirmForm()),
+    dispatchType: (type) => dispatch(dispatchType(type)),
   };
 };
 

@@ -666,36 +666,8 @@ export const resetForm = () => {
   };
 };
 
-export const openConfirmForm = () => {
-  return (dispatch) => {
-    dispatch({
-      type: "CONFIRM_FORM_OPEN",
-      confirmForm: true,
-    });
-  };
-};
-
-export const closeConfirmForm = () => {
-  return (dispatch) => {
-    dispatch({
-      type: "CONFIRM_FORM_CLOSE",
-      confirmForm: false,
-    });
-  };
-};
-
-export const setCallback = () => {
-  return (dispatch) => {
-    dispatch({
-      type: "CALLBACK_SET",
-    });
-  };
-};
-
-export const clearCallback = () => {
-  return (dispatch) => {
-    dispatch({
-      type: "CALLBACK_CLEAR",
-    });
-  };
+export const dispatchType = (type) => async (dispatch) => {
+  dispatch({
+    type: type,
+  });
 };

@@ -196,26 +196,27 @@ const myReducer = (state = initState, action) => {
         ...state,
         confirmForm: true,
       };
+    case "CONFIRMFORM_CONFIRM":
+      console.log("Confirm form confirm executing callback successfully");
+      return {
+        ...state,
+        confirm: true,
+      };
 
     case "CONFIRM_FORM_CLOSE":
       console.log("Close confirm form successfully");
       return {
         ...state,
+        confirm: false,
         confirmForm: false,
+        clearAction: true,
       };
 
-    case "CALLBACK_SET":
-      console.log("Callback successfully");
+    case "CONFIRM_FORM_CLEARED_CALLBACKACTION":
+      console.log("Callback action in admin menu clear successfully");
       return {
         ...state,
-        callback: true,
-      };
-
-    case "CALLBACK_CLEAR":
-      console.log("Callback clear successfully");
-      return {
-        ...state,
-        callback: false,
+        clearAction: false,
       };
 
     default:

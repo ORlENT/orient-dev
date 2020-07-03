@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
 import { connect } from "react-redux";
-import { openConfirmForm, clearCallback } from "../store/actions";
+import { dispatchType } from "../store/actions";
 
 class AdminMenu extends Component {
   state = {
     anchorEl: null,
-    callback: false,
+    callbackAction: false,
   };
 
   handleClick = (event) => {
@@ -29,12 +29,18 @@ class AdminMenu extends Component {
 
   componentDidUpdate() {
     try {
-      if (this.state.callback && this.props.callback) {
-        this.state.callback();
+      if (this.state.callbackAction && this.props.confirm) {
+        this.state.callbackAction();
         this.setState({
-          callback: null,
+          callbackAction: null,
         });
-        this.props.clearCallback();
+        this.props.dispatchType("CONFIRM_FORM_CLOSE");
+      }
+      if (this.state.callbackAction && this.props.clearAction) {
+        this.setState({
+          callbackAction: null,
+        });
+        this.props.dispatchType("CONFIRM_FORM_CLEARED_CALLBACKACTION");
       }
     } catch (err) {
       console.log(err);
@@ -42,7 +48,7 @@ class AdminMenu extends Component {
   }
 
   render() {
-    const { menuOptions, openConfirmForm, clearCallback, ...rest } = this.props;
+    const { menuOptions, ...rest } = this.props;
     const { anchorEl } = this.state;
     return (
       <div {...rest}>
@@ -70,11 +76,11 @@ class AdminMenu extends Component {
                     onClick={() => {
                       this.handleClose();
                       this.setState({
-                        callback: () => {
+                        callbackAction: () => {
                           this.handleOption(option);
                         },
                       });
-                      this.props.openConfirmForm();
+                      this.props.dispatchType("CONFIRM_FORM_OPEN");
                     }}
                   >
                     {option.name}
@@ -101,14 +107,13 @@ class AdminMenu extends Component {
 const mapStateToProps = (state) => {
   return {
     ...state,
-    callback: state.store.callback,
+    confirm: state.store.confirm,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openConfirmForm: () => dispatch(openConfirmForm()),
-    clearCallback: () => dispatch(clearCallback()),
+    dispatchType: (callbackStatus) => dispatch(dispatchType(callbackStatus)),
   };
 };
 
