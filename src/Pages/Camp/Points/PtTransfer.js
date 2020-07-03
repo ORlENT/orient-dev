@@ -16,7 +16,7 @@ import { transferPt } from "../../../store/actions";
 
 class PtTransfer extends Component {
   validate = (state) => {
-    if (isNaN(state.newpoint)) {
+    if (isNaN(state.point)) {
       throw new ValidationError("point", "Point must be numerical characters.");
     }
   };
