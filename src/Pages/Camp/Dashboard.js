@@ -43,7 +43,7 @@ class Dashboard extends Component {
     const week = 1000 * 60 * 60 * 24 * 7;
 
     this.setState({ remNotif: false });
-    for (var key in this.props.remInfo) {
+    for (/* var */ key in this.props.remInfo) {
       const diff = this.props.remInfo[key].duedate.toDate() - Date.now();
       if (diff < week && diff > 0) {
         this.setState({ remNotif: true });
@@ -55,7 +55,7 @@ class Dashboard extends Component {
     if (!qnaCachedInfo) qnaCachedInfo = {};
 
     this.setState({ qnaNotif: false });
-    for (var key in this.props.qnaInfo) {
+    for (/* var */ key in this.props.qnaInfo) {
       if (
         qnaCachedInfo[key] &&
         qnaCachedInfo[key].askedStatus &&

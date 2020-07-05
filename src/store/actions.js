@@ -107,43 +107,50 @@ export const fetchCampInfo = (campCode) => {
     getFirestore()
       .collection("camps")
       .where("campCode", "==", campCode)
+      .limit(1)
       .get()
       .then(async (querySnapshot) => {
         if (!querySnapshot.empty) {
           var camp = querySnapshot.docs[0].data();
 
           // Fetch Announcements
-          await fetchSubCollection(
+          var ann = fetchSubCollection(
             querySnapshot.docs[0].ref,
             camp,
             "announcements"
           );
 
           // Fetch Questions
-          await fetchSubCollection(
+          var qna = fetchSubCollection(
             querySnapshot.docs[0].ref,
             camp,
             "questions"
           );
 
           // Fetch Reports
-          await fetchSubCollection(
+          var rem = fetchSubCollection(
             querySnapshot.docs[0].ref,
             camp,
             "reminders"
           );
 
           // Fetch Reports
-          await fetchSubCollection(querySnapshot.docs[0].ref, camp, "reports");
+          var rpt = fetchSubCollection(
+            querySnapshot.docs[0].ref,
+            camp,
+            "reports"
+          );
 
           // Fetch Groups
-          await fetchSubCollection(
+          var grp = fetchSubCollection(
             querySnapshot.docs[0].ref,
             camp,
             "groups",
             ["point"],
             ["desc"]
           );
+
+          await Promise.all([ann, qna, rem, rpt, grp]);
 
           // Set sessionStorage for announcements unread
           var annCachedInfo = JSON.parse(
@@ -178,6 +185,7 @@ export const fetchCampInfo = (campCode) => {
             campCode: campCode,
           });
         }
+        return;
       })
       .catch((err) => {
         console.log("Error retrieving camp");
