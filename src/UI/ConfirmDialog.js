@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
-import { fetchCampInfo, dispatchType } from "../store/actions";
+import { dispatchType } from "../store/actions";
 
 class ConfirmDialog extends Component {
   state = {
@@ -23,7 +23,6 @@ class ConfirmDialog extends Component {
         this.setState({
           visible: false,
         });
-        this.props.fetchCampInfo(this.props.match.params.campCode);
       }
     } catch (err) {
       console.log(err);
@@ -117,7 +116,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCampInfo: (campCode) => dispatch(fetchCampInfo(campCode)),
     dispatchType: (type) => dispatch(dispatchType(type)),
   };
 };

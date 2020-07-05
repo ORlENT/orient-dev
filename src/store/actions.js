@@ -194,6 +194,51 @@ export const fetchCampInfo = (campCode) => {
   };
 };
 
+export const addCampListener = (campCode) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    console.log("Adding listeners...");
+
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", campCode)
+      .limit(1)
+      .onSnapshot(() => dispatch(fetchCampInfo(campCode)));
+
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", campCode)
+      .limit(1)
+      .get()
+      .then((querySnapshot) => {
+        if (querySnapshot.empty) {
+          console.log("Camp " + campCode + " not found");
+          dispatch({
+            type: "CAMP_RETRIEVED",
+            camp: null,
+            campCode: campCode,
+          });
+        }
+
+        const ref = querySnapshot.docs[0].ref;
+        const collections = [
+          "announcements",
+          "reminders",
+          "questions",
+          "reports",
+          "groups",
+        ];
+
+        collections.forEach((col) => {
+          ref
+            .collection(col)
+            .onSnapshot(() => dispatch(fetchCampInfo(campCode)));
+        });
+      });
+
+    console.log("Listeners added");
+  };
+};
+
 export const editCamp = (state) => async (
   dispatch,
   getState,

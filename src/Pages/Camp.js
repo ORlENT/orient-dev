@@ -15,23 +15,12 @@ import CampEdit from "./Camp/CampEdit";
 import PasswordEdit from "./Camp/PasswordEdit";
 
 import { NavBar, LoadingScreen } from "../UI";
-import { fetchCampInfo } from "../store/actions";
+import { addCampListener } from "../store/actions";
 import AdminRoute from "../Routes/AdminRoute";
 
 class Camp extends Component {
   componentDidMount() {
-    this.props.fetchCampInfo(this.props.match.params.campCode);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      this.onRouteChanged();
-    }
-  }
-
-  onRouteChanged() {
-    console.log("Route Changed");
-    this.props.fetchCampInfo(this.props.match.params.campCode);
+    this.props.addCampListener(this.props.match.params.campCode);
   }
 
   render() {
@@ -114,7 +103,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCampInfo: (campCode) => dispatch(fetchCampInfo(campCode)),
+    addCampListener: (campCode) => dispatch(addCampListener(campCode)),
   };
 };
 
