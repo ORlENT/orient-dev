@@ -34,8 +34,9 @@ class NavBar extends Component {
       <div
         style={{
           display: "grid",
-          position: "sticky",
+          position: "fixed",
           top: "0",
+          width: "100%",
         }}
       >
         {/*Navbar*/}

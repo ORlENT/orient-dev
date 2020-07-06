@@ -46,7 +46,7 @@ class ConfirmDialog extends Component {
               gridColumn: "1",
               gridRow: "1",
               zIndex: "0",
-              height: "100vh",
+              height: "100%",
             }}
           >
             {this.props.children}
@@ -58,11 +58,12 @@ class ConfirmDialog extends Component {
                 gridColumn: "1",
                 gridRow: "1",
                 zIndex: "2",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                height: "100%",
               }}
             >
               <div
                 style={{
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
                   height: "100vh",
                   zIndex: "2",
                 }}
