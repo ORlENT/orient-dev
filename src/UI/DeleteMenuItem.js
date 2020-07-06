@@ -37,6 +37,7 @@ class DeleteMenuItem extends Component {
   render() {
     return (
       <MenuItem
+        key={this.props.key}
         onClick={() => {
           this.props.handleClose();
           this.props.setConfirmMenuKey(this.props.id);

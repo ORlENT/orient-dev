@@ -17,7 +17,6 @@ class GrpDetails extends Component {
 
   handleDelete = () => {
     this.props.deleteGrp(this.state);
-    this.props.history.goBack();
   };
 
   render() {
@@ -72,9 +71,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    deleteGrp: (state) => dispatch(deleteGrp(state)),
+    deleteGrp: (state) => dispatch(deleteGrp(state, ownProps)),
   };
 };
 

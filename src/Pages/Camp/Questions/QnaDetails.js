@@ -13,7 +13,6 @@ import { deleteQna } from "../../../store/actions";
 class QnaDetails extends Component {
   handleDelete = () => {
     this.props.deleteQna(this.props.match.params.qnaID);
-    this.props.history.goBack();
   };
 
   render() {
@@ -68,9 +67,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    deleteQna: (qnaID) => dispatch(deleteQna(qnaID)),
+    deleteQna: (qnaID) => dispatch(deleteQna(qnaID, ownProps)),
   };
 };
 

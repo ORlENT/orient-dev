@@ -337,6 +337,7 @@ export const createAnn = (state) => {
 };
 
 export const editAnn = (state, props) => {
+  console.log(props);
   return (dispatch, getState, { getFirestore }) => {
     console.log("Editing announcement");
     getFirestore()
@@ -369,16 +370,29 @@ export const editAnn = (state, props) => {
   };
 };
 
-export const deleteAnn = (annID) => {
-  return (dispatch, getState, { getFirestore }) =>
-    deleteSubCollectionDoc(
-      getFirestore,
-      dispatch,
-      "announcements",
-      annID,
-      getState().store.camp.campCode,
-      "ANN_DELETED"
-    );
+export const deleteAnn = (annID, props) => {
+  return (dispatch, getState, { getFirestore }) => {
+    if (props) {
+      deleteSubCollectionDoc(
+        getFirestore,
+        dispatch,
+        "announcements",
+        annID,
+        getState().store.camp.campCode,
+        "ANN_DELETED",
+        props.history
+      );
+    } else {
+      deleteSubCollectionDoc(
+        getFirestore,
+        dispatch,
+        "announcements",
+        annID,
+        getState().store.camp.campCode,
+        "ANN_DELETED"
+      );
+    }
+  };
 };
 
 export const askQna = (state) => {
@@ -448,16 +462,28 @@ export const answerQna = (state, props) => {
   };
 };
 
-export const deleteQna = (qnaID) => {
+export const deleteQna = (qnaID, props) => {
   return (dispatch, getState, { getFirestore }) => {
-    deleteSubCollectionDoc(
-      getFirestore,
-      dispatch,
-      "questions",
-      qnaID,
-      getState().store.camp.campCode,
-      "QNA_DELETED"
-    );
+    if (props) {
+      deleteSubCollectionDoc(
+        getFirestore,
+        dispatch,
+        "questions",
+        qnaID,
+        getState().store.camp.campCode,
+        "QNA_DELETED",
+        props.history
+      );
+    } else {
+      deleteSubCollectionDoc(
+        getFirestore,
+        dispatch,
+        "questions",
+        qnaID,
+        getState().store.camp.campCode,
+        "QNA_DELETED"
+      );
+    }
   };
 };
 
@@ -701,16 +727,28 @@ export const transferPt = (state, props) => async (
     });
 };
 
-export const deleteGrp = (state) => {
+export const deleteGrp = (state, props) => {
   return (dispatch, getState, { getFirestore }) => {
-    deleteSubCollectionDoc(
-      getFirestore,
-      dispatch,
-      "groups",
-      state.grpID,
-      getState().store.camp.campCode,
-      "GROUP_DELETED"
-    );
+    if (props) {
+      deleteSubCollectionDoc(
+        getFirestore,
+        dispatch,
+        "groups",
+        state.grpID,
+        getState().store.camp.campCode,
+        "GROUP_DELETED",
+        props.history
+      );
+    } else {
+      deleteSubCollectionDoc(
+        getFirestore,
+        dispatch,
+        "groups",
+        state.grpID,
+        getState().store.camp.campCode,
+        "GROUP_DELETED"
+      );
+    }
   };
 };
 

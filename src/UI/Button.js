@@ -53,7 +53,6 @@ class DeleteButton extends Component {
         this.setState({
           callbackAction: null,
         });
-        this.props.dispatchType("CONFIRM_FORM_CLOSE");
       }
     } catch (err) {
       console.log(err);

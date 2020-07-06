@@ -39,7 +39,8 @@ export const deleteSubCollectionDoc = (
   nameOfSubCollection,
   docRef,
   campCode,
-  dispatchType
+  dispatchType,
+  history
 ) => {
   console.log(
     "Deleting " +
@@ -57,6 +58,9 @@ export const deleteSubCollectionDoc = (
         .doc(docRef)
         .delete()
         .then(() => {
+          if (history) {
+            history.goBack();
+          }
           dispatch({ type: dispatchType });
         })
         .catch((err) => {

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Header, SubmitButton, CenterBox } from ".";
 import { connect } from "react-redux";
 
-import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { dispatchType } from "../store/actions";
 
@@ -73,11 +72,7 @@ class ConfirmDialog extends Component {
                   <SubmitButton
                     admin={this.props.admin}
                     onClick={() => {
-                      if (this.props.action) {
-                        this.props.action();
-                      } else {
-                        this.props.dispatchType("CONFIRMFORM_CONFIRM");
-                      }
+                      this.props.dispatchType("CONFIRMFORM_CONFIRM");
                     }}
                   >
                     {this.props.actionText}
@@ -108,7 +103,6 @@ ConfirmDialog.defaultProps = {
 
 const mapStateToProps = (state) => {
   return {
-    ...state,
     confirmForm: state.store.confirmForm,
   };
 };
@@ -119,7 +113,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withRouter
-)(ConfirmDialog);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(
+  ConfirmDialog
+);

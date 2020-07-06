@@ -72,6 +72,10 @@ const myReducer = (state = initState, action) => {
       console.log("Announcement deleted successfully");
       return {
         ...state,
+        confirm: false,
+        confirmForm: false,
+        clearAction: true,
+        confirmFormKey: null,
       };
 
     case "ANN_EDITED":
@@ -155,13 +159,6 @@ const myReducer = (state = initState, action) => {
         formSuccess: true,
       };
 
-    case "REPORT_DELETED":
-      console.log("Report deleted successfully");
-      return {
-        ...state,
-        formSuccess: true,
-      };
-
     case "GROUP_CREATED":
       console.log("Group created successfully");
       return {
@@ -201,7 +198,8 @@ const myReducer = (state = initState, action) => {
       console.log("Confirm form confirmed");
       return {
         ...state,
-        confirm: true,
+        confirm: "true",
+        confirmForm: false,
       };
 
     case "CONFIRM_FORM_CLOSE":
@@ -210,7 +208,6 @@ const myReducer = (state = initState, action) => {
         ...state,
         confirm: false,
         confirmForm: false,
-        clearAction: true,
         confirmFormKey: null,
       };
 

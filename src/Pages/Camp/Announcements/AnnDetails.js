@@ -13,7 +13,6 @@ import { deleteAnn, dispatchType } from "../../../store/actions";
 class AnnDetails extends Component {
   handleDelete = () => {
     this.props.deleteAnn(this.props.match.params.annID);
-    this.props.history.goBack();
   };
 
   render() {
@@ -83,15 +82,16 @@ class AnnDetails extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    ...state,
     annInfo: state.store.camp.announcements,
     isAuthed: state.store.isAuthed,
     camp: state.store.camp,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    deleteAnn: (annID) => dispatch(deleteAnn(annID)),
+    deleteAnn: (annID) => dispatch(deleteAnn(annID, ownProps)),
     dispatchType: (type) => dispatch(dispatchType(type)),
   };
 };
