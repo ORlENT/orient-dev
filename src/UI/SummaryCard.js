@@ -29,6 +29,7 @@ export const SummaryCard = connect(mapStateToProps)(
     menuOptions,
     children,
     isAuthed,
+    disableMenu,
     id,
   }) => {
     if (isAuthed) {
@@ -48,7 +49,7 @@ export const SummaryCard = connect(mapStateToProps)(
           }}
         >
           {/*more options (Admin only)*/}
-          {isAuthed && (
+          {isAuthed && !disableMenu && (
             <AdminMenu
               id={id}
               menuOptions={menuOptions}

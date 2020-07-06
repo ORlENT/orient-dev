@@ -18,6 +18,7 @@ class RepList extends Component {
         {rptInfo &&
           Object.keys(rptInfo).map((key) => (
             <AnnCard
+              disableMenu={true}
               key={key}
               title={rptInfo[key].title}
               content={rptInfo[key].content}
