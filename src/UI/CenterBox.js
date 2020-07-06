@@ -14,8 +14,8 @@ class CenterBox extends Component {
           style={{
             maxWidth: "100vw",
             boxSizing: "border-box",
-            height: "100%",
-            padding: "0 32px",
+            minHeight: "100%",
+            padding: "32px",
             backgroundColor: "#444",
           }}
         >
@@ -44,7 +44,7 @@ class CenterBox extends Component {
       <div
         className="centerContent"
         style={{
-          height: "100%",
+          minHeight: "100%",
         }}
       >
         <Paper
