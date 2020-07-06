@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Header, CenterBox, NavButton, QnaCard } from "../../../UI";
+import {
+  Header,
+  CenterBox,
+  NavButton,
+  QnaCard,
+  ConfirmDialog,
+} from "../../../UI";
 
 class QnaList extends Component {
   state = {
@@ -22,34 +28,36 @@ class QnaList extends Component {
     const { qnaCachedInfo } = this.state;
 
     return (
-      <CenterBox>
-        <Header>Questions</Header>
+      <ConfirmDialog actionText="Delete question" admin>
+        <CenterBox>
+          <Header>Questions</Header>
 
-        {/*Ask new Question button*/}
-        <NavButton to={`${match.url}/ask`}>Ask new question</NavButton>
+          {/*Ask new Question button*/}
+          <NavButton to={`${match.url}/ask`}>Ask new question</NavButton>
 
-        {/*No questions*/}
-        {Object.keys(qnaInfo).length === 0 && (
-          <Header>No question was found.</Header>
-        )}
+          {/*No questions*/}
+          {Object.keys(qnaInfo).length === 0 && (
+            <Header>No question was found.</Header>
+          )}
 
-        {/*Question List*/}
-        {qnaInfo &&
-          Object.keys(qnaInfo).map((key) => (
-            <QnaCard
-              key={key}
-              qnaID={key}
-              title={qnaInfo[key].question}
-              content={qnaInfo[key].answer}
-              timestamp={qnaInfo[key].timestamp}
-              asked={
-                qnaCachedInfo[key] ? qnaCachedInfo[key].askedStatus : false
-              }
-              answered={!!qnaInfo[key].answer}
-              to={`${match.url}/${key}`}
-            />
-          ))}
-      </CenterBox>
+          {/*Question List*/}
+          {qnaInfo &&
+            Object.keys(qnaInfo).map((key) => (
+              <QnaCard
+                key={key}
+                qnaID={key}
+                title={qnaInfo[key].question}
+                content={qnaInfo[key].answer}
+                timestamp={qnaInfo[key].timestamp}
+                asked={
+                  qnaCachedInfo[key] ? qnaCachedInfo[key].askedStatus : false
+                }
+                answered={!!qnaInfo[key].answer}
+                to={`${match.url}/${key}`}
+              />
+            ))}
+        </CenterBox>
+      </ConfirmDialog>
     );
   }
 }

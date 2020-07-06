@@ -1,35 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import { MenuItem } from "@material-ui/core";
 import { connect } from "react-redux";
 import { dispatchType, setConfirmMenuKey } from "../store/actions";
 
-const MyButton = ({ secondary, admin, children, ...rest }) => (
-  <Button
-    variant={secondary ? "outlined" : "contained"}
-    color={admin ? "secondary" : "primary"}
-    style={{
-      width: "100%",
-    }}
-    {...rest}
-  >
-    {children}
-  </Button>
-);
-
-export const NavButton = ({ to, children, ...rest }) => (
-  <Link to={to} style={{ textDecoration: "none" }}>
-    <MyButton {...rest}>{children}</MyButton>
-  </Link>
-);
-
-export const SubmitButton = ({ children, ...rest }) => (
-  <MyButton type="submit" {...rest}>
-    {children}
-  </MyButton>
-);
-
-class DeleteButton extends Component {
+class DeleteMenuItem extends Component {
   state = { callbackAction: null };
 
   componentDidMount() {
@@ -61,18 +35,16 @@ class DeleteButton extends Component {
   }
 
   render() {
-    const { id, children, onClick, ...rest } = this.props;
     return (
-      <MyButton
-        type="submit"
+      <MenuItem
         onClick={() => {
-          this.props.setConfirmMenuKey(id);
+          this.props.handleClose();
+          this.props.setConfirmMenuKey(this.props.id);
           this.props.dispatchType("CONFIRM_FORM_OPEN");
         }}
-        {...rest}
       >
-        {children}
-      </MyButton>
+        Delete
+      </MenuItem>
     );
   }
 }
@@ -92,4 +64,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteButton);
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteMenuItem);

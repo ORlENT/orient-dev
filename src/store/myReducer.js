@@ -196,8 +196,9 @@ const myReducer = (state = initState, action) => {
         ...state,
         confirmForm: true,
       };
+
     case "CONFIRMFORM_CONFIRM":
-      console.log("Confirm form confirm executing callback successfully");
+      console.log("Confirm form confirmed");
       return {
         ...state,
         confirm: true,
@@ -210,13 +211,14 @@ const myReducer = (state = initState, action) => {
         confirm: false,
         confirmForm: false,
         clearAction: true,
+        confirmFormKey: null,
       };
 
-    case "CONFIRM_FORM_CLEARED_CALLBACKACTION":
-      console.log("Callback action in admin menu clear successfully");
+    case "SET_CONFIRM_MENU_KEY":
+      console.log("Confirm menu key set");
       return {
         ...state,
-        clearAction: false,
+        confirmFormKey: action.confirmFormKey,
       };
 
     default:

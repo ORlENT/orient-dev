@@ -29,6 +29,7 @@ export const SummaryCard = connect(mapStateToProps)(
     menuOptions,
     children,
     isAuthed,
+    id,
   }) => {
     if (isAuthed) {
       highlight = false;
@@ -49,6 +50,7 @@ export const SummaryCard = connect(mapStateToProps)(
           {/*more options (Admin only)*/}
           {isAuthed && (
             <AdminMenu
+              id={id}
               menuOptions={menuOptions}
               style={{
                 float: "right",
@@ -154,6 +156,7 @@ export const AnnCard = compose(
     ...rest
   }) => (
     <SummaryCard
+      id={annID}
       elevation={read ? 3 : 10}
       highlight={!read}
       highlightText={read ? null : "NEW!"}
@@ -185,6 +188,7 @@ export const QnaCard = compose(
     ...rest
   }) => (
     <SummaryCard
+      id={qnaID}
       elevation={asked && answered ? 3 : 10}
       highlight={asked && answered}
       highlightText={asked ? (answered ? "ANSWERED!" : "Your Question") : null}
@@ -192,7 +196,12 @@ export const QnaCard = compose(
       to={to}
       menuOptions={[
         { name: "Answer", handler: () => history.push(`${to}/answer`) },
-        { name: "Delete", handler: () => deleteQna(qnaID) },
+        {
+          name: "Delete",
+          handler: () => {
+            deleteQna(qnaID);
+          },
+        },
       ]}
       style={{ opacity: answered ? "1" : "0.5" }}
       {...rest}
@@ -219,6 +228,7 @@ export const RemCard = compose(
     // < 1 day  - red,    high priority
 
     <SummaryCard
+      id={remID}
       content={"Due in " + timeFromNow(timestamp)}
       timestamp={"Due on " + timeConverter(timestamp)}
       to={to}

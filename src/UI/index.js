@@ -1,4 +1,5 @@
 import { NavButton, SubmitButton } from "./Button";
+import DeleteButton from "./Button";
 import CenterBox from "./CenterBox";
 import Header from "./Header";
 import Field from "./Field";
@@ -30,4 +31,5 @@ export {
   Select,
   Notification,
   ConfirmDialog,
+  DeleteButton,
 };

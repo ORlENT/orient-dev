@@ -353,7 +353,8 @@ export const editAnn = (state, props) => {
             content: state.content,
             timestamp: getFirestore().Timestamp.now(),
           })
-          .then(() => {
+          .then((ref) => {
+            console.log(ref);
             dispatch({ type: "ANN_EDITED" });
           })
           .catch((err) => {
@@ -723,4 +724,13 @@ export const dispatchType = (type) => async (dispatch) => {
   dispatch({
     type: type,
   });
+};
+
+export const setConfirmMenuKey = (key) => {
+  return (dispatch) => {
+    dispatch({
+      type: "SET_CONFIRM_MENU_KEY",
+      confirmFormKey: key,
+    });
+  };
 };

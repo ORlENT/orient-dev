@@ -39,7 +39,7 @@ class AnnList extends Component {
     const { annCachedInfo } = this.state;
 
     return (
-      <ConfirmDialog actionText="Delete" admin>
+      <ConfirmDialog actionText="Delete Announcement" admin>
         <CenterBox>
           <Header>Announcements</Header>
 

@@ -4,7 +4,7 @@ import {
   Header,
   CenterBox,
   NavButton,
-  SubmitButton,
+  DeleteButton,
   ConfirmDialog,
 } from "../../../UI";
 import timeConverter from "../../../functions/timeConverter";
@@ -12,7 +12,6 @@ import { deleteAnn, dispatchType } from "../../../store/actions";
 
 class AnnDetails extends Component {
   handleDelete = () => {
-    this.props.dispatchType("CONFIRM_FORM_CLOSE");
     this.props.deleteAnn(this.props.match.params.annID);
     this.props.history.goBack();
   };
@@ -21,7 +20,7 @@ class AnnDetails extends Component {
     const { annInfo, isAuthed, match } = this.props;
     const key = match.params.annID;
     return (
-      <ConfirmDialog actionText="Delete" action={this.handleDelete} admin>
+      <ConfirmDialog actionText="Delete Announcement" admin>
         <CenterBox>
           <Header>{annInfo[key].title}</Header>
 
@@ -48,15 +47,16 @@ class AnnDetails extends Component {
 
           {/*Delete Announcement button (Admin only)*/}
           {isAuthed && (
-            <SubmitButton
+            <DeleteButton
               admin
               secondary
+              id={key}
               onClick={() => {
-                this.props.dispatchType("CONFIRM_FORM_OPEN");
+                this.handleDelete();
               }}
             >
               Delete announcement
-            </SubmitButton>
+            </DeleteButton>
           )}
 
           {/*timestamp*/}

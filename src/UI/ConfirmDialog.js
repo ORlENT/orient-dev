@@ -110,7 +110,6 @@ const mapStateToProps = (state) => {
   return {
     ...state,
     confirmForm: state.store.confirmForm,
-    clearAction: state.store.clearAction,
   };
 };
 

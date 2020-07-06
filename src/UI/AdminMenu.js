@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
-import { connect } from "react-redux";
-import { dispatchType } from "../store/actions";
+import DeleteMenuItem from "./DeleteMenuItem";
 
 class AdminMenu extends Component {
   state = {
     anchorEl: null,
-    callbackAction: false,
   };
 
   handleClick = (event) => {
@@ -27,28 +25,8 @@ class AdminMenu extends Component {
     option.handler();
   };
 
-  componentDidUpdate() {
-    try {
-      if (this.state.callbackAction && this.props.confirm) {
-        this.state.callbackAction();
-        this.setState({
-          callbackAction: null,
-        });
-        this.props.dispatchType("CONFIRM_FORM_CLOSE");
-      }
-      if (this.state.callbackAction && this.props.clearAction) {
-        this.setState({
-          callbackAction: null,
-        });
-        this.props.dispatchType("CONFIRM_FORM_CLEARED_CALLBACKACTION");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   render() {
-    const { menuOptions, ...rest } = this.props;
+    const { menuOptions, id, ...rest } = this.props;
     const { anchorEl } = this.state;
     return (
       <div {...rest}>
@@ -71,20 +49,14 @@ class AdminMenu extends Component {
             if (option.name === "Delete")
               return (
                 <div>
-                  <MenuItem
+                  <DeleteMenuItem
+                    id={this.props.id}
                     key={option.name}
+                    handleClose={this.handleClose}
                     onClick={() => {
-                      this.handleClose();
-                      this.setState({
-                        callbackAction: () => {
-                          this.handleOption(option);
-                        },
-                      });
-                      this.props.dispatchType("CONFIRM_FORM_OPEN");
+                      this.handleOption(option);
                     }}
-                  >
-                    {option.name}
-                  </MenuItem>
+                  />
                 </div>
               );
             return (
@@ -104,18 +76,4 @@ class AdminMenu extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    ...state,
-    confirm: state.store.confirm,
-    clearAction: state.store.clearAction,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatchType: (type) => dispatch(dispatchType(type)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminMenu);
+export default AdminMenu;
