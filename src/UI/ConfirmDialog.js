@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import { compose } from "redux";
 import { dispatchType } from "../store/actions";
+import { Hidden } from "@material-ui/core";
 
 class ConfirmDialog extends Component {
   state = {
@@ -46,10 +47,15 @@ class ConfirmDialog extends Component {
               gridColumn: "1",
               gridRow: "1",
               zIndex: "0",
-              height: "100%",
             }}
           >
-            {this.props.children}
+            <div
+              style={{
+                height: "100vh",
+              }}
+            >
+              {this.props.children}
+            </div>
           </div>
           {/*Admin login*/}
           {this.state.visible && (
@@ -59,7 +65,7 @@ class ConfirmDialog extends Component {
                 gridRow: "1",
                 zIndex: "2",
                 backgroundColor: "rgba(0, 0, 0, 0.5)",
-                height: "100%",
+                height: "150vh",
               }}
             >
               <div
