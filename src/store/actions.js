@@ -217,6 +217,7 @@ export const addCampListener = (campCode) => {
             camp: null,
             campCode: campCode,
           });
+          return;
         }
 
         const ref = querySnapshot.docs[0].ref;
