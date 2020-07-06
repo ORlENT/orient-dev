@@ -38,7 +38,7 @@ class ConfirmDialog extends Component {
         <div
           style={{
             display: "grid",
-            position: "sticky",
+            height: "100%",
             top: "0",
           }}
         >
@@ -47,15 +47,10 @@ class ConfirmDialog extends Component {
               gridColumn: "1",
               gridRow: "1",
               zIndex: "0",
+              height: "100%",
             }}
           >
-            <div
-              style={{
-                height: "100vh",
-              }}
-            >
-              {this.props.children}
-            </div>
+            {this.props.children}
           </div>
           {/*Admin login*/}
           {this.state.visible && (
@@ -65,7 +60,7 @@ class ConfirmDialog extends Component {
                 gridRow: "1",
                 zIndex: "2",
                 backgroundColor: "rgba(0, 0, 0, 0.5)",
-                height: "150vh",
+                height: "100%",
               }}
             >
               <div
