@@ -110,6 +110,7 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        campLoaded: null,
       };
 
     case "REMINDER_EDITED":

@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 import { compose } from "redux";
 import { dispatchType } from "../store/actions";
-import { Hidden } from "@material-ui/core";
 
 class ConfirmDialog extends Component {
   state = {

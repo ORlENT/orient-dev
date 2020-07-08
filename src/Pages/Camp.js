@@ -15,10 +15,13 @@ import CampEdit from "./Camp/CampEdit";
 import PasswordEdit from "./Camp/PasswordEdit";
 
 import { NavBar, LoadingScreen } from "../UI";
-import { addCampListener } from "../store/actions";
+import { addCampListener, fetchCampInfo } from "../store/actions";
 import AdminRoute from "../Routes/AdminRoute";
 
 class Camp extends Component {
+  state = {
+    isLoading: false,
+  };
   componentDidMount() {
     this.props.addCampListener(this.props.match.params.campCode);
   }
@@ -26,8 +29,18 @@ class Camp extends Component {
   render() {
     const { match, camp, campLoaded } = this.props;
 
+    //If camp is not loaded and it is not loading (From edit)
+    if (campLoaded === null && this.state.isLoading === false) {
+      this.props.fetchCampInfo(match.params.campCode);
+      this.setState({ isLoading: true });
+    }
+
     //Firestore loading
-    if (campLoaded !== match.params.campCode) {
+    if (campLoaded && this.state.isLoading) {
+      this.setState({ isLoading: false });
+    }
+    //Firestore loading
+    if (campLoaded !== match.params.campCode || this.state.isLoading) {
       return <LoadingScreen />;
     }
 
@@ -104,6 +117,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addCampListener: (campCode) => dispatch(addCampListener(campCode)),
+    fetchCampInfo: (campCode) => dispatch(fetchCampInfo(campCode)),
   };
 };
 

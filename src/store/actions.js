@@ -240,7 +240,7 @@ export const addCampListener = (campCode) => {
   };
 };
 
-export const editCamp = (state) => async (
+export const editCamp = (state, props) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore }
@@ -251,7 +251,7 @@ export const editCamp = (state) => async (
 
   // Update email
   if (campCode !== getState().store.camp.campCode) {
-    await getFirebase()
+    var updateEmail = getFirebase()
       .auth()
       .currentUser.updateEmail(email)
       .then((success) => {
@@ -263,7 +263,7 @@ export const editCamp = (state) => async (
   }
 
   // Update campCode and campName
-  await getFirestore()
+  var updateDatabase = getFirestore()
     .collection("camps")
     .where("campCode", "==", getState().store.camp.campCode)
     .get()
@@ -277,12 +277,16 @@ export const editCamp = (state) => async (
       });
     })
     .then(() => {
-      dispatch({ type: "CAMP_EDITED" });
+      props.history.push("/camp/" + state.campCode);
+      fetchCampInfo(campCode);
     })
     .catch((err) => {
       console.log("Error editing camp");
       console.log(err);
     });
+
+  await Promise.all([updateEmail, updateDatabase]);
+  dispatch({ type: "CAMP_EDITED" });
 };
 
 export const deleteCamp = (state) => async (

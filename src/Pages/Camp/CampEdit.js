@@ -7,9 +7,7 @@ import { editCamp } from "../../store/actions";
 import ValidationError from "../../errors/ValidationError";
 
 class CampEdit extends Component {
-  successHandler(state, props) {
-    props.history.push("/camp/" + state.campCode);
-  }
+  successHandler(state, props) {}
 
   failHandler() {
     throw new ValidationError("campCode", "Camp Code is already in use");
@@ -46,9 +44,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    editCamp: (state) => dispatch(editCamp(state)),
+    editCamp: (state) => dispatch(editCamp(state, ownProps)),
   };
 };
 
