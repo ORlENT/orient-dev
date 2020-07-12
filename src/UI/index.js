@@ -11,6 +11,7 @@ import AdminMenu from "./AdminMenu";
 import Select from "./Select";
 import Notification from "./Notification";
 import ConfirmDialog from "./ConfirmDialog";
+import Reaction from "./Reaction";
 
 export {
   NavButton,
@@ -32,4 +33,5 @@ export {
   Notification,
   ConfirmDialog,
   DeleteButton,
+  Reaction,
 };

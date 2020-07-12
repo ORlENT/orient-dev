@@ -6,6 +6,7 @@ import { Card, CardContent, CardActionArea } from "@material-ui/core";
 import timeConverter from "../functions/timeConverter";
 import timeFromNow from "../functions/timeFromNow";
 import AdminMenu from "./AdminMenu";
+import Reaction from "./Reaction";
 import { deleteAnn, deleteRem, deleteQna } from "../store/actions";
 
 //max lines of summary
@@ -22,6 +23,7 @@ export const SummaryCard = connect(mapStateToProps)(
     title,
     content,
     timestamp,
+    reactions,
     highlight,
     highlightText,
     to = "#",
@@ -108,6 +110,7 @@ export const SummaryCard = connect(mapStateToProps)(
                 style={{
                   color: "#fff",
                   margin: "0px",
+                  marginBottom: "8px",
                   //Clamp down to summaryLength
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -122,9 +125,19 @@ export const SummaryCard = connect(mapStateToProps)(
               {children}
 
               {/*timestamp*/}
-              <p style={{ color: "#bbb", margin: "0px", marginTop: "8px" }}>
+              <p style={{ color: "#bbb", margin: "0px", marginBottom: "8px" }}>
                 {timestamp}
               </p>
+
+              {/*reactions*/}
+              {Object.keys(reactions).map((key) => (
+                <Reaction
+                  key={key}
+                  emoji={reactions[key].emoji}
+                  count={reactions[key].count}
+                  active={reactions[key].active}
+                />
+              ))}
             </CardContent>
           </Link>
         </CardActionArea>
