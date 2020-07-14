@@ -29,16 +29,6 @@ class Camp extends Component {
   render() {
     const { match, camp, campLoaded } = this.props;
 
-    //If camp is not loaded and it is not loading (From edit)
-    if (campLoaded === null && this.state.isLoading === false) {
-      this.props.fetchCampInfo(match.params.campCode);
-      this.setState({ isLoading: true });
-    }
-
-    //Firestore loading
-    if (campLoaded && this.state.isLoading) {
-      this.setState({ isLoading: false });
-    }
     //Firestore loading
     if (campLoaded !== match.params.campCode || this.state.isLoading) {
       return <LoadingScreen />;
