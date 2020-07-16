@@ -14,7 +14,7 @@ import RptCreate from "./Camp/Reports/RptCreate";
 import CampEdit from "./Camp/CampEdit";
 import PasswordEdit from "./Camp/PasswordEdit";
 
-import { NavBar, LoadingScreen } from "../UI";
+import { NavBar, LoadingScreen, Message } from "../UI";
 import { addCampListener, fetchCampInfo } from "../store/actions";
 import AdminRoute from "../Routes/AdminRoute";
 
@@ -92,6 +92,7 @@ class Camp extends Component {
             />
           </Switch>
         </div>
+        <Message></Message>
       </div>
     );
   }

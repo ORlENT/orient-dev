@@ -13,6 +13,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         isAuthed: true,
+        message: "Login successfully.",
+        messageType: "success",
       };
 
     case "LOGIN_ERROR":
@@ -28,6 +30,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Sign up successfully.",
+        messageType: "success",
       };
 
     case "SIGNUP_ERROR":
@@ -66,6 +70,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Announcement created successfully.",
+        messageType: "success",
       };
 
     case "ANN_DELETED":
@@ -76,6 +82,8 @@ const myReducer = (state = initState, action) => {
         confirmForm: false,
         clearAction: true,
         confirmFormKey: null,
+        message: "Announcement deleted successfully.",
+        messageType: "success",
       };
 
     case "ANN_EDITED":
@@ -83,6 +91,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Announcement edited successfully.",
+        messageType: "success",
       };
 
     case "QNA_ASKED":
@@ -90,12 +100,16 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Question added successfully.",
+        messageType: "success",
       };
 
     case "QNA_DELETED":
       console.log("Question deleted successfully");
       return {
         ...state,
+        message: "Question deleted successfully.",
+        messageType: "success",
       };
 
     case "QNA_ANSWERED":
@@ -103,6 +117,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Question answered successfully.",
+        messageType: "success",
       };
 
     case "CAMP_EDITED":
@@ -110,6 +126,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Camp edited successfully.",
+        messageType: "success",
       };
 
     case "REMINDER_EDITED":
@@ -117,6 +135,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Reminder edited successfully.",
+        messageType: "success",
       };
 
     case "REMINDER_CREATED":
@@ -124,6 +144,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Reminder added successfully.",
+        messageType: "success",
       };
 
     case "REMINDER_DELETED":
@@ -131,6 +153,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Reminder deleted successfully.",
+        messageType: "success",
       };
 
     case "PASSWORD_EDITED":
@@ -138,6 +162,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Password edited successfully.",
+        messageType: "success",
       };
 
     case "RESET_FORM":
@@ -147,9 +173,12 @@ const myReducer = (state = initState, action) => {
         formSuccess: false,
         formFailed: false,
       };
+
     case "CAMP_DELETED":
       return {
         initState,
+        message: "Camp deleted successfully.",
+        messageType: "success",
       };
 
     case "REPORT_CREATED":
@@ -157,6 +186,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Report created successfully.",
+        messageType: "success",
       };
 
     case "GROUP_CREATED":
@@ -164,6 +195,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Group created successfully.",
+        messageType: "success",
       };
 
     case "GROUP_DELETED":
@@ -171,6 +204,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Group deleted successfully.",
+        messageType: "success",
       };
 
     case "ADD_POINTS":
@@ -178,6 +213,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Points added successfully.",
+        messageType: "success",
       };
 
     case "TRANSFER_POINTS":
@@ -185,6 +222,8 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         formSuccess: true,
+        message: "Points transferred successfully.",
+        messageType: "success",
       };
 
     case "CONFIRM_FORM_OPEN":
@@ -216,6 +255,14 @@ const myReducer = (state = initState, action) => {
       return {
         ...state,
         confirmFormKey: action.confirmFormKey,
+      };
+
+    case "CLEAR_MESSAGE":
+      console.log("Clear message");
+      return {
+        ...state,
+        message: null,
+        messageType: null,
       };
 
     default:

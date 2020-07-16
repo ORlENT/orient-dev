@@ -11,7 +11,7 @@ import AdminMenu from "./AdminMenu";
 import Select from "./Select";
 import Notification from "./Notification";
 import ConfirmDialog from "./ConfirmDialog";
-
+import Message from "./Message";
 export {
   NavButton,
   SubmitButton,
@@ -32,4 +32,5 @@ export {
   Notification,
   ConfirmDialog,
   DeleteButton,
+  Message,
 };
