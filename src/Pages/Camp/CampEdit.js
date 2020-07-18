@@ -7,7 +7,9 @@ import { editCamp } from "../../store/actions";
 import ValidationError from "../../errors/ValidationError";
 
 class CampEdit extends Component {
-  successHandler(state, props) {}
+  successHandler(state, props) {
+    props.history.goBack();
+  }
 
   failHandler() {
     throw new ValidationError("campCode", "Camp Code is already in use");
@@ -27,9 +29,6 @@ class CampEdit extends Component {
         >
           <Field id="campName" value={camp.campName}>
             Camp Name
-          </Field>
-          <Field id="campCode" value={camp.campCode}>
-            Camp Code
           </Field>
           <SubmitButton>Edit Camp</SubmitButton>
         </Form>

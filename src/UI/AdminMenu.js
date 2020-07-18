@@ -3,6 +3,12 @@ import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
 import DeleteMenuItem from "./DeleteMenuItem";
 
+import Slide from "@material-ui/core/Slide";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide in={true} ref={ref} {...props} timeout={0} />;
+});
+
 class AdminMenu extends Component {
   state = {
     anchorEl: null,
@@ -44,11 +50,12 @@ class AdminMenu extends Component {
           keepMounted
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
+          TransitionComponent={Transition}
         >
           {menuOptions.map((option) => {
             if (option.name === "Delete")
               return (
-                <div>
+                <div key={option.name}>
                   <DeleteMenuItem
                     id={this.props.id}
                     key={option.name}

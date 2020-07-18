@@ -246,24 +246,8 @@ export const editCamp = (state, props) => async (
   { getFirebase, getFirestore }
 ) => {
   console.log("Editing camp");
-  const campCode = state.campCode;
-  const email = campCode + "@orient.org";
-
-  // Update email
-  if (campCode !== getState().store.camp.campCode) {
-    var updateEmail = getFirebase()
-      .auth()
-      .currentUser.updateEmail(email)
-      .then((success) => {
-        console.log("Updated email");
-      })
-      .catch((err) => {
-        dispatch({ type: "UPDATE_EMAIL_ERR", err });
-      });
-  }
-
-  // Update campCode and campName
-  var updateDatabase = getFirestore()
+  // Update campName
+  getFirestore()
     .collection("camps")
     .where("campCode", "==", getState().store.camp.campCode)
     .get()
@@ -272,21 +256,17 @@ export const editCamp = (state, props) => async (
       console.log(querySnapshot.docs[0]);
       console.log(camp);
       camp.set({
-        campCode: state.campCode,
         campName: state.campName,
+        campCode: getState().store.camp.campCode,
       });
     })
     .then(() => {
-      props.history.push("/camp/" + state.campCode);
-      fetchCampInfo(campCode);
+      dispatch({ type: "CAMP_EDITED" });
     })
     .catch((err) => {
       console.log("Error editing camp");
       console.log(err);
     });
-
-  await Promise.all([updateEmail, updateDatabase]);
-  dispatch({ type: "CAMP_EDITED" });
 };
 
 export const deleteCamp = (state) => async (

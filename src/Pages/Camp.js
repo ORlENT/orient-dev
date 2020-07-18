@@ -14,7 +14,7 @@ import RptCreate from "./Camp/Reports/RptCreate";
 import CampEdit from "./Camp/CampEdit";
 import PasswordEdit from "./Camp/PasswordEdit";
 
-import { NavBar, LoadingScreen } from "../UI";
+import { NavBar, LoadingScreen, Message } from "../UI";
 import { addCampListener, fetchCampInfo } from "../store/actions";
 import AdminRoute from "../Routes/AdminRoute";
 
@@ -29,16 +29,6 @@ class Camp extends Component {
   render() {
     const { match, camp, campLoaded } = this.props;
 
-    //If camp is not loaded and it is not loading (From edit)
-    if (campLoaded === null && this.state.isLoading === false) {
-      this.props.fetchCampInfo(match.params.campCode);
-      this.setState({ isLoading: true });
-    }
-
-    //Firestore loading
-    if (campLoaded && this.state.isLoading) {
-      this.setState({ isLoading: false });
-    }
     //Firestore loading
     if (campLoaded !== match.params.campCode || this.state.isLoading) {
       return <LoadingScreen />;
@@ -102,6 +92,9 @@ class Camp extends Component {
             />
           </Switch>
         </div>
+
+        {/*Layer 3: Success Message */}
+        <Message />
       </div>
     );
   }
