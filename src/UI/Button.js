@@ -76,6 +76,11 @@ class DeleteButton extends Component {
   }
 }
 
+DeleteButton.defaultProps = {
+  confirmFormKey: null,
+  dispatchType: () => null,
+};
+
 const mapStateToProps = (state) => {
   return {
     ...state,

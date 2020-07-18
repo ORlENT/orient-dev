@@ -40,25 +40,16 @@ export const SummaryCard = connect(mapStateToProps)(
       <Card
         style={{
           backgroundColor: "#555",
+          position: "relative",
         }}
       >
         <CardActionArea
           onClick={onClick}
           style={{
             font: "unset",
+            width: "100%",
           }}
         >
-          {/*more options (Admin only)*/}
-          {isAuthed && !disableMenu && (
-            <AdminMenu
-              id={id}
-              menuOptions={menuOptions}
-              style={{
-                float: "right",
-                margin: "16px",
-              }}
-            />
-          )}
           <Link to={to} style={{ textDecoration: "none" }}>
             <CardContent
               style={{
@@ -128,6 +119,21 @@ export const SummaryCard = connect(mapStateToProps)(
             </CardContent>
           </Link>
         </CardActionArea>
+
+        {/*more options (Admin only)*/}
+        {isAuthed && !disableMenu && (
+          <AdminMenu
+            id={id}
+            menuOptions={menuOptions}
+            style={{
+              right: "0",
+              top: "0",
+              margin: "16px",
+              zIndex: "2000",
+              position: "absolute",
+            }}
+          />
+        )}
       </Card>
     );
   }
