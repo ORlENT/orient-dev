@@ -48,7 +48,7 @@ class AdminMenu extends Component {
           {menuOptions.map((option) => {
             if (option.name === "Delete")
               return (
-                <div>
+                <div key={option.name}>
                   <DeleteMenuItem
                     id={this.props.id}
                     key={option.name}
