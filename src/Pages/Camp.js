@@ -92,7 +92,9 @@ class Camp extends Component {
             />
           </Switch>
         </div>
-        <Message></Message>
+
+        {/*Layer 3: Success Message */}
+        <Message />
       </div>
     );
   }

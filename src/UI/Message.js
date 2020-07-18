@@ -25,7 +25,7 @@ class Message extends Component {
     return (
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-        open={this.props.message !== null}
+        open={this.props.message != null}
         key={this.props.message}
         autoHideDuration={2000}
         onClose={() => this.props.dispatchType("CLEAR_MESSAGE")}
