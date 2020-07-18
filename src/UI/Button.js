@@ -60,13 +60,21 @@ class DeleteButton extends Component {
   }
 
   render() {
-    const { id, children, onClick, ...rest } = this.props;
+    const {
+      id,
+      children,
+      onClick,
+      confirmFormKey,
+      dispatchType,
+      setConfirmMenuKey,
+      ...rest
+    } = this.props;
     return (
       <MyButton
         type="submit"
         onClick={() => {
-          this.props.setConfirmMenuKey(id);
-          this.props.dispatchType("CONFIRM_FORM_OPEN");
+          setConfirmMenuKey(id);
+          dispatchType("CONFIRM_FORM_OPEN");
         }}
         {...rest}
       >
