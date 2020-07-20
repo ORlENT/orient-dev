@@ -6,6 +6,8 @@ import {
   NavButton,
   DeleteButton,
   ConfirmDialog,
+  ReactionMenu,
+  Reaction,
 } from "../../../UI";
 import timeConverter from "../../../functions/timeConverter";
 import { deleteAnn, dispatchType } from "../../../store/actions";
@@ -74,6 +76,22 @@ class AnnDetails extends Component {
           >
             {annInfo[key].content}
           </p>
+
+          <div>
+            {/*reactions*/}
+            {annInfo[key] &&
+              annInfo[key].reactionMap &&
+              Object.keys(annInfo[key].reactionMap).map((emojiKey) => (
+                <Reaction
+                  key={emojiKey}
+                  emoji={emojiKey}
+                  count={
+                    annInfo[key] ? annInfo[key].reactionMap[emojiKey] : null
+                  }
+                />
+              ))}
+          </div>
+          <ReactionMenu></ReactionMenu>
         </CenterBox>
       </ConfirmDialog>
     );

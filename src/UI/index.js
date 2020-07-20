@@ -13,6 +13,7 @@ import Notification from "./Notification";
 import ConfirmDialog from "./ConfirmDialog";
 import Reaction from "./Reaction";
 import Message from "./Message";
+import ReactionMenu from "./ReactionMenu";
 
 export {
   NavButton,
@@ -36,4 +37,5 @@ export {
   DeleteButton,
   Reaction,
   Message,
+  ReactionMenu,
 };

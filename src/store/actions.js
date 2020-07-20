@@ -355,6 +355,51 @@ export const editAnn = (state, props) => {
   };
 };
 
+export const addReaction = (emoji, annID) => {
+  return (dispatch, getState, { getFirestore }) => {
+    getFirestore()
+      .collection("camps")
+      .where("campCode", "==", getState().store.camp.campCode)
+      .get()
+      .then((querySnapshot) => {
+        const camp = querySnapshot.docs[0].ref;
+        camp
+          .collection("announcements")
+          .doc(annID)
+          .get()
+          .then((ref) => {
+            var reactionMap = ref.data().reactionMap
+              ? ref.data().reactionMap
+              : new Map();
+            if (reactionMap[`${emoji}`] == null) {
+              reactionMap[`${emoji}`] = 0;
+            }
+            reactionMap[emoji] += 1;
+            camp
+              .collection("announcements")
+              .doc(annID)
+              .set(
+                {
+                  reactionMap: JSON.parse(JSON.stringify(reactionMap)),
+                },
+                { merge: true }
+              )
+              .then(() => {
+                dispatch({ type: "ADD_REACTION" });
+              });
+          })
+          .catch((err) => {
+            console.log("Error editing announcement:");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error retrieving camp");
+        console.log(err);
+      });
+  };
+};
+
 export const deleteAnn = (annID, props) => {
   return (dispatch, getState, { getFirestore }) => {
     if (props) {
