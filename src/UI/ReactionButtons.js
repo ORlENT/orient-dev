@@ -59,6 +59,7 @@ class ReactionButtons extends Component {
           width: "100%",
           display: "flex",
           justifyContent: "space-between",
+          flexWrap: "wrap",
         }}
       >
         {Object.keys(emojiMenu).map((index) => (

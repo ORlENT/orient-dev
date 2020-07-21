@@ -77,7 +77,11 @@ class AnnDetails extends Component {
           </p>
 
           {/*Reactions*/}
-          <div>
+          <div
+            style={{
+              width: "100%",
+            }}
+          >
             <ReactionButtons
               id={this.props.match.params.annID}
               info={annInfo[key].reactions ? annInfo[key].reactions : {}}
