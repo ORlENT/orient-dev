@@ -163,6 +163,14 @@ export const fetchCampInfo = (campCode) => {
             if (!annCachedInfo[`${key}`]) {
               annCachedInfo[`${key}`] = {};
               annCachedInfo[`${key}`].readStatus = false;
+              annCachedInfo[`${key}`].reactions = {
+                "0": false,
+                "1": false,
+                "2": false,
+                "3": false,
+                "4": false,
+                "5": false,
+              };
             }
             return annCachedInfo[`${key}`];
           });
@@ -355,7 +363,7 @@ export const editAnn = (state, props) => {
   };
 };
 
-export const addReaction = (emoji, annID) => {
+export const updateReaction = (emoji, annID, number) => {
   return (dispatch, getState, { getFirestore }) => {
     getFirestore()
       .collection("camps")
@@ -368,28 +376,28 @@ export const addReaction = (emoji, annID) => {
           .doc(annID)
           .get()
           .then((ref) => {
-            var reactionMap = ref.data().reactionMap
-              ? ref.data().reactionMap
+            var reactions = ref.data().reactions
+              ? ref.data().reactions
               : new Map();
-            if (reactionMap[`${emoji}`] == null) {
-              reactionMap[`${emoji}`] = 0;
+            if (reactions[`${emoji}`] == null) {
+              reactions[`${emoji}`] = 0;
             }
-            reactionMap[emoji] += 1;
+            reactions[emoji] += number;
             camp
               .collection("announcements")
               .doc(annID)
               .set(
                 {
-                  reactionMap: JSON.parse(JSON.stringify(reactionMap)),
+                  reactions: JSON.parse(JSON.stringify(reactions)),
                 },
                 { merge: true }
               )
               .then(() => {
-                dispatch({ type: "ADD_REACTION" });
+                dispatch({ type: "UPDATE_REACTION" });
               });
           })
           .catch((err) => {
-            console.log("Error editing announcement:");
+            console.log("Error editing reaction:");
             console.log(err);
           });
       })

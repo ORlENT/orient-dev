@@ -18,7 +18,6 @@ class AnnList extends Component {
     if (!annCachedInfo) {
       annCachedInfo = {};
     }
-    annCachedInfo[`${key}`] = {};
     annCachedInfo[`${key}`].readStatus = true;
     sessionStorage.setItem("announcements", JSON.stringify(annCachedInfo));
     this.getCachedInfo();
@@ -64,11 +63,7 @@ class AnnList extends Component {
                 title={annInfo[key].title}
                 content={annInfo[key].content}
                 timestamp={annInfo[key].timestamp}
-                reactions={{
-                  1: { emoji: "👍", count: 12, active: true },
-                  2: { emoji: "🔥", count: 3 },
-                  3: { emoji: "💩", count: 4 },
-                }}
+                reactions={annInfo[key].reactions}
                 read={
                   annCachedInfo[key] ? annCachedInfo[key].readStatus : false
                 }

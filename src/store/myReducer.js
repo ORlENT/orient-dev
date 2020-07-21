@@ -265,6 +265,12 @@ const myReducer = (state = initState, action) => {
         messageType: null,
       };
 
+    case "UPDATE_REACTION":
+      console.log("Update reaction successfully");
+      return {
+        ...state,
+      };
+
     default:
       return state;
   }

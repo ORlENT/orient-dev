@@ -11,9 +11,8 @@ import AdminMenu from "./AdminMenu";
 import Select from "./Select";
 import Notification from "./Notification";
 import ConfirmDialog from "./ConfirmDialog";
-import Reaction from "./Reaction";
+import ReactionButtons from "./ReactionButtons";
 import Message from "./Message";
-import ReactionMenu from "./ReactionMenu";
 
 export {
   NavButton,
@@ -35,7 +34,6 @@ export {
   Notification,
   ConfirmDialog,
   DeleteButton,
-  Reaction,
+  ReactionButtons,
   Message,
-  ReactionMenu,
 };

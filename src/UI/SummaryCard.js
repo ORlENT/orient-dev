@@ -30,6 +30,7 @@ export const SummaryCard = connect(mapStateToProps)(
     children,
     isAuthed,
     disableMenu,
+    reactions,
     id,
   }) => {
     if (isAuthed) {
@@ -113,7 +114,33 @@ export const SummaryCard = connect(mapStateToProps)(
 
               {children}
               {/*timestamp*/}
+
               <p style={{ color: "#bbb", margin: "0px" }}>{timestamp}</p>
+
+              {/*reactions*/}
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
+                {reactions &&
+                  Object.keys(reactions).map((key) => {
+                    if (reactions[key] > 0)
+                      return (
+                        <p
+                          style={{
+                            float: "right",
+                            color: "#bbb",
+                            margin: "0px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          {key + " " + reactions[key]}
+                        </p>
+                      );
+                    return <b></b>;
+                  })}
+              </div>
             </CardContent>
           </Link>
         </CardActionArea>
