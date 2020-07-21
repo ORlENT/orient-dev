@@ -1,10 +1,18 @@
 import React from "react";
 import { Button } from "@material-ui/core";
 
-export const Reaction = ({ emoji, count, active, onClick, undoClick }) => (
+export const Reaction = ({
+  emoji,
+  count,
+  active,
+  onClick,
+  disabled,
+  undoClick,
+}) => (
   <Button
     variant="contained"
     size="small"
+    disabled={disabled}
     onClick={() => {
       if (!active) onClick();
       else undoClick();

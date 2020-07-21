@@ -363,49 +363,52 @@ export const editAnn = (state, props) => {
   };
 };
 
-export const updateReaction = (emoji, annID, number) => {
-  return (dispatch, getState, { getFirestore }) => {
-    getFirestore()
-      .collection("camps")
-      .where("campCode", "==", getState().store.camp.campCode)
-      .get()
-      .then((querySnapshot) => {
-        const camp = querySnapshot.docs[0].ref;
-        camp
-          .collection("announcements")
-          .doc(annID)
-          .get()
-          .then((ref) => {
-            var reactions = ref.data().reactions
-              ? ref.data().reactions
-              : new Map();
-            if (reactions[`${emoji}`] == null) {
-              reactions[`${emoji}`] = 0;
-            }
-            reactions[emoji] += number;
-            camp
-              .collection("announcements")
-              .doc(annID)
-              .set(
-                {
-                  reactions: JSON.parse(JSON.stringify(reactions)),
-                },
-                { merge: true }
-              )
-              .then(() => {
-                dispatch({ type: "UPDATE_REACTION" });
-              });
-          })
-          .catch((err) => {
-            console.log("Error editing reaction:");
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log("Error retrieving camp");
-        console.log(err);
-      });
-  };
+export const updateReaction = (emoji, annID, number) => async (
+  dispatch,
+  getState,
+  { getFirestore }
+) => {
+  return getFirestore()
+    .collection("camps")
+    .where("campCode", "==", getState().store.camp.campCode)
+    .get()
+    .then((querySnapshot) => {
+      const camp = querySnapshot.docs[0].ref;
+      camp
+        .collection("announcements")
+        .doc(annID)
+        .get()
+        .then((ref) => {
+          var reactions = ref.data().reactions
+            ? ref.data().reactions
+            : new Map();
+          if (reactions[`${emoji}`] == null) {
+            reactions[`${emoji}`] = 0;
+          }
+          reactions[emoji] += number;
+          camp
+            .collection("announcements")
+            .doc(annID)
+            .set(
+              {
+                reactions: JSON.parse(JSON.stringify(reactions)),
+              },
+              { merge: true }
+            )
+            .then(() => {
+              dispatch({ type: "UPDATE_REACTION" });
+              return;
+            });
+        })
+        .catch((err) => {
+          console.log("Error editing reaction:");
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log("Error retrieving camp");
+      console.log(err);
+    });
 };
 
 export const deleteAnn = (annID, props) => {

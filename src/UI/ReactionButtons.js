@@ -6,6 +6,7 @@ import { updateReaction } from "../store/actions";
 class ReactionButtons extends Component {
   state = {
     cachedInfo: {},
+    isDisabled: false,
   };
 
   componentDidMount() {
@@ -18,6 +19,16 @@ class ReactionButtons extends Component {
     if (!cachedInfo) cachedInfo = {};
     this.setState({ cachedInfo });
   }
+
+  onClick = async (emoji, number) => {
+    this.setState({ isDisabled: true });
+    try {
+      await this.props.updateReaction(emoji, this.props.id, number);
+      this.updateReactionCachedInfo(emoji);
+    } finally {
+      this.setState({ isDisabled: false });
+    }
+  };
 
   // Update the reaction
   updateReactionCachedInfo(emoji) {
@@ -53,14 +64,13 @@ class ReactionButtons extends Component {
         {Object.keys(emojiMenu).map((index) => (
           <Reaction
             key={index}
+            disabled={this.state.isDisabled}
             emoji={emojiMenu[index]}
             onClick={() => {
-              this.props.updateReaction(emojiMenu[index], this.props.id, 1);
-              this.updateReactionCachedInfo(emojiMenu[index]);
+              this.onClick(emojiMenu[index], 1);
             }}
             undoClick={() => {
-              this.props.updateReaction(emojiMenu[index], this.props.id, -1);
-              this.updateReactionCachedInfo(emojiMenu[index]);
+              this.onClick(emojiMenu[index], -1);
             }}
             active={
               this.state.cachedInfo[this.props.id]
