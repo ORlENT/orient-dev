@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavButton, CenterBox } from "../UI";
+import { NavButton, CenterBox, Message } from "../UI";
 
 class Home extends Component {
   render() {
@@ -10,6 +10,7 @@ class Home extends Component {
         <NavButton to="/create" secondary>
           Create New Camp
         </NavButton>
+        <Message />
       </CenterBox>
     );
   }
