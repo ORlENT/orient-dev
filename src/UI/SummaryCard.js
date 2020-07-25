@@ -139,7 +139,7 @@ export const SummaryCard = connect(mapStateToProps)(
                           {key + " " + reactions[key]}
                         </p>
                       );
-                    return <b></b>;
+                    return <b key={key}></b>;
                   })}
               </div>
             </CardContent>
