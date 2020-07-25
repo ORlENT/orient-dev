@@ -7,6 +7,7 @@ import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
 import { AccountCircle, ArrowBack } from "@material-ui/icons";
 import AdminLogin from "./AdminLogin";
 import { signOut } from "../store/actions";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import copyToClipboard from "../functions/copyToClipboard";
 
 class NavBar extends Component {
@@ -77,7 +78,8 @@ class NavBar extends Component {
               }}
               onClick={() => (isAuthed ? signOut() : this.toggleVisibility())}
             >
-              <AccountCircle />
+              {!isAuthed && (<AccountCircle />)}
+              {isAuthed && (<ExitToAppIcon />)}
             </IconButton>
           ) : (
             //WEB VERSION
