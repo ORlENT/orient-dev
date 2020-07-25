@@ -66,6 +66,8 @@ class ConfirmDialog extends Component {
                 style={{
                   height: "100vh",
                   zIndex: "2",
+                  position: "fixed",
+                  width: "100vw",
                 }}
               >
                 <CenterBox>
