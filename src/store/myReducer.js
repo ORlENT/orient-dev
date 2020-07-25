@@ -239,6 +239,8 @@ const myReducer = (state = initState, action) => {
         ...state,
         confirm: "true",
         confirmForm: false,
+        message: "Processing action...",
+        messageType: "processing",
       };
 
     case "CONFIRM_FORM_CLOSE":

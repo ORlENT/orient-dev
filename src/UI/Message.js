@@ -16,6 +16,8 @@ class Message extends Component {
         return { backgroundColor: "#66ff00", color: "black" };
       case "fail":
         return { backgroundColor: "red", color: "black" };
+      case "processing":
+          return { backgroundColor: "blue", color: "white" };
       default:
         return {};
     }
