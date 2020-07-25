@@ -26,9 +26,7 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
         <BrowserRouter>
           <ErrorBoundary>
-            
             <Pages />
-            
           </ErrorBoundary>
         </BrowserRouter>
       </MuiThemeProvider>

@@ -6,6 +6,7 @@ import QnaAsk from "./Questions/QnaAsk";
 import QnaDetails from "./Questions/QnaDetails";
 import QnaList from "./Questions/QnaList";
 import QnaAnswer from "./Questions/QnaAnswer";
+import { NotFound } from "../../UI";
 
 class Questions extends Component {
   render() {
@@ -20,6 +21,7 @@ class Questions extends Component {
           redirect={`${match.url}`}
           component={QnaAnswer}
         />
+        <Route path={'*'} component={NotFound} />
       </Switch>
     );
   }
