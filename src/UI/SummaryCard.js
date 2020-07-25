@@ -128,6 +128,7 @@ export const SummaryCard = connect(mapStateToProps)(
                     if (reactions[key] > 0)
                       return (
                         <p
+                          key={key}
                           style={{
                             float: "right",
                             color: "#bbb",
