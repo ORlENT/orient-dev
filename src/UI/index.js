@@ -3,6 +3,7 @@ import DeleteButton from "./Button";
 import CenterBox from "./CenterBox";
 import Header from "./Header";
 import Field from "./Field";
+import NotFound from "./NotFound";
 import { SummaryCard, AnnCard, QnaCard, RemCard, PtCard } from "./SummaryCard";
 import NavBar from "./NavBar";
 import { LoadingScreen, LoadingScreenSmall } from "./LoadingScreen";
@@ -31,6 +32,7 @@ export {
   Form,
   AdminMenu,
   Select,
+  NotFound,
   Notification,
   ConfirmDialog,
   DeleteButton,

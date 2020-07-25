@@ -7,6 +7,7 @@ import AnnDetails from "./Announcements/AnnDetails";
 import AnnEdit from "./Announcements/AnnEdit";
 import AnnList from "./Announcements/AnnList";
 import RemCreate from "./Announcements/Reminder/RemCreate";
+import { NotFound } from "../../UI";
 
 class Announcements extends Component {
   render() {
@@ -30,6 +31,7 @@ class Announcements extends Component {
           redirect={`${match.url}`}
           component={RemCreate}
         />
+        <Route path={'*'} component={NotFound} />
       </Switch>
     );
   }

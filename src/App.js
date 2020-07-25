@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Pages from "./Pages.js";
+import ErrorBoundary from "./UI/ErrorBoundary.js";
 
 const theme = createMuiTheme({
   palette: {
@@ -24,7 +25,11 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <BrowserRouter>
-          <Pages />
+          <ErrorBoundary>
+            
+            <Pages />
+            
+          </ErrorBoundary>
         </BrowserRouter>
       </MuiThemeProvider>
     );

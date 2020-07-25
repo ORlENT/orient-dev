@@ -14,7 +14,7 @@ import RptCreate from "./Camp/Reports/RptCreate";
 import CampEdit from "./Camp/CampEdit";
 import PasswordEdit from "./Camp/PasswordEdit";
 
-import { NavBar, LoadingScreen, Message } from "../UI";
+import { NavBar, LoadingScreen, Message, NotFound } from "../UI";
 import { addCampListener, fetchCampInfo } from "../store/actions";
 import AdminRoute from "../Routes/AdminRoute";
 
@@ -90,6 +90,8 @@ class Camp extends Component {
               redirect={`${match.url}`}
               component={PasswordEdit}
             />
+                    <Route path={'*'} component={NotFound} />
+
           </Switch>
         </div>
 

@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import AdminRoute from "../../Routes/AdminRoute";
-
 import RemList from "./Reminders/RemList";
 import RemEdit from "./Reminders/RemEdit";
 import RemCreate from './Reminders/RemCreate';
-
+import { NotFound } from "../../UI";
 
 class Reminders extends Component {
   render() {
@@ -23,8 +22,12 @@ class Reminders extends Component {
           redirect={`${match.url}`}
           component={RemCreate}
         />
+        
+        <Route path={'*'} component={NotFound} />
       </Switch>
     );
   }
 }
+
 export default Reminders;
+

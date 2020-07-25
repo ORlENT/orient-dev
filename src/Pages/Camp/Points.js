@@ -7,6 +7,7 @@ import GrpDetails from "./Points/GrpDetails";
 import GrpCreate from "./Points/GrpCreate";
 import PtAdd from "./Points/PtAdd";
 import PtTransfer from "./Points/PtTransfer";
+import { NotFound } from "../../UI";
 
 class Point extends Component {
   render() {
@@ -22,6 +23,7 @@ class Point extends Component {
           redirect={`${match.url}`}
           component={PtAdd}
         />
+        <Route path={'*'} component={NotFound} />
       </Switch>
     );
   }
