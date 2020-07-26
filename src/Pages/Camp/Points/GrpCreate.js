@@ -6,6 +6,15 @@ import { Header, SubmitButton, CenterBox, Field, Form } from "../../../UI";
 import { createGrp } from "../../../store/actions";
 
 class GrpCreate extends Component {
+  validate = (state) => {
+    if (isNaN(state.point)) {
+      throw new ValidationError(
+        "point",
+        "Point must be numerical characters."
+      );
+    }
+  };
+
   successHandler(state, props) {
     props.history.goBack();
   }
@@ -17,6 +26,7 @@ class GrpCreate extends Component {
         <Form
           onSubmit={this.props.createGrp}
           onSuccess={this.successHandler}
+          validate={this.validate}
           history={this.props.history}
         >
           <Field id="groupname">Group Name</Field>

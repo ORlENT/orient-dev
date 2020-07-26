@@ -11,12 +11,9 @@ import timeConverter from "../../../functions/timeConverter";
 import { deleteGrp } from "../../../store/actions";
 
 class GrpDetails extends Component {
-  componentDidMount() {
-    this.setState({ grpID: this.props.match.params.grpID });
-  }
 
   handleDelete = () => {
-    this.props.deleteGrp(this.state);
+    this.props.deleteGrp(this.props.match.params.grpID);
   };
 
   render() {
@@ -29,7 +26,10 @@ class GrpDetails extends Component {
 
           {/*Delete Group button (Admin only)*/}
           {isAuthed && (
-            <DeleteButton admin secondary onClick={this.handleDelete}>
+            <DeleteButton admin secondary id={key}
+            onClick={() => {
+              this.handleDelete();
+            }}>
               Delete Group
             </DeleteButton>
           )}
@@ -73,7 +73,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    deleteGrp: (state) => dispatch(deleteGrp(state, ownProps)),
+    deleteGrp: (grpID) => dispatch(deleteGrp(grpID, ownProps)),
   };
 };
 

@@ -152,7 +152,10 @@ const myReducer = (state = initState, action) => {
       console.log("Reminder deleted successfully");
       return {
         ...state,
-        formSuccess: true,
+        confirm: false,
+        confirmForm: false,
+        clearAction: true,
+        confirmFormKey: null,
         message: "Reminder deleted successfully.",
         messageType: "success",
       };
@@ -203,7 +206,10 @@ const myReducer = (state = initState, action) => {
       console.log("Group deleted successfully");
       return {
         ...state,
-        formSuccess: true,
+        confirm: false,
+        confirmForm: false,
+        clearAction: true,
+        confirmFormKey: null,
         message: "Group deleted successfully.",
         messageType: "success",
       };

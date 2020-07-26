@@ -770,14 +770,14 @@ export const transferPt = (state, props) => async (
     });
 };
 
-export const deleteGrp = (state, props) => {
+export const deleteGrp = (grpID, props) => {
   return (dispatch, getState, { getFirestore }) => {
     if (props) {
       deleteSubCollectionDoc(
         getFirestore,
         dispatch,
         "groups",
-        state.grpID,
+        grpID,
         getState().store.camp.campCode,
         "GROUP_DELETED",
         props.history
@@ -787,7 +787,7 @@ export const deleteGrp = (state, props) => {
         getFirestore,
         dispatch,
         "groups",
-        state.grpID,
+        grpID,
         getState().store.camp.campCode,
         "GROUP_DELETED"
       );

@@ -67,7 +67,6 @@ class DeleteButton extends Component {
       confirmFormKey,
       dispatchType,
       setConfirmMenuKey,
-      confirm,
       ...rest
     } = this.props;
     return (
