@@ -46,6 +46,7 @@ export const signUp = (state) => async (
       .set({
         campCode: state.campCode,
         campName: state.campName,
+        email: state.email,
       })
       .then(() => {
         dispatch({ type: "SIGNUP_SUCCESS" });
@@ -266,6 +267,7 @@ export const editCamp = (state, props) => async (
       camp.set({
         campName: state.campName,
         campCode: getState().store.camp.campCode,
+        email: state.email,
       });
     })
     .then(() => {

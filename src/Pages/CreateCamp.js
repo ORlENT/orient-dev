@@ -41,6 +41,7 @@ class CreateCamp extends Component {
           <Field id="password" password>
             Password
           </Field>
+          <Field id="email">Email For Notifications</Field>
           <SubmitButton>Create New Camp</SubmitButton>
         </Form>
       </CenterBox>

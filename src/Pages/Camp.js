@@ -90,8 +90,7 @@ class Camp extends Component {
               redirect={`${match.url}`}
               component={PasswordEdit}
             />
-                    <Route path={'*'} component={NotFound} />
-
+            <Route path={'*'} component={NotFound} />
           </Switch>
         </div>
 

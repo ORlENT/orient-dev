@@ -30,6 +30,7 @@ class CampEdit extends Component {
           <Field id="campName" value={camp.campName}>
             Camp Name
           </Field>
+          <Field id="email" value={camp.email}>Email For Notifications</Field>
           <SubmitButton>Edit Camp</SubmitButton>
         </Form>
       </CenterBox>
