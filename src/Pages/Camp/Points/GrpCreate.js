@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Header, SubmitButton, CenterBox, Field, Form } from "../../../UI";
 import { createGrp } from "../../../store/actions";
+import ValidationError from "../../../errors/ValidationError";
 
 class GrpCreate extends Component {
   validate = (state) => {
